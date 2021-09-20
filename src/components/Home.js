@@ -45,7 +45,7 @@ const MainPage = () => {
         <img src={logo} alt="logo" />
 
         <p>
-          Welcome to GodsEye
+          Welcome to IntelliProc
         </p>
         <small>
           AI Enabled Virtual Examination System
