@@ -1,0 +1,45 @@
+
+body {
+    background-color: #282c34;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.main {
+    background-color: #f6ebf6;
+    width: 700px;
+    height: 500px;
+    margin: 7em auto;
+    border-radius: 1.5em;
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+}
+
+.sign {
+    padding-top: 40px;
+    padding-bottom: 100px;
+    /* color: #8C55AA; */
+    color:black;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.test{
+    color:black;
+    padding-bottom: 10px;
+    font-size: 24px;
+}
+
+#classIcon{
+    max-width: 200px;
+    max-height: 200px;
+}
+
+
+
+
+
+    
+
+
+
+
