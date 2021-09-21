@@ -53,8 +53,8 @@ const ValidatePage = () => {
   return (<div className="App-header">
     <center>
 
-      <p ><b>Instructions to Follow:</b></p>
-      <li >The lighting in the room must be bright enough to be considered “daylight” quality. Overhead lighting is preferred.</li>
+      <p ><b>Facial Biometric Phase</b></p>
+      <li >Make sure that your FACE is well aligned with the webcam. This picture will be used for identification purpose.</li>
 
     </center>
     <Container fluid>
@@ -81,7 +81,7 @@ const ValidatePage = () => {
 
     <Button id="validateButtons" variant="contained" onClick={capture}>Capture Photo</Button>
 
-    <Button id="validateButtons" disabled={buttonfield} variant="contained" onClick={handleClick}>Confirm Validation</Button>
+    <Button id="validateButtons" disabled={buttonfield} variant="contained" onClick={handleClick}>Confirm and move to the exam</Button>
   </div>
   )
 }

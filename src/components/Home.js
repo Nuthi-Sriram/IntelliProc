@@ -42,18 +42,19 @@ const MainPage = () => {
     <div>
 
       <header className="App-header">
-        <img src={logo} alt="logo" />
+        
+        <img src={logo} alt="logo"  height="250" margin="0" />
 
         <p>
           Welcome to IntelliProc
         </p>
         <small>
-          AI Enabled Virtual Examination System
+          Dual camera based proctoring system
         </small>
 
-        <Button id="homeButtons" style={{ fontSize: '15px' }} variant="contained" size="medium" onClick={handleClick}>All the Best</Button>
-        <Button id="homeButtons" variant="contained" onClick={handleClickAdmin}>Admin</Button>
-        <Button id="homeButtons" variant="contained" onClick={headpose}>Headpose</Button>
+        <Button id="homeButtons" style={{ fontSize: '15px' }} variant="contained" size="medium" onClick={handleClick}>Student Exam Login</Button>
+        <Button id="homeButtons" variant="contained" onClick={handleClickAdmin}>Teacher Dashboard</Button>
+        {/* <Button id="homeButtons" variant="contained" onClick={headpose}>Headpose</Button> */}
       </header>
     </div>
   );

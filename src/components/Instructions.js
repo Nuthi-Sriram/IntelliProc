@@ -46,37 +46,27 @@ const Instructions = () => {
                 <td>
                     <ul className="givesize">
                         <br/>
+                        
                         <li>
-                        The lighting in the room must be bright enough to be considered “daylight” quality. Overhead lighting is preferred. 
+                        Recommended to have no photo frames at the background.
                         </li>
                         <li>
-                        Recommended to have a plain white background, no wall hangings, photo frames allowed.
+                        Use the lastest version of Chrome or Brave or Edge for better experience throughout the exam.
                         </li>
+                        
                         <li>
-                        Recommended to use lastest version of Chrome or Edge for better experience throughout the exam.
-                        </li>
-                        <li>
-                        You are advised to be at the location where there is a good internet connectivity.
-                        </li>
-                        <li>
-                        Make sure that the gadget which you are using is fully charged before the commencement of the examination
-                        </li>
-                        <li>
-                        Your Webcam should be on throughout the exam.
+                        Webcam and Mobile cam will have continuous access throughout the exam.
                         </li>
 
                         <li>
-                        Please ask others to refrain from coming into the room where you are taking your exam as you
-need to be alone to take your exams.
+                        Take the exam alone.
                         </li>
+                        
                         <li >
-                        Close all programs on your computer and turn off cell phones.
-                        </li>
-                        <li >
-                        You are not allowed to leave your seat during complete examination time.
+                        You have to be present infront of the webcam and mobilecam throughout the exam.
                         </li>
                          <li>
-                         You must have a clear desk and clear workspace. No drinks or scrap paper.
+                         Make sure there are no books or paper material to avoid getting flagged.
                         </li>
                         <li>
                         Do not wear hoodies, sweatshirts, jackets, neckties, headphoes/earphones or hats.
@@ -85,19 +75,19 @@ need to be alone to take your exams.
                         Do not speak to anyone during the exam.
                         </li>
                         <li>
-                        Following activities during examination will be treated as unfair means / malpractice case
+                        Following activities during examination will be treated as unfair means / malpractice cases
                         <br/>
 a. Moving away from the screen.
 <br/>
-b. Browsing other websites,opening multiple tabs and sharing the same with any other person or on social media
+b. Browsing other websites,opening multiple tabs.
 <br/>
 c. Running any other application on the gadget through which you are appearing for the examination
                         </li>
                         <li>
-                        If any suspicious act is encountered, it will be counted as violation. After certain number of warnings, system will Logout your assessment.
+                        The system will log you out after a certain number of warnings. And you will not able to resume with the test.
                         </li>
                        <li>
-                        PLEASE DONOT ESCAPE FULLSCREEN ELSE ANSWERS WILL BE RESETTED !!!
+                        PLEASE DO NOT LEAVE FULLSCREEN ELSE ANSWERS WILL BE CLEARED AND YOU WILL HAVE TO STARTOVER AGAIN !!!
                       </li>
                     </ul>
                 </td>
@@ -106,11 +96,11 @@ c. Running any other application on the gadget through which you are appearing f
     </table>
             <center>
                 <small>
-                    Accept To Proceed!!
+                    I have understood the rules!!
                 </small>
             </center>
             <br />
-            <Button variant="contained" onClick={onAccept}>I Accept</Button>
+            <Button variant="contained" onClick={onAccept}>Begin Exam</Button>
             <br/>
             <br/>
 
