@@ -57,7 +57,7 @@ const Admin = () => {
     <p>
       <center>
         <h1 style={{color:'white'}} >
-          <i>Welcome Admin</i>
+          <i>Welcome Teacher</i>
     </h1>
         <br></br>
         <h3 style={{color:'white'}}>
@@ -69,15 +69,15 @@ const Admin = () => {
         <input type="text" id="formlink" name="formlink" value={formlink} onChange={onChangeformlink}></input>
         <br></br>
         <br></br>
-        <h3 style={{color:'white'}}>Enter The Time Slot of The Exam In Minutes</h3>
+        <h3 style={{color:'white'}}>Enter Exam Time In Minutes</h3>
         <input type="text" id="examtimer" name="examtimer" value={examtimer} onChange={onChangeTimer}></input>
         <br></br>
         <br></br>
         <br></br>
         <div className="side">
-            <Button variant="contained" onClick={handleClicksub} style={{ marginLeft: '10px' }} color="primary" >Submit</Button>
+            <Button variant="contained" onClick={handleClicksub} style={{ marginLeft: '10px' }} color="primary" >Create Exam</Button>
         
-            <Button variant="contained" onClick={results} style={{ marginLeft: '60px' }} color="secondary">Results</Button>
+            <Button variant="contained" onClick={results} style={{ marginLeft: '60px' }} color="secondary">Exam Results</Button>
         </div>
         
         <br></br>
