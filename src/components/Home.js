@@ -42,7 +42,8 @@ const MainPage = () => {
     <div>
 
       <header className="App-header">
-        <img src={logo} alt="logo" class="center" height={200} width={500} />
+        
+        <img src={logo} alt="logo"  height="250" margin="0" />
 
         <p>
           Welcome to IntelliProc
@@ -52,7 +53,7 @@ const MainPage = () => {
         </small>
 
         <Button id="homeButtons" style={{ fontSize: '15px' }} variant="contained" size="medium" onClick={handleClick}>Student Exam Login</Button>
-        <Button id="homeButtons" variant="contained" onClick={handleClickAdmin}>Admin Dashboard</Button>
+        <Button id="homeButtons" variant="contained" onClick={handleClickAdmin}>Teacher Dashboard</Button>
         {/* <Button id="homeButtons" variant="contained" onClick={headpose}>Headpose</Button> */}
       </header>
     </div>
