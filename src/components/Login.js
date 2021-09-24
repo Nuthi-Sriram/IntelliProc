@@ -2,8 +2,8 @@ import React from 'react';
 import { useHistory } from 'react-router-dom'
 import auth from './Auth';
 import swal from 'sweetalert';
-
-
+import styles from './../styles.module.css';
+import logo from './../logo.png';
 import { GoogleLogin } from 'react-google-login'
 
 const client_id = "1055373727921-dk3r4lha2rupdsurga8abr0h27cdbuge.apps.googleusercontent.com"
@@ -47,19 +47,19 @@ const LoginPage = () => {
     <div>
       <head>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
-
         <meta name="google-signin-client_id" content="1055373727921-dk3r4lha2rupdsurga8abr0h27cdbuge.apps.googleusercontent.com"></meta>
-
-
       </head>
-      <header className="App-header">
-        <h1>Login</h1> 
-        <p>
-          Login using only your Gmail account
-        </p>
-
+      
+    <div className={styles.bg}> </div>
+    <div className={styles.panel}>
+      <div className={styles.appHeader}>
+        <img src={logo} alt="logo" height="250" margin="0" className={styles.circle}/><br/>
+        <h2 style={{color:'white'}}>Sign In</h2>
+        <small>
+          Use your Gmail account
+        </small><br/><br/>
+        
         <GoogleLogin
-
           clientId={client_id}
           buttonText="Login"
           onSuccess={onSuccess}
@@ -68,7 +68,9 @@ const LoginPage = () => {
           cookiePolicy={'single_host_origin'}
           isSignedIn={false}
         />
-      </header>
+      </div>
+    </div>
+
     </div>
   );
 }
