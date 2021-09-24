@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import firebase from "firebase/app";
 import { useHistory } from 'react-router-dom'
 import { Button } from '@material-ui/core';
+import styles from './../styles.module.css';
+import logo from './../logo.png';
 //import { Redirect } from "react-router-dom";
 import swal from 'sweetalert';
 const CodeCheck = () => {
@@ -37,13 +39,16 @@ const CodeCheck = () => {
   
 
     return (
-    <div className="App-header1">
-    <h3>Enter Exam Code</h3>
-      <input type="text" name="inputcode" id="inputcode" onChange={onChangeInputcode} value={inputcode}></input>
-
+    <><div className={styles.bg}></div>
+    <div className={styles.appHeader}>
+      <img src={logo} alt="logo" height="200" margin="0" className={styles.circle} /><br />
+      <h2 style={{ color: 'white' }}><i>Verify Exam Code!</i></h2><br/>
+      <label style={{ color: 'white', fontSize: '20px' }}>Enter exam code: </label>
+      <input type="text" name="inputcode" id="inputcode" onChange={onChangeInputcode} class="form-control-lg" value={inputcode} placeholder="Exam Code"></input>
       <br></br>
-    <Button variant="contained" onClick={Getdata}>Submit</Button>
-  </div>
+      <button class="btn btn-primary" onClick={Getdata}>Submit</button>
+    </div></>
+
   )
 }
 

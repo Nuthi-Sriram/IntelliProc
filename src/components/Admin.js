@@ -100,10 +100,10 @@ const Admin = () => {
           
           <div style={{ display: 'flex', justifyContent: 'space-between', margin: '30px 0'}}>
             <button class="btn btn-success" onClick={results} >Test Results</button>
-            <button type="logout" class="btn btn-danger onClick={logout} ">LogOut</button>
+            <button type="logout" class="btn btn-danger" onClick={logout} >LogOut</button>
           </div>
           </div>
-          
+
       </div></>
     
   )
