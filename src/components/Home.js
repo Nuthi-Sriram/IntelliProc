@@ -38,23 +38,17 @@ const MainPage = () => {
   return (
     <><div className={styles.bg}>
 
-    </div><div className={styles.panel}>
-      <header className={styles.appHeader}>
+    </div>
+    <header className={styles.appHeader}>
 
-        <img src={logo} alt="logo" height="250" margin="0" className={styles.circle} /><br />
+      <img src={logo} alt="logo" height="250" margin="0" className={styles.circle} /><br />
+      <p>Welcome to IntelliProc</p>
+      <small>Dual camera based proctoring system</small><br />
 
-        <p>
-          Welcome to IntelliProc
-        </p>
-        <small>
-          Dual camera based proctoring system
-        </small><br />
-
-        <Button id="homeButtons" style={{ fontSize: '15px' }} variant="contained" size="medium" onClick={handleClick}>Student Exam Login</Button>
-        <Button id="homeButtons" variant="contained" onClick={handleClickAdmin}>Teacher Dashboard</Button>
-        {/* <Button id="homeButtons" variant="contained" onClick={headpose}>Headpose</Button> */}
-      </header>
-    </div></>
+      <Button id="homeButtons" style={{ fontSize: '15px' }} variant="contained" size="medium" onClick={handleClick}>Student Exam Login</Button>
+      <Button id="homeButtons" variant="contained" onClick={handleClickAdmin}>Teacher Dashboard</Button>
+      {/* <Button id="homeButtons" variant="contained" onClick={headpose}>Headpose</Button> */}
+    </header></>
   );
 }
 

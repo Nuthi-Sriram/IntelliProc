@@ -23,19 +23,14 @@ const PageNotFound = () => {
   // document.addEventListener("visibilitychange", handleVisibilityChange, false);
 
   return (
-  <><div className={styles.bg}>
+  <><div className={styles.bg}></div>
+  <header className={styles.appHeader}>
 
-    </div><div className={styles.panel}>
-      <header className={styles.appHeader}>
-
-        <img src={logo} alt="logo" height="250" margin="0" className={styles.circle} /><br />
-
-        <h2> 404 </h2>
-        <small> Page Not Found </small><br />
-
-        <p style={{ padding: '30px', textAlign: 'center', fontSize: '20px' }}>The Specified file was not found on the website. Please check the URL for mistakes and try again.</p>
-      </header>
-    </div></>
+    <img src={logo} alt="logo" height="250" margin="0" className={styles.circle} /><br />
+    <h2> 404 </h2>
+    <small> Page Not Found </small><br />
+    <p style={{ padding: '30px', textAlign: 'center', fontSize: '20px' }}>The Specified file was not found on the website. Please check the URL for mistakes and try again.</p>
+  </header></>
   )
 }
 

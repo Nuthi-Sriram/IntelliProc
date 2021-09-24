@@ -51,7 +51,6 @@ const LoginPage = () => {
       </head>
       
     <div className={styles.bg}> </div>
-    <div className={styles.panel}>
       <div className={styles.appHeader}>
         <img src={logo} alt="logo" height="250" margin="0" className={styles.circle}/><br/>
         <h2 style={{color:'white'}}>Sign In</h2>
@@ -69,8 +68,6 @@ const LoginPage = () => {
           isSignedIn={false}
         />
       </div>
-    </div>
-
     </div>
   );
 }

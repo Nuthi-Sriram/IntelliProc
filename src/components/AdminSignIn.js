@@ -43,7 +43,7 @@ const AdminSignIn = () => {
   return (
     <><div className={styles.bg}>
 
-    </div><div className={styles.panel}>
+    </div>
         <div className={styles.appHeader}>
           <img src={logo} alt="logo" height="200" margin="0" className={styles.circle} /><br />
           <h2 style={{ color: 'white' }}>Sign In</h2><br />
@@ -71,7 +71,6 @@ const AdminSignIn = () => {
               {/* <input type="submit" class="btn btn-success"/> */}
             </div>
           </form>
-        </div>
       </div></>
   );
 }
