@@ -90,7 +90,7 @@ export default class Detection extends React.Component {
           count_facedetect = count_facedetect + 1;
         }
         else if (predictions[i].class === "book") {
-          swal("Object Detected", "Action has been Recorded", "error");
+          swal("Book Detected", "Action has been Recorded", "error");
           count_facedetect = count_facedetect + 1;
         }
         else if (predictions[i].class === "laptop") {
