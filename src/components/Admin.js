@@ -4,6 +4,7 @@ import firebase from "firebase/app";
 import './Results.css';
 import styles from './../styles.module.css';
 import logo from './../logo.png';
+import background from './../bg_images/bg5.jpg';
 import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 const Admin = () => {
@@ -54,7 +55,7 @@ const Admin = () => {
     };
 
   return (
-    <><div className={styles.adminBG}> </div>
+    <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}> </div>
         <div className={styles.appHeader}>
           <img src={logo} alt="logo" height="200" margin="0" className={styles.circle} /><br />
           <h2 style={{ color: 'white' }}>

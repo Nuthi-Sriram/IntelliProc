@@ -7,6 +7,7 @@ import swal from 'sweetalert';
 import './Results.css';
 import styles from './../styles.module.css';
 import logo from './../logo.png';
+import background from './../bg_images/bg3.jpg';
 //import Button from '@material-ui/core/Button';
 import firebase from "firebase/app";
 // import Button from '@material-ui/core/Button';
@@ -41,7 +42,7 @@ const AdminSignIn = () => {
   // };
    
   return (
-    <><div className={styles.bg}>
+    <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}>
 
     </div>
         <div className={styles.appHeader}>

@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import logo from './../logo.png';
 import './../App.css';
 import styles from './../styles.module.css';
+import background from './../bg_images/bg2.jpg';
 //import { Redirect } from "react-router-dom";
 //import { AuthContext } from "./Auth";
 import Button from '@material-ui/core/Button';
@@ -36,7 +37,7 @@ const MainPage = () => {
   }
 
   return (
-    <><div className={styles.bg}>
+    <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}>
 
     </div>
     <header className={styles.appHeader}>

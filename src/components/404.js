@@ -1,6 +1,8 @@
 import React from 'react'
 import styles from './../styles.module.css';
 import logo from './../logo.png';
+import background from './../bg_images/bg2.jpg';
+
 const PageNotFound = () => {
 
   //Disable Right click
@@ -23,7 +25,7 @@ const PageNotFound = () => {
   // document.addEventListener("visibilitychange", handleVisibilityChange, false);
 
   return (
-  <><div className={styles.bg}></div>
+  <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}></div>
   <header className={styles.appHeader}>
 
     <img src={logo} alt="logo" height="250" margin="0" className={styles.circle} /><br />

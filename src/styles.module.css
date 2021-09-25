@@ -6,21 +6,6 @@
     height: 100%;
     width: 100%;
     z-index: -1;
-    background-image:url(./bg_images/bg2.jpg);
-    background-size:cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.adminBG
-{
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    z-index: -1;
-    background-image:url(./bg_images/bg5.jpg);
     background-size:cover;
     background-repeat: no-repeat;
     background-position: center;

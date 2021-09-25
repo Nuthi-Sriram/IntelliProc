@@ -4,6 +4,7 @@ import auth from './Auth';
 import swal from 'sweetalert';
 import styles from './../styles.module.css';
 import logo from './../logo.png';
+import background from './../bg_images/bg1.jpg';
 import { GoogleLogin } from 'react-google-login'
 
 const client_id = "1055373727921-dk3r4lha2rupdsurga8abr0h27cdbuge.apps.googleusercontent.com"
@@ -50,7 +51,7 @@ const LoginPage = () => {
         <meta name="google-signin-client_id" content="1055373727921-dk3r4lha2rupdsurga8abr0h27cdbuge.apps.googleusercontent.com"></meta>
       </head>
       
-    <div className={styles.bg}> </div>
+    <div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}> </div>
       <div className={styles.appHeader}>
         <img src={logo} alt="logo" height="250" margin="0" className={styles.circle}/><br/>
         <h2 style={{color:'white'}}>Sign In</h2>
