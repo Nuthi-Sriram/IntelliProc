@@ -4,6 +4,9 @@ import firebase from "firebase/app";
 import { useHistory } from 'react-router-dom'
 import { Button } from '@material-ui/core';
 import "./formvalid.css"
+import styles from './../styles.module.css';
+import logo from './../logo.png';
+import background from './../bg_images/bg5.jpg';
 import swal from 'sweetalert';
 
 const Formvalid = () => {
@@ -53,20 +56,33 @@ const Formvalid = () => {
   };
 
   return (
-    
-    <div className="App-header1">
-      <h3><p  align="center" style={{color:'white'}} >Enter Exam Code To Proceed</p></h3>
-      <center>
-      
-      <td class="text-center">
-        <input type="text" id="formvalid" name="formvalid" value={formvalid} onChange={onChangeformvalid}></input>
-        <br></br>
-        <br></br>
-        <Button variant="contained" onClick={handleClickformvalid}>Submit</Button>
-      </td>
-      <br></br>
-    </center>
-    </div> 
+    <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}> </div>
+      <div className={styles.appHeader}>
+        <img src={logo} alt="logo" height="200" margin="0" className={styles.circle} /><br />
+        <h2 style={{ color: 'white' }}>
+          <i>Welcome Student!</i>
+        </h2><br/>
+
+        <div style={{ padding: '0 63px' }}>
+        <label style={{ color: 'white', fontSize: '20px' }}>Enter exam code to proceed: </label>
+        <input type="text"
+          name="formvalid"
+          id="formvalid"
+          placeholder="Exam Code"
+          value={formvalid}
+          onChange={onChangeformvalid}
+          class="form-control-lg"
+          autofocus placeholder="Exam Code" />
+        <br/><br/>
+
+        
+        <div style={{ display: 'flex', justifyContent: 'space-evenly', margin: '30px 0'}}>
+          <button class="btn btn-primary" onClick={handleClickformvalid} style={{ width: '100%'}}>Submit</button>
+        </div>
+      </div>
+
+      </div></>
+
   )
 }
 

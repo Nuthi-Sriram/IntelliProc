@@ -4,6 +4,8 @@ import Webcam from "react-webcam";
 //import swal from 'sweetalert';
 import { useHistory } from 'react-router-dom';
 import './validate.css';
+import styles from './../styles.module.css';
+import background from './../bg_images/bg7.jpg';
 import { Container, Row, Col } from 'react-bootstrap'
 
 const ValidatePage = () => {
@@ -50,39 +52,40 @@ const ValidatePage = () => {
   function handleClick() {
     history.push("/systemcheck");
   }
-  return (<div className="App-header">
-    <center>
+  return (
+    <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}> </div><center style={{ color: 'white', marginTop: '10px' }}>
 
-      <p ><b>Facial Biometric Phase</b></p>
-      <li >Make sure that your FACE is well aligned with the webcam. This picture will be used for identification purpose.</li>
+      <h2><b>Facial Biometric Phase</b></h2>
+      <small>Make sure that your FACE is well aligned with the webcam. This picture will be used for identification purpose.</small>
 
-    </center>
-    <Container fluid>
-      <Row>
-        <Col sm={6} style={{ paddingLeft: 0, paddingRight: 0 }}>
-          <center><Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-          /></center>
+    </center><Container fluid style={{ color: 'white', marginTop: '20px' }}>
+        <Row>
+          <Col sm={6} style={{ paddingLeft: 0, paddingRight: 0 }}>
+            <center>
+              <label style={{ color: 'white', fontSize: '20px' }}>WebCam: </label><br />
+              <Webcam
+                style={{ borderRadius: '10px' }}
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg" /></center>
 
-        </Col>
-        <Col sm={6}>
-          <center>
-            {imgSrc && (
-              <img
-                src={imgSrc}
-              />
-            )}</center>
+          </Col>
+          <Col sm={6}>
+            <center>
+              <label style={{ color: 'white', fontSize: '20px' }}>Captured Image: </label><br />
+              {imgSrc && (
+                <img
+                  style={{ borderRadius: '10px' }}
+                  src={imgSrc} />
+              )}</center>
 
-        </Col>
-      </Row>
-    </Container>
-
-    <Button id="validateButtons" variant="contained" onClick={capture}>Capture Photo</Button>
-
-    <Button id="validateButtons" disabled={buttonfield} variant="contained" onClick={handleClick}>Confirm and move to the exam</Button>
-  </div>
+          </Col>
+        </Row>
+      </Container>
+      <div style={{ display: 'flex', justifyContent: 'space-around', margin: '20px 0'}}>
+        <button type="reset" class="btn btn-primary" onClick={capture}>Capture Photo</button>
+        <button type="submit" class="btn btn-success" onClick={handleClick} disabled={buttonfield}>Confirm and move to the exam</button>
+      </div></>
   )
 }
 
