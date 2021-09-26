@@ -3,6 +3,8 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom'
 import logo from './../logo.png';
 import './../App.css';
+import styles from './../styles.module.css';
+import background from './../bg_images/bg2.jpg';
 //import { Redirect } from "react-router-dom";
 //import { AuthContext } from "./Auth";
 import Button from '@material-ui/core/Button';
@@ -20,7 +22,6 @@ const MainPage = () => {
   function handleClickDetect() {
     history.push("/detections")
   }
-  
 
   // function handleClickDetect2() {
   //   history.push("/detections2")
@@ -30,33 +31,25 @@ const MainPage = () => {
     history.push("/adminsignin")
 
   }
-  
 
   function headpose() {
     history.push("/posenet")
   }
 
- 
-
   return (
-    <div>
+    <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}>
 
-      <header className="App-header">
-        
-        <img src={logo} alt="logo"  height="250" margin="0" />
-
-        <p>
-          Welcome to IntelliProc
-        </p>
-        <small>
-          Dual camera based proctoring system
-        </small>
-
-        <Button id="homeButtons" style={{ fontSize: '15px' }} variant="contained" size="medium" onClick={handleClick}>Student Exam Login</Button>
-        <Button id="homeButtons" variant="contained" onClick={handleClickAdmin}>Teacher Dashboard</Button>
-        {/* <Button id="homeButtons" variant="contained" onClick={headpose}>Headpose</Button> */}
-      </header>
     </div>
+    <header className={styles.appHeader}>
+
+      <img src={logo} alt="logo" height="250" margin="0" className={styles.circle} /><br />
+      <p>Welcome to IntelliProc</p>
+      <small>Dual camera based proctoring system</small><br />
+
+      <Button id="homeButtons" style={{ fontSize: '15px' }} variant="contained" size="medium" onClick={handleClick}>Student Exam Login</Button>
+      <Button id="homeButtons" variant="contained" onClick={handleClickAdmin}>Teacher Dashboard</Button>
+      {/* <Button id="homeButtons" variant="contained" onClick={headpose}>Headpose</Button> */}
+    </header></>
   );
 }
 

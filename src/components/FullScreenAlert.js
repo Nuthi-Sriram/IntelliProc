@@ -2,6 +2,8 @@ import React from 'react'
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom'
 import warning from "./warning.jpg"
+import styles from './../styles.module.css';
+import background from './../bg_images/bg7.jpg';
 import { useState, useEffect } from 'react';
 //var count_browser = 0;
 
@@ -77,28 +79,30 @@ const FullScreenAlert = (props) => {
     };
   });
 
-  return (<div className="App-header">
-    <center>
-    <div>
-      <img src={warning} id="warningIcon" />
-      </div>
-      <br/>
-      <h3>
-        SINCE YOU ESCAPED FULLSCREEN, YOUR ANSWERS ARE LOST!!
+  return (
+    <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}> </div>
+    <div className={styles.fullScreenHeader}>
+      <center>
+        <div>
+          <img src={warning} id="warningIcon" />
+        </div>
+        <br />
+        <h3>
+          SINCE YOU ESCAPED FULLSCREEN, YOUR ANSWERS ARE LOST!!
         </h3>
-        <br/>
+        <br />
         <small>
-            Action has been Recorded!
+          Action has been Recorded!
         </small>
-        <br/>
-        <br/>
+        <br />
+        <br />
         <p>
-        <i>Another Atempt to do so will get you Debared from the Test</i>
+          <i style={{ color: 'red' }}>Another Atempt to do so will get you Debared from the Test</i>
         </p>
-       
-      <Button variant='contained' onClick={back2exam}>I Understand, get me back to Exam</Button>
-    </center>
-  </div>
+
+        <Button variant='contained' class="btn btn-primary" onClick={back2exam}>I Understand, get me back to Exam</Button>
+      </center>
+    </div></>
   )
 }
 

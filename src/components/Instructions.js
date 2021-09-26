@@ -32,7 +32,7 @@ const Instructions = () => {
     return (
         <div className="App-header">
             <center>
-                <h2>
+                <h2 style={{ marginTop: '20px' }}>
                    <b>Instructions To Follow:</b> 
                  </h2>
             </center>
@@ -100,8 +100,7 @@ c. Running any other application on the gadget through which you are appearing f
                 </small>
             </center>
             <br />
-            <Button variant="contained" onClick={onAccept}>Begin Exam</Button>
-            <br/>
+            <Button variant="contained" onClick={onAccept} class="btn btn-primary" >Begin Exam</Button>
             <br/>
 
 
