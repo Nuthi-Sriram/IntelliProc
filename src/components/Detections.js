@@ -4,7 +4,11 @@ import swal from 'sweetalert';
 import * as cocoSsd from "@tensorflow-models/coco-ssd";
 import "@tensorflow/tfjs";
 import "./Detections.css";
-var count_facedetect = 0;
+var count_phone = 0;
+var count_book = 0;
+var count_laptop = 0;
+var count_noFace = 0;
+var count_multipleFace = 0;
 
 
 export default class Detection extends React.Component {
@@ -81,26 +85,34 @@ export default class Detection extends React.Component {
       const textHeight = parseInt(font, 10); // base 10
       ctx.fillRect(x, y, textWidth + 8, textHeight + 8);
       
-      var multiple_face = 0;
+      let multipleFace = 0;
       for (let i = 0; i < predictions.length; i++) {
 
         //Face,object detection
-        if (predictions[i].class === "cell phone") {
+        if (predictions[i].class === "person") {
+          multipleFace = multipleFace + 1;
+        }
+        else if (predictions[i].class === "cell phone") {
           swal("Cell Phone Detected", "Action has been Recorded", "error");
-          count_facedetect = count_facedetect + 1;
+          count_phone = count_phone + 1;
         }
         else if (predictions[i].class === "book") {
           swal("Book Detected", "Action has been Recorded", "error");
-          count_facedetect = count_facedetect + 1;
+          count_book = count_book + 1;
         }
         else if (predictions[i].class === "laptop") {
-          swal("Object Detected", "Action has been Recorded", "error");
-          count_facedetect = count_facedetect + 1;
+          swal("Laptop Detected", "Action has been Recorded", "error");
+          count_laptop = count_laptop + 1;
         }
         else if (predictions[i].class !== "person") {
           swal("Face Not Visible", "Action has been Recorded", "error");
-          count_facedetect = count_facedetect + 1;
+          count_noFace = count_noFace + 1;
         }
+      }
+      if (multipleFace > 1)
+      {
+        swal("Multiple Faces Detected", "Action has been Recorded", "error");
+        count_multipleFace = count_multipleFace + 1;
       }
     });
 
@@ -118,7 +130,11 @@ export default class Detection extends React.Component {
     });
     //console.log("final")
     //console.log(count_facedetect)
-    sessionStorage.setItem("count_facedetect", count_facedetect);
+    sessionStorage.setItem("count_phone", count_phone);
+    sessionStorage.setItem("count_book", count_book);
+    sessionStorage.setItem("count_laptop", count_laptop);
+    sessionStorage.setItem("count_noFace", count_noFace);
+    sessionStorage.setItem("count_multipleFace", count_multipleFace);
 
   };
 

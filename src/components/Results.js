@@ -40,22 +40,26 @@ GoToAdmin() {
   render(){
   return (
     <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}></div>
-    <div className={styles.fullScreenHeader}>
+    <div className={styles.resultsHeader}>
     <img src={logo} alt="logo" height="200" margin="0" className={styles.circle} /><br />
       <div class="givecolor">
         <h3>CHEAT SCORE RECORDS</h3><br/>
       </div>
 
-      <div className="container">
+      <div style={{margin: '0 10px'}}>
         <table id="example" class="display table">
           <thead class="thead-dark">
             <tr>
               <th>Name</th>
               <th>Email</th>
+              <th>ExitFullScreen</th>
+              <th>Phone</th>
+              <th>Book</th>
+              <th>Laptop</th>
+              <th>noFace</th>
+              <th>MultipleFace</th>
               <th>Alt</th>
-              <th>Face</th>
-              <th>Fullscreen</th>
-              <th>Tab</th>
+              <th>ctrl</th>
               <th>Photo</th>
             </tr>
           </thead>
@@ -67,11 +71,15 @@ GoToAdmin() {
                 <tr className="pool">
                   <td>{data.sname}</td>
                   <td>{data.semail}</td>
-                  <td>{data.alt}</td>
-                  <td>{data.face}</td>
                   <td>{data.fullscreen}</td>
-                  <td>{data.tab}</td>
-                  <td> {<img src={data.photo} width="150px" height="100px" />}
+                  <td>{data.phone}</td>
+                  <td>{data.book}</td>
+                  <td>{data.laptop}</td>
+                  <td>{data.noFace}</td>
+                  <td>{data.face}</td>
+                  <td>{data.alt}</td>
+                  <td>{data.ctrl}</td>
+                  <td> {<img src={data.photo} width="150px" height="100px" style={{ borderRadius:'5px'}} />}
                   </td>
                 </tr>
               );

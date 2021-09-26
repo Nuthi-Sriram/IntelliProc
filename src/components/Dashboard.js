@@ -18,6 +18,9 @@ const Dashboard = (props) => {
 
   var form_link = sessionStorage.getItem("form_link");
 
+  var countalt = 0;
+  var countctrl = 0;
+
   //Disable Right click
   if (document.addEventListener) {
     document.addEventListener('contextmenu', function (e) {
@@ -44,19 +47,17 @@ const Dashboard = (props) => {
 
   const history = useHistory();
     
-
     function onAccept() {
       history.push('/thankyou')
     }
 
-
   // Count number of times escaped Fullscreen
 
-  if (document.fullscreenElement) {
+  /*if (document.fullscreenElement) {
     //console.log("In Full");
   } else {
     history.push('fullscreenalert')
-  }
+  }*/
 
   document.addEventListener('fullscreenchange', (event) => {
     var count_fullscreen = 0;
@@ -64,46 +65,45 @@ const Dashboard = (props) => {
      // console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
     } else {
       history.push("/fullscreenalert")
-
       count_fullscreen = count_fullscreen + 1;
-      //console.log(count_fullscreen)
       sessionStorage.setItem("count_fullscreen", count_fullscreen);
+      //console.log(count_fullscreen)
     }
+    
   });
 
-  var countalt = 0;
   document.onkeydown = function (event) {
     //console.log(`Key: ${event.key} with keycode ${event.keyCode} has been pressed`);
     if (event.altKey) {
-      swal('Keypress Detected');
       countalt = countalt + 1;
       sessionStorage.setItem("countalt", countalt);
+      swal('Alt Keypress Detected');
+      return false;
+    }
+    else if (event.ctrlKey){
+      countctrl = countctrl + 1;
+      sessionStorage.setItem("countctrl", countctrl);
+      swal('Ctrl Keypress Detected');
       return false;
     }
     else {
-      return true;
-    }
-  }
-  
-  var countctrl = 0;
-  document.onkeydown = function (event) {
-      if (event.ctrlKey){
-      swal('Keypress Detected');
-      countctrl = countctrl + 1;
+      sessionStorage.setItem("countalt", countalt);
       sessionStorage.setItem("countctrl", countctrl);
-      return false;
-    } else {
       return true;
     }
   }
 
   //Displays Score in Thankyou page
   function handleClicksub() {
-    var PIDs = sessionStorage.getItem("checkname").slice(-6)
+    var PIDs = sessionStorage.getItem("checkname")
     //console.log(PIDs)
-    var count_facedetect = sessionStorage.getItem("count_facedetect")
+    var count_multipleFace = sessionStorage.getItem("count_multipleFace")
     var count_fullscreen = sessionStorage.getItem("count_fullscreen")
     var count_tabchange = sessionStorage.getItem("count_tabchange")
+    var count_phone = sessionStorage.getItem("count_phone")
+    var count_book = sessionStorage.getItem("count_book")
+    var count_laptop = sessionStorage.getItem("count_laptop")
+    var count_noFace = sessionStorage.getItem("count_noFace")
     var countalt = sessionStorage.getItem("countalt")
     var countctrl = sessionStorage.getItem("countctrl")
     var checkn = sessionStorage.getItem("checkname")
@@ -119,10 +119,15 @@ const Dashboard = (props) => {
       //var codeexam =  s[d]
       //console.log(s)
       con_db.child(codeexam).child(PIDs).set({
-        alt: countalt,
         tab: count_tabchange,
-        face: count_facedetect,
         fullscreen: count_fullscreen,
+        phone: count_phone,
+        book: count_book,
+        laptop: count_laptop,
+        noFace: count_noFace,
+        face: count_multipleFace,
+        alt: countalt,
+        ctrl: countctrl,
         semail: checke,
         sname: checkn,
         photo: photo
@@ -225,7 +230,7 @@ const Dashboard = (props) => {
         </div>
 
         <div className="lame">
-          <h3 align="left">Name :  <span style={{ fontSize: '20px' }} > {JSON.stringify(sessionStorage.getItem("checkname")).slice(1, -8)}</span></h3>
+          <h3 align="left">Name :  <span style={{ fontSize: '20px' }} > {JSON.stringify(sessionStorage.getItem("checkname")).slice(1, -7)}</span></h3>
           <h3 align="left">PID :  <span style={{ fontSize: '20px' }} > {JSON.stringify(sessionStorage.getItem("checkname")).slice(-7).slice(0, -1)}</span></h3>
         </div>
 
