@@ -50,7 +50,11 @@ export default class Detection extends React.Component {
   detectFrame = (video, model) => {
     model.detect(video).then(predictions => {
       if (this.canvasRef.current) {
-
+        sessionStorage.setItem("count_phone", false);
+        sessionStorage.setItem("count_book", false);
+        sessionStorage.setItem("count_laptop", false);
+        sessionStorage.setItem("count_noFace", false);
+        sessionStorage.setItem("count_multipleFace", false);
         this.renderPredictions(predictions);
         requestAnimationFrame(() => {
           this.detectFrame(video, model);
@@ -130,11 +134,16 @@ export default class Detection extends React.Component {
     });
     //console.log("final")
     //console.log(count_facedetect)
-    sessionStorage.setItem("count_phone", count_phone);
-    sessionStorage.setItem("count_book", count_book);
-    sessionStorage.setItem("count_laptop", count_laptop);
-    sessionStorage.setItem("count_noFace", count_noFace);
-    sessionStorage.setItem("count_multipleFace", count_multipleFace);
+    if (count_phone)
+      sessionStorage.setItem("count_phone", true);
+    if (count_book)
+      sessionStorage.setItem("count_book", true);
+    if (count_laptop)
+      sessionStorage.setItem("count_laptop", true);
+    if (count_noFace)
+      sessionStorage.setItem("count_noFace", true);
+    if (count_multipleFace)
+      sessionStorage.setItem("count_multipleFace", true);
 
   };
 
