@@ -7,7 +7,7 @@ import logo from './../logo.png';
 import background from './../bg_images/bg1.jpg';
 import { GoogleLogin } from 'react-google-login'
 
-const client_id = "1055373727921-dk3r4lha2rupdsurga8abr0h27cdbuge.apps.googleusercontent.com"
+const client_id = "1055373727921-rhtkb27iubt3mhg45c57r60d3bidkou7.apps.googleusercontent.com"
 
 const LoginPage = () => {
 
@@ -48,7 +48,7 @@ const LoginPage = () => {
     <div>
       <head>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
-        <meta name="google-signin-client_id" content="1055373727921-dk3r4lha2rupdsurga8abr0h27cdbuge.apps.googleusercontent.com"></meta>
+        <meta name="google-signin-client_id" content="1055373727921-rhtkb27iubt3mhg45c57r60d3bidkou7.apps.googleusercontent.com"></meta>
       </head>
       
     <div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}> </div>
