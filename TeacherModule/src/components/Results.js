@@ -134,7 +134,7 @@ class Results extends React.Component {
                       <td>{data.phone}</td>
                       <td>{data.book}</td>
                       <td>{data.laptop}</td>
-                      <td>{data.face}</td>
+
 
                       <td> {<img src={data.photo} width="150px" height="100px" style={{ borderRadius: '5px' }} />}
                       </td>
