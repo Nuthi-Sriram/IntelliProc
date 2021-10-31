@@ -16,7 +16,7 @@ import "./Dashboard2.css";
 
 const Dashboard = (props) => {
 
-  
+
 
   var countalt = 0;
   var countctrl = 0;
@@ -46,10 +46,10 @@ const Dashboard = (props) => {
   var i = 0;
 
   const history = useHistory();
-    
-    function onAccept() {
-      history.push('/thankyou')
-    }
+
+  function onAccept() {
+    history.push('/thankyou')
+  }
 
   // Count number of times escaped Fullscreen
 
@@ -62,14 +62,14 @@ const Dashboard = (props) => {
   document.addEventListener('fullscreenchange', (event) => {
     var count_fullscreen = 0;
     if (document.fullscreenElement) {
-     // console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
+      // console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
     } else {
       history.push("/fullscreenalert")
       count_fullscreen = count_fullscreen + 1;
       sessionStorage.setItem("count_fullscreen", count_fullscreen);
       //console.log(count_fullscreen)
     }
-    
+
   });
 
   document.onkeydown = function (event) {
@@ -80,7 +80,7 @@ const Dashboard = (props) => {
       swal('Alt Keypress Detected');
       return false;
     }
-    else if (event.ctrlKey){
+    else if (event.ctrlKey) {
       countctrl = countctrl + 1;
       sessionStorage.setItem("countctrl", countctrl);
       swal('Ctrl Keypress Detected');
@@ -110,8 +110,8 @@ const Dashboard = (props) => {
     var checke = sessionStorage.getItem("checkemail")
     var photo = sessionStorage.getItem("imageSrc")
     //Fetching data from FireBase
-    const con_db = firebase.database().ref("stud_records");
-    const con_db2 = firebase.database().ref("studmobile_records");
+    const con_db = firebase.database().ref("studmobile_records");
+    // const con_db2 = firebase.database().ref("studmobile_records");
     con_db.on('value', (snapshot) => {
 
 
@@ -136,34 +136,31 @@ const Dashboard = (props) => {
       })
     });
 
-    con_db.on('value', (snapshot) => {
+    // con_db2.on('value', (snapshot) => {
 
 
-      var s = snapshot.val()
-      var codeexam = sessionStorage.getItem("formvalid", formvalid);
-      //var codeexam =  s[d]
-      //console.log(s)
-      con_db2.child(codeexam).child(PIDs).set({
-        tab: count_tabchange,
-        fullscreen: count_fullscreen,
-        phone: count_phone,
-        book: count_book,
-        laptop: count_laptop,
-        noFace: count_noFace,
-        face: count_multipleFace,
-        alt: countalt,
-        ctrl: countctrl,
-        semail: checke,
-        sname: checkn,
-        photo: photo
+    //   var s = snapshot.val()
+    //   var codeexam = sessionStorage.getItem("formvalid", formvalid);
+    //   //var codeexam =  s[d]
+    //   //console.log(s)
+    //   con_db2.child(codeexam).child(PIDs).set({
 
-      })
-    });
+    //     fullscreen: count_fullscreen,
+    //     phone: count_phone,
+    //     book: count_book,
+    //     laptop: count_laptop,
+    //     semail: checke,
+    //     sname: checkn,
+    //     photo: photo
+
+    //   })
+    // });
+    
     history.push('/thankyou')
   };
 
-  
-// Camera Permission
+
+  // Camera Permission
   DetectRTC.load(function () {
 
     const webcam = DetectRTC.isWebsiteHasWebcamPermissions;
@@ -185,28 +182,28 @@ const Dashboard = (props) => {
       }
     }
 
-  }); 
+  });
 
 
-// enable/disable iframe according to camera permissions
+  // enable/disable iframe according to camera permissions
   const webcam = DetectRTC.isWebsiteHasWebcamPermissions;
- 
 
-    if (webcam === true) {
-    
-  } 
-    else {
+
+  if (webcam === true) {
+
+  }
+  else {
     var isAllowed = '/components/404.js';
     swal("Enable Your Camera");
   }
-  
+
   // Fetches the timer provided by Admin in Admin page to Dashboard
   var get_time = sessionStorage.getItem("exam_timer");
   var get_sec = sessionStorage.getItem("exam_sec");
-  if(get_sec === null){
+  if (get_sec === null) {
     get_sec = 0;
   }
- const { initialMinute = get_time, initialSeconds = get_sec } = props;
+  const { initialMinute = get_time, initialSeconds = get_sec } = props;
   const myInterval = React.useRef();
   const [minutes, setMinutes] = useState(initialMinute);
   const [seconds, setSeconds] = useState(initialSeconds);
@@ -215,35 +212,35 @@ const Dashboard = (props) => {
       if (seconds > 0) {
         setSeconds(seconds - 1);
         var currectSec = seconds;
-         sessionStorage.setItem("exam_sec", currectSec);
+        sessionStorage.setItem("exam_sec", currectSec);
       }
       else {
-         var currectTime = minutes-1;
-          sessionStorage.setItem("exam_timer", currectTime);
-          setMinutes(minutes - 1);
-          setSeconds(59);
-         
-        }
+        var currectTime = minutes - 1;
+        sessionStorage.setItem("exam_timer", currectTime);
+        setMinutes(minutes - 1);
+        setSeconds(59);
 
-        if (minutes === 1 && seconds === 0) {
-          swal("Only 1 Minute Left, Please Submit or else Answers WONT BE SAVED ");
-        }
+      }
+
+      if (minutes === 1 && seconds === 0) {
+        swal("Only 1 Minute Left, Please Submit or else Answers WONT BE SAVED ");
+      }
 
       if (seconds <= 0 && minutes <= 0) {
-         history.push('/thankyou');
-        }
-  },1000);
- 
-      return () => {
+        history.push('/thankyou');
+      }
+    }, 1000);
+
+    return () => {
       clearInterval(myInterval);
     };
   });
- 
+
   return (
 
 
     <div className="App-header" id="Dash">
-      
+
       <header>
 
         <div className="detect">
@@ -265,7 +262,7 @@ const Dashboard = (props) => {
         </div>
 
         <div className="button">
-          
+
           <center>
             <Button
               style={{ fontSize: '15px' }}
@@ -274,18 +271,18 @@ const Dashboard = (props) => {
               size="medium"
               onClick={handleClicksub}>
               End proctoring
-              </Button>
+            </Button>
           </center>
           {/* <br/> */}
-           
+
         </div>
 
-          
+
 
         {/* <iframe src={isAllowed} id='form'>Loading…</iframe > */}
 
       </header>
-      
+
     </div>
   )
 }
