@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "target":"or",
     "public": "build",
     "ignore": [
       "firebase.json",
@@ -11,6 +12,36 @@
         "source": "**",
         "destination": "/index.html"
       }
+    ],
+
+    "target":"mb",
+    "public": "MobileModule/build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+
+    "target":"te",
+    "public": "TeacherModule/build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ]
+  
+  
   }
 }

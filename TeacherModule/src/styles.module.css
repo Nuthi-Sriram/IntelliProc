@@ -1,0 +1,57 @@
+.bg
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.appHeader {
+    background-color: #262a31;
+    border: 6px solid antiquewhite;
+    border-radius: 10px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    margin: auto;
+    width: 430px;
+}
+
+.fullScreenHeader {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.resultsHeader {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.circle
+{
+    border-radius: 50%;
+}
+
+.pullRight
+{
+    right:0;
+    left:auto;
+}
