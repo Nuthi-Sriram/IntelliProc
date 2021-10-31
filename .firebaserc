@@ -1,0 +1,20 @@
+{
+  "projects": {
+    "default": "intelliproc-6c838"
+  },
+  "targets": {
+    "intelliproc-6c838": {
+      "hosting": {
+        "mb": [
+          "mobile-intelliproc"
+        ],
+        "or": [
+          "intelliproc-6c838"
+        ],
+        "te": [
+          "teacher-intelliproc"
+        ]
+      }
+    }
+  }
+}
