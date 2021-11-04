@@ -105,11 +105,11 @@ export default class Detection extends React.Component {
           count_book = count_book + 1;
         }
         else if (predictions[i].class === "laptop") {
-          swal("Laptop Detected", "Action has been Recorded", "error");
+          // swal("Laptop Detected", "Action has been Recorded", "error");
           count_laptop = count_laptop + 1;
         }
         else if (predictions[i].class !== "person") {
-          swal("Face Not Visible", "Action has been Recorded", "error");
+          // swal("Face Not Visible", "Action has been Recorded", "error");
           count_noFace = count_noFace + 1;
         }
       }
