@@ -19,7 +19,7 @@ const Thankyou = () => {
                 {/* <h3>
         Thankyou for giving the test
     </h3> */}
-            <img src={thanks} id="thankyou" height="400px" />
+            <img src={thanks} alt="Thank You" id="thankyou" height="400px" />
             {/* <h2>Cheat Score</h2> */}
             <br />
             <br />

@@ -168,7 +168,7 @@ const SystemCheck = () => {
         <tbody><tr>
           <td class="text-center">
             <div>
-              <img src={icon} id="classIcon" />
+              <img src={icon} alt="System combatibility" id="classIcon" />
             </div>
           </td>
           <td>
