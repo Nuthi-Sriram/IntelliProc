@@ -104,6 +104,8 @@ const Dashboard = (props) => {
     var count_book = sessionStorage.getItem("count_book")
     var count_laptop = sessionStorage.getItem("count_laptop")
     var count_noFace = sessionStorage.getItem("count_noFace")
+    var count_left = sessionStorage.getItem("count_left")
+    var count_right = sessionStorage.getItem("count_right")
     var countalt = sessionStorage.getItem("countalt")
     var countctrl = sessionStorage.getItem("countctrl")
     var checkn = sessionStorage.getItem("checkname")
@@ -125,6 +127,8 @@ const Dashboard = (props) => {
         book: count_book,
         laptop: count_laptop,
         noFace: count_noFace,
+        left: count_left,
+        right: count_right,
         face: count_multipleFace,
         alt: countalt,
         ctrl: countctrl,
