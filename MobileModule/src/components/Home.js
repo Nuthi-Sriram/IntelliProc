@@ -27,10 +27,10 @@ const MainPage = () => {
   //   history.push("/detections2")
   // }
   
-  function handleClickAdmin() {
-    history.push("/adminsignin")
+  // function handleClickAdmin() {
+  //   history.push("/adminsignin")
 
-  }
+  // }
 
   function headpose() {
     history.push("/posenet")

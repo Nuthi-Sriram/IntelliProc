@@ -19,18 +19,18 @@ const MainPage = () => {
     history.push("/login");
   }
 
-  function handleClickDetect() {
-    history.push("/detections")
-  }
+  // function handleClickDetect() {
+  //   history.push("/detections")
+  // }
 
   // function handleClickDetect2() {
   //   history.push("/detections2")
   // }
   
-  function handleClickAdmin() {
-    history.push("/adminsignin")
+  // function handleClickAdmin() {
+  //   history.push("/adminsignin")
 
-  }
+  // }
 
   function headpose() {
     history.push("/posenet")
@@ -44,10 +44,10 @@ const MainPage = () => {
 
       <img src={logo} alt="logo" height="250" margin="0" className={styles.circle} /><br />
       <p>Welcome to IntelliProc</p>
-      <small>Dual camera based proctoring system</small><br />
+      <small>Dual camera based proctoring system</small><br /><br/>
 
       <Button id="homeButtons" style={{ fontSize: '15px' }} variant="contained" size="medium" onClick={handleClick}>Student Exam Login</Button>
-      <Button id="homeButtons" variant="contained" onClick={handleClickAdmin}>Teacher Dashboard</Button>
+      {/* <Button id="homeButtons" variant="contained" onClick={handleClickAdmin}>Teacher Dashboard</Button> */}
       {/* <Button id="homeButtons" variant="contained" onClick={headpose}>Headpose</Button> */}
     </header></>
   );

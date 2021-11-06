@@ -56,7 +56,7 @@ const AdminSignIn = () => {
               placeholder="Enter email"
               class="form-control-lg"
               autocomplete="email"
-              autofocus placeholder="Enter email" />
+              autofocus />
             <br/><br />
             <label for="password" style={{ color: 'white', fontSize: '20px' }}>Password: </label><br />
             <input type="password"
@@ -64,7 +64,7 @@ const AdminSignIn = () => {
               id="password"
               placeholder="Password"
               autocomplete="current-password"
-              class="form-control-lg" placeholder="Password" />
+              class="form-control-lg" />
             <br /><br />
             <div style={{ display: 'flex', justifyContent: 'space-between', margin: '30px 0'}}>
               <button type="reset" class="btn btn-primary">Reset</button>

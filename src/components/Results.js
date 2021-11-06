@@ -94,7 +94,7 @@ class Results extends React.Component {
                       <td>{data.face}</td>
                       <td>{data.alt}</td>
                       <td>{data.ctrl}</td>
-                      <td> {<img src={data.photo} width="150px" height="100px" style={{ borderRadius: '5px' }} />}
+                      <td> {<img src={data.photo} alt="Student Identification" width="150px" height="100px" style={{ borderRadius: '5px' }} />}
                       </td>
                     </tr>
                   );
@@ -136,7 +136,7 @@ class Results extends React.Component {
                       <td>{data.laptop}</td>
                       <td>{data.face}</td>
 
-                      <td> {<img src={data.photo} width="150px" height="100px" style={{ borderRadius: '5px' }} />}
+                      <td> {<img src={data.photo} alt="Presence of Laptop" width="150px" height="100px" style={{ borderRadius: '5px' }} />}
                       </td>
                     </tr>
                   );

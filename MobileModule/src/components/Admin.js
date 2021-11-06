@@ -71,7 +71,7 @@ const Admin = () => {
             value={examcode}
             onChange={onChangeexamcode}
             class="form-control-lg"
-            autofocus placeholder="Enter the Code" />
+            autofocus />
           <br/><br/>
 
           <label style={{ color: 'white', fontSize: '20px' }}>Examination form Link: </label>

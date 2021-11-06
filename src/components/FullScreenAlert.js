@@ -84,7 +84,7 @@ const FullScreenAlert = (props) => {
     <div className={styles.fullScreenHeader}>
       <center>
         <div>
-          <img src={warning} id="warningIcon" />
+          <img src={warning} alt="warning" id="warningIcon" />
         </div>
         <br />
         <h3>

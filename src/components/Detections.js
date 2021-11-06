@@ -2,6 +2,7 @@ import React from "react";
 import swal from 'sweetalert';
 //import count from './Login';
 import * as cocoSsd from "@tensorflow-models/coco-ssd";
+import * as posenet from '@tensorflow-models/posenet';
 import "@tensorflow/tfjs";
 import "./Detections.css";
 var count_phone = 0;
@@ -9,6 +10,8 @@ var count_book = 0;
 var count_laptop = 0;
 var count_noFace = 0;
 var count_multipleFace = 0;
+var count_left = 0;
+var count_right = 0;
 
 
 export default class Detection extends React.Component {
@@ -45,6 +48,8 @@ export default class Detection extends React.Component {
           //console.error(error);
         });
     }
+
+    this.runPosenet();
   }
 
   detectFrame = (video, model) => {
@@ -55,6 +60,8 @@ export default class Detection extends React.Component {
         sessionStorage.setItem("count_laptop", false);
         sessionStorage.setItem("count_noFace", false);
         sessionStorage.setItem("count_multipleFace", false);
+        sessionStorage.setItem("count_left", false);
+        sessionStorage.setItem("count_right", false);
         this.renderPredictions(predictions);
         requestAnimationFrame(() => {
           this.detectFrame(video, model);
@@ -132,6 +139,7 @@ export default class Detection extends React.Component {
         ctx.fillText(prediction.class, x, y);
       }
     });
+
     //console.log("final")
     //console.log(count_facedetect)
     if (count_phone)
@@ -144,8 +152,65 @@ export default class Detection extends React.Component {
       sessionStorage.setItem("count_noFace", true);
     if (count_multipleFace)
       sessionStorage.setItem("count_multipleFace", true);
+    if (count_left)
+      sessionStorage.setItem("count_left", true);
+    if (count_right)
+      sessionStorage.setItem("count_right", true);
 
   };
+
+  //  Load posenet
+  runPosenet = async () => {
+    const net = await posenet.load({
+    architecture: 'ResNet50',
+    quantBytes: 2,
+    inputResolution: { width: 200, height: 200 },
+    scale: 0.6,
+    });
+    //
+    setInterval(() => {
+    if (
+      typeof this.videoRef.current !== "undefined" &&
+      this.videoRef.current !== null &&
+      this.videoRef.current.readyState === 4
+    ){
+      this.detect(net);
+      }}, 500);
+  };
+
+  detect = async (net) => {
+      // Make Detections
+      const pose = await net.estimateSinglePose(this.videoRef.current);
+      // console.log(pose);
+      this.EarsDetect(pose["keypoints"], 0.8);
+    
+  };
+
+  EarsDetect=(keypoints, minConfidence) =>{
+    //console.log("Checked")
+    const keypointEarR = keypoints[3];
+    const keypointEarL = keypoints[4];
+
+    if(keypointEarL.score<minConfidence && keypointEarR.score<minConfidence){
+      swal("Face Not Visible", "Action has been Recorded", "error");
+      count_noFace = count_noFace + 1;
+    }
+    else if(keypointEarL.score<minConfidence){
+      swal("You looked away from the Screen (To the Right)", "Action has been Recorded", "error")
+      count_left = count_left + 1;
+    }
+    else if (keypointEarR.score<minConfidence){
+      swal("You looked away from the Screen (To the Left)", "Action has been Recorded", "error")
+      count_right = count_right + 1;
+    }
+
+    if (count_noFace)
+      sessionStorage.setItem("count_noFace", true);
+    if (count_left)
+      sessionStorage.setItem("count_left", true);
+    if (count_right)
+      sessionStorage.setItem("count_right", true);
+  }
 
   render() {
     return (

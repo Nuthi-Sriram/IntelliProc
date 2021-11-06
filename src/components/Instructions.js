@@ -40,7 +40,7 @@ const Instructions = () => {
             <tbody><tr>
                 <td class="text-center">
                     <div>
-                        <img src={instruction} id="instructionIcon" />
+                        <img src={instruction} alt="Instructions" id="instructionIcon" />
                     </div>
                 </td>
                 <td>

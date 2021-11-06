@@ -72,7 +72,7 @@ const Formvalid = () => {
           value={formvalid}
           onChange={onChangeformvalid}
           class="form-control-lg"
-          autofocus placeholder="Exam Code" />
+          autofocus />
         <br/><br/>
 
         

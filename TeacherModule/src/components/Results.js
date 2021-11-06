@@ -73,6 +73,8 @@ class Results extends React.Component {
                   <th>Laptop</th>
                   <th>noFace</th>
                   <th>MultipleFace</th>
+                  <th>LeftTurn</th>
+                  <th>RightTurn</th>
                   <th>Alt</th>
                   <th>ctrl</th>
                   <th>Photo</th>
@@ -92,9 +94,11 @@ class Results extends React.Component {
                       <td>{data.laptop}</td>
                       <td>{data.noFace}</td>
                       <td>{data.face}</td>
+                      <td>{data.left}</td>
+                      <td>{data.right}</td>
                       <td>{data.alt}</td>
                       <td>{data.ctrl}</td>
-                      <td> {<img src={data.photo} width="150px" height="100px" style={{ borderRadius: '5px' }} />}
+                      <td> {<img src={data.photo} alt="Student Identification" width="150px" height="100px" style={{ borderRadius: '5px' }} />}
                       </td>
                     </tr>
                   );
@@ -136,7 +140,7 @@ class Results extends React.Component {
                       <td>{data.laptop}</td>
 
 
-                      <td> {<img src={data.photo} width="150px" height="100px" style={{ borderRadius: '5px' }} />}
+                      <td> {<img src={data.photo} alt="presence of laptop" width="150px" height="100px" style={{ borderRadius: '5px' }} />}
                       </td>
                     </tr>
                   );
