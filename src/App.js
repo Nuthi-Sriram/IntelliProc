@@ -42,7 +42,7 @@ class App extends Component {
           <Route exact path="/validate" component={ValidatePage} />
           <Route exact path="/instructions" component={Instructions} />
 
-          <ProtectedRoute exact path='/dashboard' render={props =>
+          <Route exact path='/dashboard' render={props =>
             <div>
               <Dashboard />
               <Record />
