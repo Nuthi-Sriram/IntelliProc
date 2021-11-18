@@ -60,14 +60,14 @@ export class Record extends React.Component {
             disabled={this.state.record}
             type="button"
           >
-            Start
+            Start Audio Recording
           </button>
           <button
             onClick={this.stopRecording}
             disabled={!this.state.record}
             type="button"
           >
-            Stop
+            Stop Audio Recording
           </button>
         </div>
       </div>

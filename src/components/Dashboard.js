@@ -9,7 +9,8 @@ import exam_timer from './formvalid';
 import formvalid from './formvalid';
 import firebase from "firebase/app";
 import "./Dashboard2.css";
-
+import { ReactMic } from "react-mic";
+import { Timer } from "../views/components";
 // var checkn = "";
 // var checke = "";
 
