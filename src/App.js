@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import './App.css';
+import { Record } from "./views/pages/record";
 import { BrowserRouter as Router, Switch, Route, Redirect, } from 'react-router-dom'
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
   
@@ -35,6 +36,7 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/" component={MainPage} />
+          <Route exact path="/microphone" component={Record} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/systemcheck" component={SystemCheckPage} />
           <Route exact path="/validate" component={ValidatePage} />   

@@ -27,7 +27,10 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-webcam": "^5.2.1",
-    "sweetalert": "^2.1.2"
+    "sweetalert": "^2.1.2",
+    "gh-pages": "^2.0.1",
+    "node-sass": "^4.11.0",
+    "react-mic": "^12.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
