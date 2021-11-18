@@ -23,7 +23,7 @@ export class Record extends React.Component {
     });
   };
 
-  onData(recordedBlob) {}
+  onData(recordedBlob) { }
 
   onStop(recordedBlob) {
     // Create a root reference
@@ -33,10 +33,93 @@ export class Record extends React.Component {
       `audio/${date.getDate()}/${date.toLocaleTimeString()}.mp3`
     );
     try {
-      blobRef.put(recordedBlob.blob).then(function(snapshot) {
-        alert("Recorder Success!!!");
-        console.log("Upload MP3 to firebase");
-      });
+      // blobRef.put(recordedBlob.blob).then(function (snapshot) {
+      //   // alert("Audio Saved Successfully!!!");
+      //   console.log("Uploaded MP3 to firebase");
+      // });
+      myfunction();
+      function myfunction()
+      {
+          
+  
+          // put file to firebase 
+          var uploadTask = blobRef.put(recordedBlob.blob);
+          uploadTask.then(function (snapshot) {
+            // alert("Audio Saved Successfully!!!");
+            console.log("Uploaded MP3 to firebase");
+          });
+          // all working for progress bar that in html
+          // to indicate image uploading... report
+          uploadTask.on('state_changed', function(snapshot){
+            // var progress = 
+            //  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            //   var uploader = document.getElementById('uploader');
+            //   uploader.value=progress;
+            //   switch (snapshot.state) {
+            //     case firebase.storage.TaskState.PAUSED:
+            //       console.log('Upload is paused');
+            //       break;
+            //     case firebase.storage.TaskState.RUNNING:
+            //       console.log('Upload is running');
+            //       break;
+            //   }
+          }, function(error) {console.log(error);
+          }, function() {
+  
+              //  // get the uploaded image url back
+              //  uploadTask.snapshot.ref.getDownloadURL().then(
+              //   function(downloadURL) {
+  
+              //  // You get your url from here
+              //   console.log('File available at', downloadURL);
+  
+              // // print the image url 
+              //  console.log(downloadURL);
+              // document.getElementById('submit_link').removeAttribute('disabled');
+
+
+              uploadTask.snapshot.ref.getDownloadURL().then(
+                function (downloadURL) {
+          
+                  // You get your url from here
+                  alert('File available at', downloadURL);
+          
+                  // print the image url
+                  console.log(downloadURL);
+                  sessionStorage.setItem("audiorec", downloadURL);
+                  // var ar=sessionStorage.getItem("audiorec");
+                  // console.log("spacing ");
+                  // console.log(ar);
+                });
+          });
+      };
+ 
+
+
+
+
+
+      // blobRef.snapshot.ref.getDownloadURL().then(
+      //   function (getDownloadURL) {
+      //     console.log(getDownloadURL);
+      //     alert(getDownloadURL);
+      //     sessionStorage.getItem("audiorec", getDownloadURL);
+      //   }
+      // ) 
+
+
+      // blobRef.snapshot.ref.getDownloadURL().then(
+      //   function (downloadURL) {
+  
+      //     // You get your url from here
+      //     alert('File available at', downloadURL);
+  
+      //     // print the image url
+      //     console.log(downloadURL);
+      //     sessionStorage.getItem("audiorec", downloadURL);
+      //   });
+
+
     } catch (e) {
       console.log(e);
     }
@@ -74,3 +157,7 @@ export class Record extends React.Component {
     );
   }
 }
+
+
+
+

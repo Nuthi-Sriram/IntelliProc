@@ -9,8 +9,6 @@ import exam_timer from './formvalid';
 import formvalid from './formvalid';
 import firebase from "firebase/app";
 import "./Dashboard2.css";
-import { ReactMic } from "react-mic";
-import { Timer } from "../views/components";
 // var checkn = "";
 // var checke = "";
 
@@ -112,6 +110,22 @@ const Dashboard = (props) => {
     var checkn = sessionStorage.getItem("checkname")
     var checke = sessionStorage.getItem("checkemail")
     var photo = sessionStorage.getItem("imageSrc")
+    var audiorec = sessionStorage.getItem("audiorec")
+    
+    // Execute (1)
+    // var getImageUrl = function (time) {
+    //   // Execute (2)
+    //   var returnVal;
+    //   // Execute (3)
+    //   storage.ref('audio/' + time + '.mp3').getDownloadURL().then(function (url) {
+    //     // Execute (unknown)
+    //     returnVal = url;
+    //   });
+    //   // Execute (4)
+    //   return returnVal;
+    // };
+    // console.log(getImageUrl+"output link");
+    // var audiorec=getImageUrl
     //Fetching data from FireBase
     const con_db = firebase.database().ref("stud_records");
     con_db.on('value', (snapshot) => {
@@ -135,8 +149,8 @@ const Dashboard = (props) => {
         ctrl: countctrl,
         semail: checke,
         sname: checkn,
-        photo: photo
-
+        photo: photo,
+        audiorec:audiorec
       })
     });
 
