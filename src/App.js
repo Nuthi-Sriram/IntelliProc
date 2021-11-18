@@ -52,9 +52,6 @@ class App extends Component {
           <Route exact path="/adminsignin" component={AdminSignIn} />
           <Route exact path="/posenet" component={PosenetPage} />
           <Route exact path="/codecheck" component={CodeCheck} />
-        
-
-
           <Route exact path="/404" component={PageNotFound} />
           <Redirect to="/404" />
         </Switch>
