@@ -39,8 +39,10 @@ const ValidatePage = () => {
   //image as base64
   //console.log(imgSrc);
 
+  const buttonCheck = () => {
   if(sessionStorage.getItem("flag") == 1)
     buttonfield = false;
+  }
 
   const history = useHistory();
 
@@ -150,11 +152,12 @@ const ValidatePage = () => {
     if(state.match.length == 0 || state.match[0]._label !== name)
       swal("Student not recognized as "+ name, "You can not proceed with the test unless you are the authorized student.", "error");
     else
+    {
       sessionStorage.setItem("flag", 1);
+      buttonCheck();
+      swal("Success", "Student recognized as " + name);
+    }
   };
-
-  if(sessionStorage.getItem("flag") == 1)
-    buttonfield = false;
 
   const handleClick = () => {
     history.push("/systemcheck");
