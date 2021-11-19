@@ -33,6 +33,7 @@ class Results extends React.Component {
       this.setState({ studentslist: studentlist });
     });
 
+    
 
     firebase.database().ref("studmobile_records").child(childcode).on("value", snapshot => {
 
@@ -78,6 +79,7 @@ class Results extends React.Component {
                   <th>Alt</th>
                   <th>ctrl</th>
                   <th>Photo</th>
+                  <th>Audio</th>
                 </tr>
               </thead>
               <tbody>
@@ -99,6 +101,7 @@ class Results extends React.Component {
                       <td>{data.alt}</td>
                       <td>{data.ctrl}</td>
                       <td> {<img src={data.photo} alt="Student Identification" width="150px" height="100px" style={{ borderRadius: '5px' }} />}
+                      <td>{data.audiorec}</td>
                       </td>
                     </tr>
                   );
@@ -156,6 +159,6 @@ class Results extends React.Component {
 
     );
   }
-}
+} 
 
 export default Results;

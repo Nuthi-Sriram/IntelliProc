@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
 import './App.css';
+import { Record } from "./views/pages/record";
 import { BrowserRouter as Router, Switch, Route, Redirect, } from 'react-router-dom'
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-  
+
 
 // Pages
 // Here is where all the pages are connected to each other
@@ -31,15 +32,22 @@ import CodeCheck from './components/CodeCheck'
 class App extends Component {
   render() {
     return (
-      
+
       <Router>
         <Switch>
           <Route exact path="/" component={MainPage} />
+          <Route exact path="/microphone" component={Record} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/systemcheck" component={SystemCheckPage} />
-          <Route exact path="/validate" component={ValidatePage} />   
+          <Route exact path="/validate" component={ValidatePage} />
           <Route exact path="/instructions" component={Instructions} />
-          <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+
+          <Route exact path='/dashboard' render={props =>
+            <div>
+              <Dashboard />
+              <Record />
+            </div>
+          } />
           <Route exact path="/detections" component={DetectionsPage} />
           <Route exact path="/detections2" component={DetectionPage2} />
           <Route exact path="/questionpg" component={QuestionsPage} />
