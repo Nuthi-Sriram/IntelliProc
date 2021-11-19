@@ -82,7 +82,7 @@ export class Record extends React.Component {
                 function (downloadURL) {
           
                   // You get your url from here
-                  alert('File available at', downloadURL);
+                  // alert('File available at', downloadURL);
           
                   // print the image url
                   console.log(downloadURL);
