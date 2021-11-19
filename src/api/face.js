@@ -3,16 +3,23 @@ import * as faceapi from '@vladmandic/face-api';
 
 // Load models and weights
 export async function loadModels() {
-  const MODEL_URL = process.env.PUBLIC_URL + '/models';
-  await faceapi.loadTinyFaceDetectorModel(MODEL_URL);
-  await faceapi.loadFaceLandmarkTinyModel(MODEL_URL);
-  await faceapi.loadFaceRecognitionModel(MODEL_URL);
+  const MODEL_URL = 'https://gitcdn.xyz/repo/justadudewhohacks/face-api.js/master/weights/';
+  // const MODEL_URL = process.env.PUBLIC_URL + '/models';
+  
+  // await faceapi.loadTinyFaceDetectorModel(MODEL_URL);
+  // await faceapi.loadFaceLandmarkTinyModel(MODEL_URL);
+  // await faceapi.loadFaceRecognitionModel(MODEL_URL);
+
+  await faceapi.nets.ssdMobilenetv1.loadFromUri(this.MODEL_URL);
+  // await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+  await faceapi.nets.faceLandmark68TinyNet.loadFromUri(MODEL_URL);
+  await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
 }
 
 export async function getFullFaceDescription(blob, inputSize = 512) {
   // tiny_face_detector options
   let scoreThreshold = 0.5;
-  const OPTION = new faceapi.TinyFaceDetectorOptions({
+  const OPTION = new faceapi.SsdMobilenetv1Options({
     inputSize,
     scoreThreshold
   });
