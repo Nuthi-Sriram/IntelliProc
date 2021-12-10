@@ -77,7 +77,7 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
  
 ## Hosting URLs to view a Demo
 
-Click on the below links to have a quick demo of out project:
-  Student PC/Laptop Web application: https://intelliproc-6c838.web.app
-  Student Mobile Web application: https://mobile-intelliproc.web.app
-  Teacher Web Application: https://teacher-intelliproc.web.app/
+Click on the below links to have a quick demo of our project:
+- [Student PC/Laptop Web application](https://intelliproc-6c838.web.app)
+- [Student Mobile application](https://mobile-intelliproc.web.app)
+- [Teacher Progressive Web Application](https://teacher-intelliproc.web.app/)
