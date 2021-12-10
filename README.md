@@ -74,3 +74,10 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 
     $ cd TeacherModule
     $ nodemon app.js
+ 
+## Hosting URLs to view a Demo
+
+Click on the below links to have a quick demo of out project:
+  Student PC/Laptop Web application: https://intelliproc-6c838.web.app
+  Student Mobile Web application: https://mobile-intelliproc.web.app
+  Teacher Web Application: https://teacher-intelliproc.web.app/
