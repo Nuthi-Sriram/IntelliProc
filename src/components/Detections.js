@@ -39,6 +39,8 @@ export default class Detection extends React.Component {
             };
           });
         });
+
+      // Load COCO SSD model
       const modelPromise = cocoSsd.load();
       Promise.all([modelPromise, webCamPromise])
         .then(values => {
@@ -52,6 +54,7 @@ export default class Detection extends React.Component {
     this.runPosenet();
   }
 
+  // Object detection using webcam where webcam live feed is given as an input
   detectFrame = (video, model) => {
     model.detect(video).then(predictions => {
       if (this.canvasRef.current) {
@@ -81,7 +84,7 @@ export default class Detection extends React.Component {
     ctx.font = font;
     ctx.textBaseline = "top";
     predictions.forEach(prediction => {
-
+      // Extract bounding boxes and classes
       const x = prediction.bbox[0];
       const y = prediction.bbox[1];
       const width = prediction.bbox[2];
@@ -95,7 +98,7 @@ export default class Detection extends React.Component {
       const textWidth = ctx.measureText(prediction.class).width;
       const textHeight = parseInt(font, 10); // base 10
       ctx.fillRect(x, y, textWidth + 8, textHeight + 8);
-      
+
       let multipleFace = 0;
       for (let i = 0; i < predictions.length; i++) {
 
@@ -120,8 +123,7 @@ export default class Detection extends React.Component {
           count_noFace = count_noFace + 1;
         }
       }
-      if (multipleFace > 1)
-      {
+      if (multipleFace > 1) {
         swal("Multiple Faces Detected", "Action has been Recorded", "error");
         count_multipleFace = count_multipleFace + 1;
       }
@@ -162,44 +164,45 @@ export default class Detection extends React.Component {
   //  Load posenet
   runPosenet = async () => {
     const net = await posenet.load({
-    architecture: 'ResNet50',
-    quantBytes: 2,
-    inputResolution: { width: 200, height: 200 },
-    scale: 0.6,
+      architecture: 'ResNet50',
+      quantBytes: 2,
+      inputResolution: { width: 200, height: 200 },
+      scale: 0.6,
     });
     //
     setInterval(() => {
-    if (
-      typeof this.videoRef.current !== "undefined" &&
-      this.videoRef.current !== null &&
-      this.videoRef.current.readyState === 4
-    ){
-      this.detect(net);
-      }}, 500);
+      if (
+        typeof this.videoRef.current !== "undefined" &&
+        this.videoRef.current !== null &&
+        this.videoRef.current.readyState === 4
+      ) {
+        this.detect(net);
+      }
+    }, 500);
   };
 
   detect = async (net) => {
-      // Make Detections
-      const pose = await net.estimateSinglePose(this.videoRef.current);
-      // console.log(pose);
-      this.EarsDetect(pose["keypoints"], 0.8);
-    
+    // Make Detections
+    const pose = await net.estimateSinglePose(this.videoRef.current);
+    // console.log(pose);
+    this.EarsDetect(pose["keypoints"], 0.8);
+
   };
 
-  EarsDetect=(keypoints, minConfidence) =>{
+  EarsDetect = (keypoints, minConfidence) => {
     //console.log("Checked")
     const keypointEarR = keypoints[3];
     const keypointEarL = keypoints[4];
 
-    if(keypointEarL.score<minConfidence && keypointEarR.score<minConfidence){
+    if (keypointEarL.score < minConfidence && keypointEarR.score < minConfidence) {
       swal("Face Not Visible", "Action has been Recorded", "error");
       count_noFace = count_noFace + 1;
     }
-    else if(keypointEarL.score<minConfidence){
+    else if (keypointEarL.score < minConfidence) {
       swal("You looked away from the Screen (To the Right)", "Action has been Recorded", "error")
       count_left = count_left + 1;
     }
-    else if (keypointEarR.score<minConfidence){
+    else if (keypointEarR.score < minConfidence) {
       swal("You looked away from the Screen (To the Left)", "Action has been Recorded", "error")
       count_right = count_right + 1;
     }

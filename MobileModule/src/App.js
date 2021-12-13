@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Redirect, } from 'react-router-dom'
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-  
+
 
 // Pages
 // Here is where all the pages are connected to each other
@@ -31,13 +31,13 @@ import CodeCheck from './components/CodeCheck'
 class App extends Component {
   render() {
     return (
-      
+
       <Router>
         <Switch>
           <Route exact path="/" component={MainPage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/systemcheck" component={SystemCheckPage} />
-          <Route exact path="/validate" component={ValidatePage} />   
+          <Route exact path="/validate" component={ValidatePage} />
           <Route exact path="/instructions" component={Instructions} />
           <ProtectedRoute exact path="/dashboard" component={Dashboard} />
           <Route exact path="/detections" component={DetectionsPage} />
@@ -52,7 +52,7 @@ class App extends Component {
           <Route exact path="/adminsignin" component={AdminSignIn} />
           <Route exact path="/posenet" component={PosenetPage} />
           <Route exact path="/codecheck" component={CodeCheck} />
-        
+
 
 
           <Route exact path="/404" component={PageNotFound} />

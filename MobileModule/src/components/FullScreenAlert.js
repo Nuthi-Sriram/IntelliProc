@@ -50,10 +50,10 @@ const FullScreenAlert = (props) => {
   var get_time = sessionStorage.getItem("exam_timer");
   var get_sec = sessionStorage.getItem("exam_sec");
 
-  if(get_sec === null){
+  if (get_sec === null) {
     get_sec = 0;
   }
- const { initialMinute = get_time, initialSeconds = get_sec } = props;
+  const { initialMinute = get_time, initialSeconds = get_sec } = props;
   const myInterval = React.useRef();
   const [minutes, setMinutes] = useState(initialMinute);
   const [seconds, setSeconds] = useState(initialSeconds);
@@ -62,47 +62,47 @@ const FullScreenAlert = (props) => {
       if (seconds > 0) {
         setSeconds(seconds - 1);
         var currectSec = seconds;
-         sessionStorage.setItem("exam_sec", currectSec);
+        sessionStorage.setItem("exam_sec", currectSec);
       }
       else {
-         var currectTime = minutes-1;
-          sessionStorage.setItem("exam_timer", currectTime);
-          setMinutes(minutes - 1);
-          setSeconds(59);
-         
-        }
+        var currectTime = minutes - 1;
+        sessionStorage.setItem("exam_timer", currectTime);
+        setMinutes(minutes - 1);
+        setSeconds(59);
 
-  },1000);
- 
-      return () => {
+      }
+
+    }, 1000);
+
+    return () => {
       clearInterval(myInterval);
     };
   });
 
   return (
     <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}> </div>
-    <div className={styles.fullScreenHeader}>
-      <center>
-        <div>
-          <img src={warning} alt="Warning" id="warningIcon" />
-        </div>
-        <br />
-        <h3>
-          SINCE YOU ESCAPED FULLSCREEN, YOUR ANSWERS ARE LOST!!
-        </h3>
-        <br />
-        <small>
-          Action has been Recorded!
-        </small>
-        <br />
-        <br />
-        <p>
-          <i style={{ color: 'red' }}>Another Atempt to do so will get you Debared from the Test</i>
-        </p>
+      <div className={styles.fullScreenHeader}>
+        <center>
+          <div>
+            <img src={warning} alt="Warning" id="warningIcon" />
+          </div>
+          <br />
+          <h3>
+            SINCE YOU ESCAPED FULLSCREEN, YOUR ANSWERS ARE LOST!!
+          </h3>
+          <br />
+          <small>
+            Action has been Recorded!
+          </small>
+          <br />
+          <br />
+          <p>
+            <i style={{ color: 'red' }}>Another Atempt to do so will get you Debared from the Test</i>
+          </p>
 
-        <Button variant='contained' class="btn btn-primary" onClick={back2exam}>I Understand, get me back to Exam</Button>
-      </center>
-    </div></>
+          <Button variant='contained' class="btn btn-primary" onClick={back2exam}>I Understand, get me back to Exam</Button>
+        </center>
+      </div></>
   )
 }
 

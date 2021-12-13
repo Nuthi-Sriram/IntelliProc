@@ -11,14 +11,12 @@ const client_id = "1055373727921-fh700o9ekcphgpkheb2op7pbodna7n16.apps.googleuse
 
 const LoginPage = () => {
 
-
   //Disable Right click
   if (document.addEventListener) {
     document.addEventListener('contextmenu', function (e) {
       e.preventDefault();
     }, false);
   }
-
 
   const onSuccess = (googleUser) => {
     var profile = googleUser.getBasicProfile();
@@ -43,22 +41,21 @@ const LoginPage = () => {
 
   const history = useHistory();
 
-
   return (
     <div>
       <head>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
         <meta name="google-signin-client_id" content="1055373727921-fh700o9ekcphgpkheb2op7pbodna7n16.apps.googleusercontent.com"></meta>
       </head>
-      
-    <div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}> </div>
+
+      <div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}> </div>
       <div className={styles.appHeader}>
-        <img src={logo} alt="logo" height="250" margin="0" className={styles.circle}/><br/>
-        <h2 style={{color:'white'}}>Sign In</h2>
+        <img src={logo} alt="logo" height="250" margin="0" className={styles.circle} /><br />
+        <h2 style={{ color: 'white' }}>Sign In</h2>
         <small>
           Use your Gmail account
-        </small><br/><br/>
-        
+        </small><br /><br />
+
         <GoogleLogin
           clientId={client_id}
           buttonText="Login"

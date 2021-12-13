@@ -155,7 +155,7 @@ const Dashboard = (props) => {
 
     //   })
     // });
-    
+
     history.push('/thankyou')
   };
 

@@ -14,43 +14,43 @@ const Thankyou = () => {
 
     return (
         <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}></div>
-        <div className={styles.fullScreenHeader} >
-            <center>
-                {/* <h3>
+            <div className={styles.fullScreenHeader} >
+                <center>
+                    {/* <h3>
         Thankyou for giving the test
     </h3> */}
-            <img src={thanks} alt="Thank you" id="thankyou" height="400px" />
-            {/* <h2>Cheat Score</h2> */}
-            <br />
-            <br />
-            <h3>
-                Name: {checkn}
-                <br />
-                <br />
+                    <img src={thanks} alt="Thank you" id="thankyou" height="400px" />
+                    {/* <h2>Cheat Score</h2> */}
+                    <br />
+                    <br />
+                    <h3>
+                        Name: {checkn}
+                        <br />
+                        <br />
 
-                Email: {checke}
-            </h3>
+                        Email: {checke}
+                    </h3>
 
 
-            {/* <br/> */}
+                    {/* <br/> */}
 
-            {/* Face,Object Detection: {count_facedetect}  */}
-            {/* <br/> */}
+                    {/* Face,Object Detection: {count_facedetect}  */}
+                    {/* <br/> */}
 
-            {/* Fullscreen Cheat Detection: {count_fullscreen} */}
-            {/* <br/> */}
+                    {/* Fullscreen Cheat Detection: {count_fullscreen} */}
+                    {/* <br/> */}
 
-            {/* Tab Change Detection: {count_tabchange} */}
-            {/* <br/> */}
+                    {/* Tab Change Detection: {count_tabchange} */}
+                    {/* <br/> */}
 
-            {/* ALT Tab Key Pressed: {countalt} */}
-            {/* <br/> */}
-            <br />
-            <br />
+                    {/* ALT Tab Key Pressed: {countalt} */}
+                    {/* <br/> */}
+                    <br />
+                    <br />
 
-            <Button style={{ marginBottom: '10px' }} variant="contained" class="btn btn-primary" onClick={handleClickExit}>Exit Secure Window</Button>
-        </center>
-        </div></>
+                    <Button style={{ marginBottom: '10px' }} variant="contained" class="btn btn-primary" onClick={handleClickExit}>Exit Secure Window</Button>
+                </center>
+            </div></>
     )
 }
 export default Thankyou;

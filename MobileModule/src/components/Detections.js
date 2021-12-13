@@ -88,7 +88,7 @@ export default class Detection extends React.Component {
       const textWidth = ctx.measureText(prediction.class).width;
       const textHeight = parseInt(font, 10); // base 10
       ctx.fillRect(x, y, textWidth + 8, textHeight + 8);
-      
+
       let multipleFace = 0;
       for (let i = 0; i < predictions.length; i++) {
 
@@ -113,8 +113,7 @@ export default class Detection extends React.Component {
           count_noFace = count_noFace + 1;
         }
       }
-      if (multipleFace > 1)
-      {
+      if (multipleFace > 1) {
         swal("Multiple Faces Detected", "Action has been Recorded", "error");
         count_multipleFace = count_multipleFace + 1;
       }
