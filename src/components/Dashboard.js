@@ -1,3 +1,4 @@
+// Import necessary modules
 import React from 'react';
 import { useState, useEffect } from 'react';
 import Detection from './Detections';
@@ -12,7 +13,6 @@ import "./Dashboard2.css";
 // var checkn = "";
 // var checke = "";
 
-
 const Dashboard = (props) => {
 
   var form_link = sessionStorage.getItem("form_link");
@@ -20,7 +20,7 @@ const Dashboard = (props) => {
   var countalt = 0;
   var countctrl = 0;
 
-  //Disable Right click
+  // Disable Right click
   if (document.addEventListener) {
     document.addEventListener('contextmenu', function (e) {
       e.preventDefault();
@@ -43,12 +43,11 @@ const Dashboard = (props) => {
 
   //To make sure the user does not open any other App or lose Focus from the test Window
   var i = 0;
-
   const history = useHistory();
-    
-    function onAccept() {
-      history.push('/thankyou')
-    }
+
+  function onAccept() {
+    history.push('/thankyou')
+  }
 
   // Count number of times escaped Fullscreen
 
@@ -58,19 +57,21 @@ const Dashboard = (props) => {
     history.push('fullscreenalert')
   }*/
 
+  // Exit full screen alert
   document.addEventListener('fullscreenchange', (event) => {
     var count_fullscreen = 0;
     if (document.fullscreenElement) {
-     // console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
+      // console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
     } else {
       history.push("/fullscreenalert")
       count_fullscreen = count_fullscreen + 1;
       sessionStorage.setItem("count_fullscreen", count_fullscreen);
       //console.log(count_fullscreen)
     }
-    
+
   });
 
+  // Detect usage of keyboard shortcuts
   document.onkeydown = function (event) {
     //console.log(`Key: ${event.key} with keycode ${event.keyCode} has been pressed`);
     if (event.altKey) {
@@ -79,7 +80,7 @@ const Dashboard = (props) => {
       swal('Alt Keypress Detected');
       return false;
     }
-    else if (event.ctrlKey){
+    else if (event.ctrlKey) {
       countctrl = countctrl + 1;
       sessionStorage.setItem("countctrl", countctrl);
       swal('Ctrl Keypress Detected');
@@ -111,7 +112,7 @@ const Dashboard = (props) => {
     var checke = sessionStorage.getItem("checkemail")
     var photo = sessionStorage.getItem("imageSrc")
     var audiorec = sessionStorage.getItem("audiorec")
-    
+
     // Execute (1)
     // var getImageUrl = function (time) {
     //   // Execute (2)
@@ -129,7 +130,6 @@ const Dashboard = (props) => {
     //Fetching data from FireBase
     const con_db = firebase.database().ref("stud_records");
     con_db.on('value', (snapshot) => {
-
 
       var s = snapshot.val()
       var codeexam = sessionStorage.getItem("formvalid", formvalid);
@@ -150,15 +150,14 @@ const Dashboard = (props) => {
         semail: checke,
         sname: checkn,
         photo: photo,
-        audiorec:audiorec
+        audiorec: audiorec
       })
     });
 
     history.push('/thankyou')
   };
 
-  
-// Camera Permission
+  // Camera Permission
   DetectRTC.load(function () {
 
     const webcam = DetectRTC.isWebsiteHasWebcamPermissions;
@@ -183,25 +182,24 @@ const Dashboard = (props) => {
   });
 
 
-// enable/disable iframe according to camera permissions
+  // enable/disable iframe according to camera permissions
   const webcam = DetectRTC.isWebsiteHasWebcamPermissions;
- 
 
-    if (webcam === true) {
-    var isAllowed = sessionStorage.getItem("form_link");;  
-  } 
-    else {
+  if (webcam === true) {
+    var isAllowed = sessionStorage.getItem("form_link");;
+  }
+  else {
     var isAllowed = '/components/404.js';
     swal("Enable Your Camera");
   }
-  
+
   // Fetches the timer provided by Admin in Admin page to Dashboard
   var get_time = sessionStorage.getItem("exam_timer");
   var get_sec = sessionStorage.getItem("exam_sec");
-  if(get_sec === null){
+  if (get_sec === null) {
     get_sec = 0;
   }
- const { initialMinute = get_time, initialSeconds = get_sec } = props;
+  const { initialMinute = get_time, initialSeconds = get_sec } = props;
   const myInterval = React.useRef();
   const [minutes, setMinutes] = useState(initialMinute);
   const [seconds, setSeconds] = useState(initialSeconds);
@@ -210,32 +208,31 @@ const Dashboard = (props) => {
       if (seconds > 0) {
         setSeconds(seconds - 1);
         var currectSec = seconds;
-         sessionStorage.setItem("exam_sec", currectSec);
+        sessionStorage.setItem("exam_sec", currectSec);
       }
       else {
-         var currectTime = minutes-1;
-          sessionStorage.setItem("exam_timer", currectTime);
-          setMinutes(minutes - 1);
-          setSeconds(59);
-         
-        }
+        var currectTime = minutes - 1;
+        sessionStorage.setItem("exam_timer", currectTime);
+        setMinutes(minutes - 1);
+        setSeconds(59);
 
-        if (minutes === 1 && seconds === 0) {
-          swal("Only 1 Minute Left, Please Submit or else Answers WONT BE SAVED ");
-        }
+      }
+
+      if (minutes === 1 && seconds === 0) {
+        swal("Only 1 Minute Left, Please Submit or else Answers WONT BE SAVED ");
+      }
 
       if (seconds <= 0 && minutes <= 0) {
-         history.push('/thankyou');
-        }
-  },1000);
- 
-      return () => {
+        history.push('/thankyou');
+      }
+    }, 1000);
+
+    return () => {
       clearInterval(myInterval);
     };
   });
- 
-  return (
 
+  return (
 
     <div className="App-header" id="Dash">
       <header>
@@ -259,7 +256,7 @@ const Dashboard = (props) => {
         </div>
 
         <div className="button">
-          <p align="center" style={{ fontSize: '18px' }}>To Save Your Attendance :<br/> Kindly Click <strong>Exit Exam Window</strong> After Submission Of Google Form </p>
+          <p align="center" style={{ fontSize: '18px' }}>To Save Your Attendance :<br /> Kindly Click <strong>Exit Exam Window</strong> After Submission Of Google Form </p>
           <center>
             <Button
               style={{ fontSize: '15px' }}
@@ -268,7 +265,7 @@ const Dashboard = (props) => {
               size="medium"
               onClick={handleClicksub}>
               Exit Exam Window
-              </Button>
+            </Button>
           </center>
           {/* <br/> */}
           <p align="left" style={{ fontSize: '18px' }}><i>DONOT ESCAPE THIS PAGE ELSE ANSWERS WILL BE UNSAVED!!</i></p>

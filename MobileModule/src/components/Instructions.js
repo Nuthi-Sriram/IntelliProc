@@ -31,10 +31,10 @@ const Instructions = () => {
 
     return (
         <div className="App-header">
-           
+
             <br />
             <Button variant="contained" onClick={onAccept} class="btn btn-primary" >Start proctoring</Button>
-            <br/>
+            <br />
 
 
         </div>

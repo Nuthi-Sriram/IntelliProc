@@ -9,7 +9,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Results extends React.Component {
 
-
   constructor(props) {
     super(props);
     this.state = {
@@ -45,7 +44,6 @@ class Results extends React.Component {
       this.setState({ studentsmobilelist: studentmobilelist });
     });
   }
-
 
   GoToAdmin() {
     localStorage.clear();

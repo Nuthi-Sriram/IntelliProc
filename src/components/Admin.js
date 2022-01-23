@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 //import config from "../config";
 import firebase from "firebase/app";
 import './Results.css';
@@ -13,7 +13,6 @@ const Admin = () => {
   const [examcode, setTitle] = useState('')
   const [formlink, setFormlink] = useState('')
   const [examtimer, setTimer] = useState('')
-  //
 
   const onChangeexamcode = (e) => {
     setTitle(e.target.value);
@@ -26,11 +25,10 @@ const Admin = () => {
   };
 
   function handleClicksub() {
-    
+
     const con_db = firebase.database().ref("con_dbs");
 
     con_db.on('value', (snapshot) => {
-  
       var s = snapshot.val()
       console.log(s)
       con_db.child(examcode).set({
@@ -39,30 +37,28 @@ const Admin = () => {
       });
       alert("The form was submitted");
       history.push("/");
-    
-  });
+
+    });
   }
-    
-  
-   function results(){
+
+  function results() {
     history.push('/codecheck');
-
   }
 
-  function logout(){
-        localStorage.clear();
-        window.location.href = '/';
-    };
+  function logout() {
+    localStorage.clear();
+    window.location.href = '/';
+  };
 
   return (
     <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}> </div>
-        <div className={styles.appHeader}>
-          <img src={logo} alt="logo" height="200" margin="0" className={styles.circle} /><br />
-          <h2 style={{ color: 'white' }}>
-            <i>Welcome Teacher!</i>
-          </h2><br/>
+      <div className={styles.appHeader}>
+        <img src={logo} alt="logo" height="200" margin="0" className={styles.circle} /><br />
+        <h2 style={{ color: 'white' }}>
+          <i>Welcome Teacher!</i>
+        </h2><br />
 
-          <div style={{ padding: '0 63px' }}>
+        <div style={{ padding: '0 63px' }}>
           <label style={{ color: 'white', fontSize: '20px' }}>Unique code for the exam: </label>
           <input type="text"
             name="examcode"
@@ -72,7 +68,7 @@ const Admin = () => {
             onChange={onChangeexamcode}
             class="form-control-lg"
             autofocus />
-          <br/><br/>
+          <br /><br />
 
           <label style={{ color: 'white', fontSize: '20px' }}>Examination form Link: </label>
           <input type="text"
@@ -82,7 +78,7 @@ const Admin = () => {
             value={formlink}
             onChange={onChangeformlink}
             class="form-control-lg" />
-          <br /><br/>
+          <br /><br />
 
           <label style={{ color: 'white', fontSize: '20px' }}>Exam Duration (in minutes): </label>
           <input type="number"
@@ -93,20 +89,21 @@ const Admin = () => {
             value={examtimer}
             onChange={onChangeTimer}
             class="form-control-lg" />
-          <br /> <br/>
+          <br /> <br />
 
-          <div style={{ display: 'flex', justifyContent: 'space-evenly', margin: '30px 0'}}>
-            <button class="btn btn-primary" onClick={handleClicksub} style={{ width: '100%'}}>Create Test</button>
+          <div style={{ display: 'flex', justifyContent: 'space-evenly', margin: '30px 0' }}>
+            <button class="btn btn-primary" onClick={handleClicksub} style={{ width: '100%' }}>Create Test</button>
           </div>
-          
-          <div style={{ display: 'flex', justifyContent: 'space-between', margin: '30px 0'}}>
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', margin: '30px 0' }}>
             <button class="btn btn-success" onClick={results} >Test Results</button>
             <button type="logout" class="btn btn-danger" onClick={logout} >LogOut</button>
           </div>
-          </div>
+        </div>
 
       </div></>
-    
+
   )
 }
+
 export default Admin;

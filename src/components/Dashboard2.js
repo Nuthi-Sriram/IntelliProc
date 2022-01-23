@@ -135,7 +135,7 @@ export default class Dashboard2 extends React.Component {
         <header>
 
           <video
-          id="mlVideo"
+            id="mlVideo"
             className="size"
             autoPlay
             playsInline
@@ -145,7 +145,7 @@ export default class Dashboard2 extends React.Component {
             height="300"
           />
           <canvas
-          id="mlCanvas"
+            id="mlCanvas"
             className="size"
             ref={this.canvasRef}
             width="500"

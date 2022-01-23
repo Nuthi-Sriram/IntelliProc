@@ -82,7 +82,7 @@ const ValidatePage = () => {
           </Col>
         </Row>
       </Container>
-      <div style={{ display: 'flex', justifyContent: 'space-around', margin: '20px 0'}}>
+      <div style={{ display: 'flex', justifyContent: 'space-around', margin: '20px 0' }}>
         <button type="reset" class="btn btn-primary" onClick={capture}>Capture Photo</button>
         <button type="submit" class="btn btn-success" onClick={handleClick} disabled={buttonfield}>Confirm and move to the exam</button>
       </div></>
