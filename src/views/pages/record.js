@@ -2,6 +2,11 @@ import React from "react";
 import { ReactMic } from "react-mic";
 import firebase from "firebase/app";
 import { Timer } from "../components";
+import prettylink from "prettylink";
+require('dotenv').config();
+
+// Init Access Token in constructor 
+const bitly = new prettylink.Bitly(process.env.REACT_APP_BITLY_ACCESS_TOKEN);
 
 export class Record extends React.Component {
   constructor(props) {
@@ -81,12 +86,17 @@ export class Record extends React.Component {
               uploadTask.snapshot.ref.getDownloadURL().then(
                 function (downloadURL) {
           
-                  // You get your url from here
-                  // alert('File available at', downloadURL);
+                  bitly.short(downloadURL).then(function(result) {
+                    console.log("short_url: "+result.link);
+                    sessionStorage.setItem("audiorec", result.link);
+                  }, function(err) {
+                    console.log("URL: "+err.link);
+                    sessionStorage.setItem("audiorec", err.link);
+                  });
           
                   // print the image url
-                  console.log(downloadURL);
-                  sessionStorage.setItem("audiorec", downloadURL);
+                  // console.log(downloadURL);
+                  // sessionStorage.setItem("audiorec", downloadURL);
                   // var ar=sessionStorage.getItem("audiorec");
                   // console.log("spacing ");
                   // console.log(ar);
