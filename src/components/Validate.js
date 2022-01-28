@@ -10,15 +10,21 @@ import background from './../bg_images/bg7.jpg';
 import { Container, Row, Col } from 'react-bootstrap'
 
 const ValidatePage = () => {
-  // var buttonfield = true;
-  var buttonfield = false;
-  sessionStorage.setItem("flag", 0);
+  var buttonfield = true;
+  var final_submit = document.querySelector(".final-submit");
+
   //Disable Right click
   if (document.addEventListener) {
     document.addEventListener('contextmenu', function (e) {
       e.preventDefault();
     }, false);
   }
+
+  // Check if the webcam permission is granted or not
+  navigator.getMedia = (navigator.getUserMedia || // use the proper vendor prefix
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.msGetUserMedia);
 
   // Import face profile
   const JSON_PROFILE = require('../descriptors/bnk48.json');
@@ -39,8 +45,9 @@ const ValidatePage = () => {
   //image as base64
   //console.log(imgSrc);
 
-  const buttonCheck = () => {
-    if (sessionStorage.getItem("flag") == 1)
+  var buttonCheck = () => {
+    const temp = sessionStorage.getItem("flag");
+    if (temp == 1)
       buttonfield = false;
   }
 
@@ -126,36 +133,56 @@ const ValidatePage = () => {
 
   var imageSrc;
   const capture = async () => {
-    if (!!webcamRef.current) {
-      await getFullFaceDescription(
-        imageSrc = webcamRef.current.getScreenshot()
-      ).then(fullDesc => {
-        if (!!fullDesc) {
-          state.fullDesc = fullDesc;
-          state.detections = fullDesc.map(fd => fd.detection);
-          state.descriptors = fullDesc.map(fd => fd.descriptor);
-        }
-      });
-      if (!!state.descriptors && !!state.faceMatcher) {
-        let match = state.descriptors.map(descriptor =>
-          state.faceMatcher.findBestMatch(descriptor)
-        );
-        state.match = match;
+    try {
+      if (!!webcamRef.current) {
+        await getFullFaceDescription(
+          imageSrc = webcamRef.current.getScreenshot()
+        ).then(fullDesc => {
+          if (!!fullDesc) {
+            state.fullDesc = fullDesc;
+            state.detections = fullDesc.map(fd => fd.detection);
+            state.descriptors = fullDesc.map(fd => fd.descriptor);
+          }
+        })
       }
+    } catch (err) {
+      console.log("Error while capturing image: " + err);
+      swal("Camera access denied", "Please provide access to your web camera to proceed with the test", "error");
+    };
+    // console.log(imageSrc);
+    if (!!state.descriptors && !!state.faceMatcher) {
+      let match = state.descriptors.map(descriptor =>
+        state.faceMatcher.findBestMatch(descriptor)
+      );
+      state.match = match;
     }
     setImgSrc(imageSrc);
     sessionStorage.setItem("imageSrc", imageSrc);
     drawDetections();
-    console.log(state.match);
+    // console.log("Matching face name: "+state.match);
     // console.log(state.match[0]._label);
     const name = sessionStorage.getItem("checkname");
-    if (state.match.length == 0 || state.match[0]._label !== name)
-      swal("Student not recognized as " + name, "You can not proceed with the test unless you are the authorized student.", "error");
-    else {
-      sessionStorage.setItem("flag", 1);
-      buttonCheck();
-      swal("Success", "Student recognized as " + name);
-    }
+
+    // Check for webcam permission
+    navigator.getMedia({ video: true }, function () {
+      if (state.match == null || state.match == 0 || state.match[0]._label !== name) {
+        swal("Student not recognized as " + name, "You can not proceed with the test unless you are the authorized student.", "error");
+        if (final_submit)
+          final_submit.disabled = true;
+      }
+      else {
+        swal("Success", "Student recognized as " + name);
+        buttonfield = false;
+        if (final_submit)
+          final_submit.disabled = false;
+        else
+          swal("Please capture your photo again!");
+      }
+    }, function () {
+      if (final_submit)
+        final_submit.disabled = true;
+      swal("Camera access denied", "Please provide access to your web camera to proceed with the test", "error");
+    });
   };
 
   const handleClick = () => {
@@ -194,7 +221,7 @@ const ValidatePage = () => {
       </Container>
       <div style={{ display: 'flex', justifyContent: 'space-around', margin: '20px 0' }}>
         <button type="reset" class="btn btn-primary" onClick={capture}>Capture Photo</button>
-        <button type="submit" class="btn btn-success" onClick={handleClick} disabled={buttonfield}>Confirm and move to the exam</button>
+        <button type="submit" class="btn btn-success final-submit" onClick={handleClick} disabled={buttonfield}>Confirm and move to the exam</button>
       </div></>
   )
 }
