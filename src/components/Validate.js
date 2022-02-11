@@ -10,8 +10,7 @@ import background from './../bg_images/bg7.jpg';
 import { Container, Row, Col } from 'react-bootstrap'
 
 const ValidatePage = () => {
-  var buttonfield = true;
-  var final_submit = document.querySelector(".final-submit");
+  const [buttonfield, setbuttonfield] = React.useState(true);
 
   //Disable Right click
   if (document.addEventListener) {
@@ -167,20 +166,14 @@ const ValidatePage = () => {
     navigator.getMedia({ video: true }, function () {
       if (state.match == null || state.match == 0 || state.match[0]._label !== name) {
         swal("Student not recognized as " + name, "You can not proceed with the test unless you are the authorized student.", "error");
-        if (final_submit)
-          final_submit.disabled = true;
+        setbuttonfield(true);
       }
       else {
         swal("Success", "Student recognized as " + name);
-        buttonfield = false;
-        if (final_submit)
-          final_submit.disabled = false;
-        else
-          swal("Please capture your photo again!");
+        setbuttonfield(false);
       }
     }, function () {
-      if (final_submit)
-        final_submit.disabled = true;
+      setbuttonfield(true);
       swal("Camera access denied", "Please provide access to your web camera to proceed with the test", "error");
     });
   };
@@ -221,7 +214,7 @@ const ValidatePage = () => {
       </Container>
       <div style={{ display: 'flex', justifyContent: 'space-around', margin: '20px 0' }}>
         <button type="reset" class="btn btn-primary" onClick={capture}>Capture Photo</button>
-        <button type="submit" class="btn btn-success final-submit" onClick={handleClick} disabled={buttonfield}>Confirm and move to the exam</button>
+        <button type="submit" class="btn btn-success" onClick={handleClick} disabled={buttonfield}>Confirm and move to the exam</button>
       </div></>
   )
 }
