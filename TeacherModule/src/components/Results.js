@@ -99,9 +99,8 @@ class Results extends React.Component {
                       <td>{data.right}</td>
                       <td>{data.alt}</td>
                       <td>{data.ctrl}</td>
-                      <td> {<img src={data.photo} alt="Student Identification" width="150px" height="100px" style={{ borderRadius: '5px' }} />}
-                        <td>{data.audiorec}</td>
-                      </td>
+                      <td> {<img src={data.photo} alt="Student Identification" width="150px" height="100px" style={{ borderRadius: '5px' }} />}</td>
+                      <td>{data.audiorec}</td>
                     </tr>
                   );
                 })}
