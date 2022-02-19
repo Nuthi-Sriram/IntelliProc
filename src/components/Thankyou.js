@@ -4,9 +4,14 @@ import styles from './../styles.module.css';
 import background from './../bg_images/bg7.jpg';
 
 const Thankyou = () => {
+    const loc = window.location.href;
 
     function handleClickExit() {
-        window.close()
+        // If window.close succeeds, execution on this page stops
+        window.close();
+        // If window.close fails, in a second, it will redirect to home page
+        window.setTimeout(function(){window.location.href = '/';},1000);
+        // window.open(loc, "_self").close();
     }
 
     var checkn = sessionStorage.getItem("checkname")

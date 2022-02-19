@@ -67,18 +67,19 @@ class Results extends React.Component {
                 <tr>
                   <th>Name</th>
                   <th>Email</th>
-                  <th>ExitFullScreen</th>
                   <th>Phone</th>
                   <th>Book</th>
                   <th>Laptop</th>
-                  <th>noFace</th>
-                  <th>MultipleFace</th>
+                  <th>NoFace</th>
+                  <th>MultiFace</th>
                   <th>LeftTurn</th>
                   <th>RightTurn</th>
                   <th>Alt</th>
-                  <th>ctrl</th>
-                  <th>Photo</th>
+                  <th>Ctrl</th>
+                  <th>FullScreen</th>
+                  <th>TabChange</th>
                   <th>Audio</th>
+                  <th>Photo</th>
                 </tr>
               </thead>
               <tbody>
@@ -89,7 +90,6 @@ class Results extends React.Component {
                     <tr className="pool">
                       <td>{data.sname}</td>
                       <td>{data.semail}</td>
-                      <td>{data.fullscreen}</td>
                       <td>{data.phone}</td>
                       <td>{data.book}</td>
                       <td>{data.laptop}</td>
@@ -99,8 +99,10 @@ class Results extends React.Component {
                       <td>{data.right}</td>
                       <td>{data.alt}</td>
                       <td>{data.ctrl}</td>
-                      <td> {<img src={data.photo} alt="Student Identification" width="150px" height="100px" style={{ borderRadius: '5px' }} />}</td>
+                      <td>{data.fullscreen}</td>
+                      <td>{data.tab}</td>
                       <td>{data.audiorec}</td>
+                      <td> {<img src={data.photo} alt="Student Identification" width="120px" height="80px" style={{ borderRadius: '5px' }} />}</td>
                     </tr>
                   );
                 })}
