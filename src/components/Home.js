@@ -14,7 +14,8 @@ const MainPage = () => {
   const history = useHistory();
 
   function handleClick() {
-    var mywindow = window.open("/login", "NewWindow", "height=700,width=1720")
+    // Warning: Uncommenting this line can cause "exit secure window button" to function incorrectly
+    // var mywindow = window.open("/login", "NewWindow", "height=700,width=1720")
     history.push("/login");
   }
 

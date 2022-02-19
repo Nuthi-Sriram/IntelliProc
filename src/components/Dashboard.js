@@ -19,6 +19,8 @@ const Dashboard = (props) => {
 
   var countalt = 0;
   var countctrl = 0;
+  var count_tabchange = 0;
+  var count_fullscreen = 0;
 
   // Disable Right click
   if (document.addEventListener) {
@@ -30,11 +32,23 @@ const Dashboard = (props) => {
   // Alert on Tab Changed within the Same browser Window
   function handleVisibilityChange() {
     if (document.hidden) {
-      var count_tabchange = 0;
-      swal("Changed Tab Detected", "Action has been Recorded", "error");
-      // the page is hidden
-      count_tabchange = count_tabchange + 1
-      sessionStorage.setItem("count_tabchange", count_tabchange);
+      //swal("Changed Tab Detected", "Action has been Recorded", "error");
+      swal({
+        title: 'Changed Tab Detected',
+        text: 'Action has been Recorded',
+        icon: 'error'
+      }).then(function() {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) { /* Safari */
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE11 */
+          elem.msRequestFullscreen();
+        }
+        // the page is hidden
+        count_tabchange = count_tabchange + 1
+        sessionStorage.setItem("count_tabchange", count_tabchange);
+      });
     } else {
       // the page is visible
     }
@@ -57,15 +71,32 @@ const Dashboard = (props) => {
     history.push('fullscreenalert')
   }*/
 
+  var elem = document.documentElement;
+
   // Exit full screen alert
   document.addEventListener('fullscreenchange', (event) => {
-    var count_fullscreen = 0;
     if (document.fullscreenElement) {
       // console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
     } else {
-      history.push("/fullscreenalert")
-      count_fullscreen = count_fullscreen + 1;
-      sessionStorage.setItem("count_fullscreen", count_fullscreen);
+      swal({
+        title: 'Exited full screen',
+        text: 'Action has been Recorded',
+        icon: 'error'
+      }).then(function() {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) { /* Safari */
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE11 */
+          elem.msRequestFullscreen();
+        }
+        count_fullscreen = count_fullscreen + 1;
+        sessionStorage.setItem("count_fullscreen", count_fullscreen);
+      });
+
+      //swal("Exited full screen", "Action has been Recorded", "error");
+      // history.push("/fullscreenalert");
+      
       //console.log(count_fullscreen)
     }
 
