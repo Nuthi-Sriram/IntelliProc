@@ -24,6 +24,7 @@
     "react-countdown-circle-timer": "^2.5.1",
     "react-dom": "^16.13.1",
     "react-google-login": "^5.2.2",
+    "react-icons": "^4.3.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-webcam": "^5.2.1",

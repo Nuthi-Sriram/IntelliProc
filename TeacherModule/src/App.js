@@ -14,6 +14,12 @@ import Admin from './components/Admin'
 import Results from './components/Results'
 import AdminSignIn from './components/AdminSignIn'
 import CodeCheck from './components/CodeCheck'
+import Dashboard from './components/TeacherDash'
+import CreateExam from './components/CreateExam'
+import CreateClass from './components/CreateClass'
+import ViewClass from './components/ViewClass'
+import ViewExam from './components/ViewExam'
+
 class App extends Component {
   render() {
     return (
@@ -25,9 +31,11 @@ class App extends Component {
           <Route exact path="/results" component={Results} />
           <Route exact path="/adminsignin" component={AdminSignIn} />
           <Route exact path="/codecheck" component={CodeCheck} />
-        
-
-
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/createexam" component={CreateExam} />
+          <Route exact path="/createclass" component={CreateClass} />
+          <Route exact path="/viewclass/:id" render={(props) => <ViewClass {...props} />} />
+          <Route exact path="/viewexam/:id" render={(props) => <ViewExam {...props} />} />
           <Route exact path="/404" component={PageNotFound} />
           <Redirect to="/404" />
         </Switch>

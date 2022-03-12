@@ -7,12 +7,13 @@ import swal from 'sweetalert';
 import './Results.css';
 import styles from './../styles.module.css';
 import logo from './../logo.png';
-import background from './../bg_images/bg3.jpg';
+import background from './../bg_images/bg8.jpg';
+import { FaAngleRight } from "react-icons/fa";
+import { FaRedo } from "react-icons/fa";
 //import Button from '@material-ui/core/Button';
 import firebase from "firebase/app";
 // import Button from '@material-ui/core/Button';
 require('firebase/auth')
-
 
 const AdminSignIn = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -68,8 +69,8 @@ const AdminSignIn = () => {
           <br /><br />
 
           <div style={{ display: 'flex', justifyContent: 'space-between', margin: '30px 0' }}>
-            <button type="reset" class="btn btn-primary">Reset</button>
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="reset" class="btn btn-primary"><FaRedo /> Reset</button>
+            <button type="submit" class="btn btn-success">Submit <FaAngleRight /></button>
             {/* <input type="submit" class="btn btn-success"/> */}
           </div>
         </form>
