@@ -4,9 +4,12 @@ import firebase from "firebase/app";
 import './Results.css';
 import styles from './../styles.module.css';
 import logo from './../logo.png';
-import background from './../bg_images/bg5.jpg';
+import background from './../bg_images/bg13.jpg';
 import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+import { FaAngleRight } from "react-icons/fa";
+import { CgUserList } from "react-icons/cg";
+import { MdLogout } from "react-icons/md";
 
 const Admin = () => {
   const history = useHistory();
@@ -42,6 +45,10 @@ const Admin = () => {
     history.push('/codecheck');
   }
 
+  function dash() {
+    history.push('/dashboard');
+  }
+
   function logout() {
     localStorage.clear();
     window.location.href = '/';
@@ -55,8 +62,8 @@ const Admin = () => {
           <i>Welcome Teacher!</i>
         </h2><br />
 
-        <div style={{ padding: '0 63px' }}>
-          <label style={{ color: 'white', fontSize: '20px' }}>Unique code for the exam: </label>
+        <div style={{ padding: '0 63px', width: '100%' }}>
+          {/*<label style={{ color: 'white', fontSize: '20px' }}>Unique code for the exam: </label>
           <input type="text"
             name="examcode"
             id="examcode"
@@ -86,15 +93,19 @@ const Admin = () => {
             value={examtimer}
             onChange={onChangeTimer}
             class="form-control-lg" />
-          <br /> <br />
+            <br /> <br />
 
           <div style={{ display: 'flex', justifyContent: 'space-evenly', margin: '30px 0' }}>
             <button class="btn btn-primary" onClick={handleClicksub} style={{ width: '100%' }}>Create Test</button>
-          </div>
+          </div>*/}
 
           <div style={{ display: 'flex', justifyContent: 'space-between', margin: '30px 0' }}>
-            <button class="btn btn-success" onClick={results} >Test Results</button>
-            <button type="logout" class="btn btn-danger" onClick={logout} >LogOut</button>
+            <button class="btn btn-success" onClick={results} ><CgUserList/> Test Results</button>
+            <button class="btn btn-primary" onClick={dash} >Dashboard <FaAngleRight/></button>
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'space-evenly', margin: '30px 0' }}>
+              <button onClick={logout} class="btn btn-outline-danger" style={{ width: '100%' }}>LogOut <MdLogout/></button>
           </div>
         </div>
 

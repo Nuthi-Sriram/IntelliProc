@@ -11,6 +11,48 @@
     background-position: center;
 }
 
+.teacherheader {
+    position: fixed;
+    width: 100%;
+    justify-content: space-around;
+    z-index: 1;
+}
+
+.teacherheader:before {
+    content: "";
+    width: 100%;
+    height: 80px;
+    background-color: #e2e7e9;
+    position: absolute;
+    -webkit-box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.22);
+    -moz-box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.22);
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.22);
+    z-index: -1;
+}
+
+.navbar {
+    float: right;
+    background-color: #e2e7e9;
+    text-align: center;
+}
+
+.menu {
+    display: flex;
+    flex-direction: row;
+}
+
+.navbar a {
+    display: block;
+    float: left;
+    line-height: 80px;
+    margin: 0;
+    padding:0 20px;
+}
+
+.navbar a:hover {
+    background-color: #bdc2c5;
+}
+
 .appHeader {
     background-color: #262a31;
     border: 6px solid antiquewhite;
@@ -24,6 +66,32 @@
     color: white;
     margin: auto;
     width: 430px;
+}
+
+.createClassHeader {
+    background-color: #262a31;
+    border: 6px solid antiquewhite;
+    border-radius: 10px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    margin: auto;
+}
+
+.viewClassHeader {
+    border: 2px solid antiquewhite;
+    border-radius: 10px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin: auto;
 }
 
 .fullScreenHeader {
@@ -45,9 +113,16 @@
     color: white;
 }
 
-.circle
+.circle {
+    border-radius: 50%;
+}
+
+.navcircle
 {
     border-radius: 50%;
+    -webkit-box-shadow: 3px 3px 5px 3px rgba(0, 0, 0, 0.22);
+    -moz-box-shadow: 3px 3px 5px 3px rgba(0, 0, 0, 0.22);
+    box-shadow: 3px 3px 5px 3px rgba(0, 0, 0, 0.22);
 }
 
 .pullRight
@@ -55,3 +130,12 @@
     right:0;
     left:auto;
 }
+
+.navtitle {
+    float: right;
+    color: rgb(97, 190, 202);
+    text-shadow: -1px 0 3px black, 0 1px black, 1px 0 3px black, 0 -1px black;
+    font-size: 36px;
+    font-weight: 600;
+    margin: 10px 50px;
+  }
