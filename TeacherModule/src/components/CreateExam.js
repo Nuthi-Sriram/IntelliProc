@@ -13,7 +13,9 @@ const CreateExam = () => {
     const history = useHistory();
     const [examname, setExamname] = useState('')
     const [starttime, setStarttime] = useState('')
+    const [startTime, setStartTime] = useState('')
     const [endtime, setEndtime] = useState('')
+    const [endTime, setEndTime] = useState('')
     var classlist = [];
     firebase.database().ref("class_records").on("value", snapshot => {
         snapshot.forEach(snap => {
@@ -32,10 +34,16 @@ const CreateExam = () => {
 
     const onChangeStarttime = (e) => {
         setStarttime(e.target.value);
+        let date = new Date(e.target.value);
+        date = date.toLocaleDateString() + ", " + date.toLocaleTimeString();
+        setStartTime(date);
     };
 
     const onChangeEndtime = (e) => {
         setEndtime(e.target.value);
+        let date = new Date(e.target.value);
+        date = date.toLocaleDateString() + ", " + date.toLocaleTimeString();
+        setEndTime(date);
     };
 
     const onChangecheckbox = (val) => {
@@ -46,16 +54,17 @@ const CreateExam = () => {
         const con_db = firebase.database().ref("exam_records");
         con_db.on('value', (snapshot) => {
             var s = snapshot.val()
-            console.log(s)
             con_db.child(examname).set({
                 examname: examname,
-                starttime: starttime,
-                endtime: endtime,
+                starttime: startTime,
+                endtime: endTime,
                 totalmarks: 0
             });
-            for(let i=0;i<classlist.length;i++){
-                if(classarray[i])
-                    firebase.database().ref(`exam_records/${examname}/classes/${i}`).set(classlist[i]);
+            for(let i=0,j=0;i<classlist.length;i++){
+                if(classarray[i]) {
+                    firebase.database().ref(`exam_records/${examname}/classes/${j}`).set(classlist[i]);
+                    j += 1;
+                }
             }
         });
         history.push(`/viewexam/${examname}`)
