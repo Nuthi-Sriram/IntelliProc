@@ -140,7 +140,7 @@ class ViewExam extends React.Component {
                     });
             });
         });
-        swal("Sending email notifications...","success");
+        swal("Sending email notifications...","","success");
         for (let i = 0; i < studentList.length; i++) {
             console.log("Hello");
             try {

@@ -10,17 +10,22 @@ import exam_timer from './formvalid';
 import formvalid from './formvalid';
 import firebase from "firebase/app";
 import "./Dashboard2.css";
-// var checkn = "";
-// var checke = "";
 
 const Dashboard = (props) => {
 
   var form_link = sessionStorage.getItem("form_link");
 
-  var countalt = 0;
-  var countctrl = 0;
-  var count_tabchange = 0;
-  var count_fullscreen = 0;
+  const [countalt, setcountalt] = useState(0);
+  const [countctrl, setcountctrl] = useState(0);
+  const [countmeta, setcountmeta] = useState(0);
+  const [count_tabchange, setcount_tabchange] = useState(0);
+  const [count_fullscreen, setcount_fullscreen] = useState(0);
+
+  sessionStorage.setItem("countalt", countalt);
+  sessionStorage.setItem("countctrl", countctrl);
+  sessionStorage.setItem("countmeta", countmeta);
+  sessionStorage.setItem("count_tabchange", count_tabchange);
+  sessionStorage.setItem("count_fullscreen", count_fullscreen);
 
   // Disable Right click
   if (document.addEventListener) {
@@ -46,7 +51,7 @@ const Dashboard = (props) => {
           elem.msRequestFullscreen();
         }
         // the page is hidden
-        count_tabchange = count_tabchange + 1
+        setcount_tabchange(count_tabchange + 1);
         sessionStorage.setItem("count_tabchange", count_tabchange);
       });
     } else {
@@ -90,7 +95,7 @@ const Dashboard = (props) => {
         } else if (elem.msRequestFullscreen) { /* IE11 */
           elem.msRequestFullscreen();
         }
-        count_fullscreen = count_fullscreen + 1;
+        setcount_fullscreen(count_fullscreen + 1);
         sessionStorage.setItem("count_fullscreen", count_fullscreen);
       });
 
@@ -106,20 +111,24 @@ const Dashboard = (props) => {
   document.onkeydown = function (event) {
     //console.log(`Key: ${event.key} with keycode ${event.keyCode} has been pressed`);
     if (event.altKey) {
-      countalt = countalt + 1;
+      setcountalt(countalt + 1);
       sessionStorage.setItem("countalt", countalt);
       swal('Alt Keypress Detected');
       return false;
     }
     else if (event.ctrlKey) {
-      countctrl = countctrl + 1;
+      setcountctrl(countctrl + 1);
       sessionStorage.setItem("countctrl", countctrl);
       swal('Ctrl Keypress Detected');
       return false;
     }
+    else if (event.metaKey) {
+      setcountmeta(countmeta + 1);
+      sessionStorage.setItem("countmeta", countmeta);
+      swal('Meta Keypress Detected');
+      return false;
+    }
     else {
-      sessionStorage.setItem("countalt", countalt);
-      sessionStorage.setItem("countctrl", countctrl);
       return true;
     }
   }
@@ -139,6 +148,7 @@ const Dashboard = (props) => {
     var count_right = sessionStorage.getItem("count_right")
     var countalt = sessionStorage.getItem("countalt")
     var countctrl = sessionStorage.getItem("countctrl")
+    var countmeta = sessionStorage.getItem("countmeta")
     var checkn = sessionStorage.getItem("checkname")
     var checke = sessionStorage.getItem("checkemail")
     var photo = sessionStorage.getItem("imageSrc")
@@ -178,6 +188,7 @@ const Dashboard = (props) => {
         face: count_multipleFace,
         alt: countalt,
         ctrl: countctrl,
+        meta: countmeta,
         semail: checke,
         sname: checkn,
         photo: photo,
