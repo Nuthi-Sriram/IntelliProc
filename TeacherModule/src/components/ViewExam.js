@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
-import { Button } from '@material-ui/core';
 import './Results.css';
 import logo from './../logo.png';
 import styles from './../styles.module.css';
@@ -12,9 +11,11 @@ import { IoRadioButtonOffOutline, IoRadioButtonOnOutline } from "react-icons/io5
 import { MdDeleteOutline, MdSend, MdLogout } from 'react-icons/md';
 import { FaAngleLeft } from "react-icons/fa";
 import Card from 'react-bootstrap/Card';
+import emailjs from '@emailjs/browser';
 import swal from 'sweetalert';
+require('dotenv').config();
 
-var questionlist;
+var questionlist, classlist;
 
 class ViewExam extends React.Component {
 
@@ -39,6 +40,8 @@ class ViewExam extends React.Component {
         sessionStorage.setItem("examid", childnode);
         firebase.database().ref(`exam_records/${childnode}`).on("value", snapshot => {
             sessionStorage.setItem("totalmarks", snapshot.val().totalmarks);
+            sessionStorage.setItem("starttime", snapshot.val().starttime);
+            sessionStorage.setItem("endtime", snapshot.val().endtime);
         });
         firebase.database().ref("exam_records").child(childnode).child("questions").on("value", snapshot => {
             questionlist = [];
@@ -47,6 +50,12 @@ class ViewExam extends React.Component {
                 questionlist.push(snap.val());
             });
             this.setState({ questionlist: questionlist });
+        });
+        firebase.database().ref("exam_records").child(childnode).child("classes").on("value", snapshot => {
+            classlist = [];
+            snapshot.forEach(snap => {
+                classlist.push(snap.val());
+            });
         });
     }
 
@@ -117,6 +126,44 @@ class ViewExam extends React.Component {
         window.location.href = '/';
     };
 
+    send_email_notification() {
+        let studentList = [];
+        firebase.database().ref("class_records").on("value", snapshot => {
+            snapshot.forEach(snap => {
+                let current_class = snap.val().classname;
+                if (classlist.includes(current_class))
+                    firebase.database().ref("class_records").child(current_class).on("value", snapshot => {
+                        snapshot.forEach(snap => {
+                            if (snap.key != 'classname' && snap.key != 'studentcount')
+                                studentList.push(snap.val());
+                        });
+                    });
+            });
+        });
+        swal("Sending email notifications...","success");
+        for (let i = 0; i < studentList.length; i++) {
+            console.log("Hello");
+            try {
+            emailjs.send(process.env.REACT_APP_EMAIL_SERVICE_ID, process.env.REACT_APP_EMAIL_TEMPLATE_ID, {
+                to_name: studentList[i].studentname,
+                start_time: sessionStorage.getItem("starttime"),
+                end_time: sessionStorage.getItem("endtime"),
+                exam_code: sessionStorage.getItem("examid"),
+                to_email: studentList[i].studentmail,
+            }, process.env.REACT_APP_EMAIL_USER_ID)
+                .then(function (response) {
+                    console.log('SUCCESS! ', i, ' ', response.status);
+                }, function (error) {
+                    console.log('FAILED...', i, ' ', error);
+                });
+            } catch(e) {
+                console.log("Exception error: ", e);
+            }
+            console.log("Student ",i);
+            setTimeout(() => {  swal("Sending to",studentList[i].studentname, "success"); }, 1000);
+        }
+    };
+
     renderElement(option, ans) {
         if (option == ans)
             return <IoRadioButtonOnOutline />;
@@ -129,12 +176,12 @@ class ViewExam extends React.Component {
             <><div style={{ backgroundImage: "url(" + background + ")", marginTop: '80px' }} className={styles.bg}></div>
                 <header className={styles.teacherheader}>
                     <div className={styles.menu} style={{ float: 'left', padding: '5px 0 5px 5%' }} >
-                        <img src={logo} alt="logo" height="70" className={styles.navcircle}/>
+                        <img src={logo} alt="logo" height="70" className={styles.navcircle} />
                         <h2 className={styles.navtitle}><i>Intelliproc</i></h2>
                     </div>
                     <nav id="nav-bar" className={styles.navbar}>
                         <div className={styles.menu}>
-                        <a onClick={this.logout}>LogOut <MdLogout/></a>
+                            <a onClick={this.logout}>LogOut <MdLogout /></a>
                         </div>
                     </nav>
                 </header>
@@ -264,8 +311,8 @@ class ViewExam extends React.Component {
 
                                     </div>
                                     <div style={{ display: 'flex', width: '90%', borderTop: '2px solid antiquewhite', justifyContent: 'space-between', padding: '20px 0' }}>
-                                            <button class="btn btn-primary" onClick={this.back}><FaAngleLeft/> Back</button>
-                                            <button class="btn btn-success">Send Email Notification <MdSend/></button>
+                                        <button class="btn btn-primary" onClick={this.back}><FaAngleLeft /> Back</button>
+                                        <button class="btn btn-success" onClick={this.send_email_notification}>Send Email Notification <MdSend /></button>
                                     </div>
                                 </div>
                             </center>
