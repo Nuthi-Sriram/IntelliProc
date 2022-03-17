@@ -10,11 +10,6 @@ import exam_timer from './formvalid';
 import formvalid from './formvalid';
 import firebase from "firebase/app";
 import "./Dashboard2.css";
-import { Container, Row, Col } from 'react-bootstrap';
-import { MdLogout } from 'react-icons/md';
-import background from './../bg_images/bg18.png';
-import logo from './../logo.png';
-import styles from './../styles.module.css';
 
 const Dashboard = (props) => {
 
@@ -41,7 +36,7 @@ const Dashboard = (props) => {
 
   // Alert on Tab Changed within the Same browser Window
   function handleVisibilityChange() {
-    /*if (document.hidden) {
+    if (document.hidden) {
       //swal("Changed Tab Detected", "Action has been Recorded", "error");
       swal({
         title: 'Changed Tab Detected',
@@ -50,9 +45,9 @@ const Dashboard = (props) => {
       }).then(function() {
         if (elem.requestFullscreen) {
           elem.requestFullscreen();
-        } else if (elem.webkitRequestFullscreen) { // Safari //
+        } else if (elem.webkitRequestFullscreen) { /* Safari */
           elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) { // IE11
+        } else if (elem.msRequestFullscreen) { /* IE11 */
           elem.msRequestFullscreen();
         }
         // the page is hidden
@@ -61,7 +56,7 @@ const Dashboard = (props) => {
       });
     } else {
       // the page is visible
-    }*/
+    }
   }
   document.addEventListener("visibilitychange", handleVisibilityChange, false);
 
@@ -73,9 +68,17 @@ const Dashboard = (props) => {
     history.push('/thankyou')
   }
 
+  // Count number of times escaped Fullscreen
+
+  /*if (document.fullscreenElement) {
+    //console.log("In Full");
+  } else {
+    history.push('fullscreenalert')
+  }*/
+
   var elem = document.documentElement;
 
-  /*// Exit full screen alert
+  // Exit full screen alert
   document.addEventListener('fullscreenchange', (event) => {
     if (document.fullscreenElement) {
       // console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
@@ -87,9 +90,9 @@ const Dashboard = (props) => {
       }).then(function() {
         if (elem.requestFullscreen) {
           elem.requestFullscreen();
-        } else if (elem.webkitRequestFullscreen) { // Safari
+        } else if (elem.webkitRequestFullscreen) { /* Safari */
           elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) { // IE11
+        } else if (elem.msRequestFullscreen) { /* IE11 */
           elem.msRequestFullscreen();
         }
         setcount_fullscreen(count_fullscreen + 1);
@@ -98,9 +101,11 @@ const Dashboard = (props) => {
 
       //swal("Exited full screen", "Action has been Recorded", "error");
       // history.push("/fullscreenalert");
+      
+      //console.log(count_fullscreen)
     }
 
-  });*/
+  });
 
   // Detect usage of keyboard shortcuts
   document.onkeydown = function (event) {
@@ -169,6 +174,8 @@ const Dashboard = (props) => {
 
       var s = snapshot.val()
       var codeexam = sessionStorage.getItem("formvalid", formvalid);
+      //var codeexam =  s[d]
+      //console.log(s)
       con_db.child(codeexam).child(PIDs).set({
         tab: count_tabchange,
         fullscreen: count_fullscreen,
@@ -207,6 +214,7 @@ const Dashboard = (props) => {
           .then(function (stream) {
             video.srcObject = stream;
           })
+
           .catch(function (err0r) {
             //console.log("Something went wrong!");
           });
@@ -214,6 +222,7 @@ const Dashboard = (props) => {
     }
 
   });
+
 
   // enable/disable iframe according to camera permissions
   const webcam = DetectRTC.isWebsiteHasWebcamPermissions;
@@ -248,6 +257,7 @@ const Dashboard = (props) => {
         sessionStorage.setItem("exam_timer", currectTime);
         setMinutes(minutes - 1);
         setSeconds(59);
+
       }
 
       if (minutes === 1 && seconds === 0) {
@@ -264,42 +274,50 @@ const Dashboard = (props) => {
     };
   });
 
-  function logout() {
-    localStorage.clear();
-    window.location.href = '/';
-};
-
   return (
-    <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}></div>
 
-      <header className={styles.studentheader}>
-        <div className={styles.menu} style={{ float: 'left', padding: '5px 0 5px 5%' }} >
-          <img src={logo} alt="logo" height="60" className={styles.navcircle} />
-          <h2 className={styles.navtitle}><i>Intelliproc</i></h2>
+    <div className="App-header" id="Dash">
+      <header>
+
+        <div className="detect">
+          {/* Detection Section Starts here*/}
+          <Detection>
+
+          </Detection>
+          {/*Detection Section ends here */}
         </div>
-        <nav id="nav-bar" className={styles.navbar}>
-          <div className={styles.menu}>
-            <a onClick={logout}>LogOut <MdLogout /></a>
-          </div>
-        </nav>
+
+        <div className="lame">
+          <h3 align="left">Name :  <span style={{ fontSize: '20px' }} > {JSON.stringify(sessionStorage.getItem("checkname")).slice(1, -7)}</span></h3>
+          <h3 align="left">PID :  <span style={{ fontSize: '20px' }} > {JSON.stringify(sessionStorage.getItem("checkname")).slice(-7).slice(0, -1)}</span></h3>
+        </div>
+
+        <div className="leftClass">
+          <p>Timer: {minutes === 0 && seconds === 1 ? null : <h1 align="center" style={{ fontSize: '69px' }}>  {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
+          } </p>
+        </div>
+
+        <div className="button">
+          <p align="center" style={{ fontSize: '18px' }}>To Save Your Attendance :<br /> Kindly Click <strong>Exit Exam Window</strong> After Submission Of Google Form </p>
+          <center>
+            <Button
+              style={{ fontSize: '15px' }}
+              variant="contained"
+              color="primary"
+              size="medium"
+              onClick={handleClicksub}>
+              Exit Exam Window
+            </Button>
+          </center>
+          {/* <br/> */}
+          <p align="left" style={{ fontSize: '18px' }}><i>DONOT ESCAPE THIS PAGE ELSE ANSWERS WILL BE UNSAVED!!</i></p>
+        </div>
+
+        <iframe src={isAllowed} id='form'>Loading…</iframe >
+
       </header>
 
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}  className={styles.studentAppHeader}>
-        <div className={styles.firstcolumn} style={{ width:'60%' }}>
-          <center>
-            <div>
-              <h2 class="givecolor">{sessionStorage.getItem("formvalid")}</h2>
-            </div>
-              jdhsfyukj  uw gfuyjdhh
-          </center>
-        </div>
-
-        <div className={styles.firstcolumn} style={{ width:'40%' }}>
-          <center>
-
-          </center>
-        </div>
-      </div></>
+    </div>
   )
 }
 
