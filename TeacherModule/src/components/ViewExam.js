@@ -43,7 +43,7 @@ class ViewExam extends React.Component {
         firebase.database().ref(`exam_records/${childnode}`).on("value", snapshot => {
             details = snapshot.val();
         });
-        if(details && !this.state.flag) {
+        if(details) {
             this.setState({ flag: true });
             sessionStorage.setItem("starttime", details.starttime);
             sessionStorage.setItem("endtime", details.endtime);
