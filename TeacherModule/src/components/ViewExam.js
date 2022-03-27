@@ -16,6 +16,7 @@ import swal from 'sweetalert';
 require('dotenv').config();
 
 var questionlist, classlist;
+var details;
 
 class ViewExam extends React.Component {
 
@@ -31,7 +32,8 @@ class ViewExam extends React.Component {
             option4: '',
             answer: '',
             marks: 0,
-            questionlist: []
+            questionlist: [],
+            flag:false
         }
     }
 
@@ -39,10 +41,14 @@ class ViewExam extends React.Component {
         var childnode = this.state.examId;
         sessionStorage.setItem("examid", childnode);
         firebase.database().ref(`exam_records/${childnode}`).on("value", snapshot => {
-            sessionStorage.setItem("totalmarks", snapshot.val().totalmarks);
-            sessionStorage.setItem("starttime", snapshot.val().starttime);
-            sessionStorage.setItem("endtime", snapshot.val().endtime);
+            details = snapshot.val();
         });
+        if(details && !this.state.flag) {
+            this.setState({ flag: true });
+            sessionStorage.setItem("starttime", details.starttime);
+            sessionStorage.setItem("endtime", details.endtime);
+            sessionStorage.setItem("totalmarks", details.totalmarks);
+        }
         firebase.database().ref("exam_records").child(childnode).child("questions").on("value", snapshot => {
             questionlist = [];
             snapshot.forEach(snap => {
@@ -140,6 +146,7 @@ class ViewExam extends React.Component {
                     });
             });
         });
+        console.log("studentList: ",studentList);
         swal("Sending email notifications...","","success");
         for (let i = 0; i < studentList.length; i++) {
             console.log("Hello");
@@ -160,7 +167,7 @@ class ViewExam extends React.Component {
                 console.log("Exception error: ", e);
             }
             console.log("Student ",i);
-            setTimeout(() => {  swal("Sending to",studentList[i].studentname, "success"); }, 1000);
+            setTimeout(() => {  swal("Email Notifications sent!", "Done", "success"); }, 1000);
         }
     };
 
@@ -209,7 +216,7 @@ class ViewExam extends React.Component {
                                         </Card>
                                     </div><br />
 
-                                    <div style={{ margin: '0 15px' }}>
+                                    <div style={{ margin: '0 15px', width: "90%" }}>
                                         {this.state.questionlist.map(data => {
                                             return (
                                                 <div><Card>
@@ -318,7 +325,7 @@ class ViewExam extends React.Component {
                             </center>
                         </Col>
 
-                        <Col lg={3} md={1}></Col>
+                        <Col lg={2} md={1}></Col>
 
                     </Row>
                 </Container>

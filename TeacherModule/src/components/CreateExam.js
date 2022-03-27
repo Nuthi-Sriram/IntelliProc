@@ -23,7 +23,6 @@ const CreateExam = () => {
         });
     });
     var classarray = [];
-    //console.log(classlist);
     for(let i=0;i<classlist.length;i++) {
         classarray.push(false);
     }
@@ -50,23 +49,24 @@ const CreateExam = () => {
         classarray[classlist.indexOf(val)] = !classarray[classlist.indexOf(val)];
     }
 
-    const create = () => {
+    function create() {
         const con_db = firebase.database().ref("exam_records");
-        con_db.on('value', (snapshot) => {
-            var s = snapshot.val()
-            con_db.child(examname).set({
-                examname: examname,
-                starttime: startTime,
-                endtime: endTime,
-                totalmarks: 0
-            });
-            for(let i=0,j=0;i<classlist.length;i++){
-                if(classarray[i]) {
-                    firebase.database().ref(`exam_records/${examname}/classes/${j}`).set(classlist[i]);
-                    j += 1;
-                }
-            }
+        con_db.child(examname).set({
+            examname: examname,
+            starttime: startTime,
+            endtime: endTime,
+            totalmarks: 0
         });
+        for(let i=0,j=0;i<classlist.length;i++){
+            if(classarray[i]) {
+                con_db.child(examname).child("classes").update({
+                    [j]: classlist[i]
+                });
+                //firebase.database().ref(`exam_records/${examname}`).child("classes").push().set({class_name: classlist[i]});
+                //firebase.database().ref(`exam_records/${examname}/classes/${j}`).set(classlist[i]);
+                j += 1;
+            }
+        }
         history.push(`/viewexam/${examname}`)
     }
 
