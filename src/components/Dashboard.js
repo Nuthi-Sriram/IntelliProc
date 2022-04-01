@@ -285,7 +285,7 @@ const Dashboard = (props) => {
       </header>
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}  className={styles.studentAppHeader}>
-        <div className={styles.firstcolumn} style={{ width:'60%' }}>
+        <div className={styles.firstcolumn} style={{ width:'65%' }}>
           <center>
             <div>
               <h2 class="givecolor">{sessionStorage.getItem("formvalid")}</h2>
@@ -294,10 +294,29 @@ const Dashboard = (props) => {
           </center>
         </div>
 
-        <div className={styles.firstcolumn} style={{ width:'40%' }}>
-          <center>
+        <div style={{ width:'35%', display: 'flex', flexDirection: 'column' }}>
+          <div className={styles.subcolumn}>
+            <center>
+              <div style={{ backgroundColor: 'gray' }}>
+                <p>{minutes === 0 && seconds === 1 ? null : <h1 align="center" style={{ fontSize: '40px' }}>  {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
+                } </p>
+              </div>
+            </center>
+          </div>
 
-          </center>
+          <div className={styles.subcolumn}>
+            <center>
+              <div className="detect" style={{ margin: '0 auto' }}>
+                <center>
+                {/* Detection Section Starts here*/}
+                <Detection>
+
+                </Detection>
+                {/*Detection Section ends here */}
+                </center>
+              </div>
+            </center>
+          </div>
         </div>
       </div></>
   )

@@ -84,7 +84,7 @@
     content: "";
     width: 100%;
     height: 70px;
-    background-color: #e2e7e9;
+    background-color: rgb(201, 238, 243);
     position: absolute;
     -webkit-box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.22);
     -moz-box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.22);
@@ -94,7 +94,7 @@
 
 .navbar {
     float: right;
-    background-color: #e2e7e9;
+    background-color: rgb(201, 238, 243);
     text-align: center;
 }
 
@@ -112,7 +112,7 @@
 }
 
 .navbar a:hover {
-    background-color: #bdc2c5;
+    background-color: rgb(159, 212, 219);
 }
 
 .navcircle
@@ -125,8 +125,8 @@
 
 .navtitle {
     float: right;
-    color: rgb(97, 190, 202);
-    text-shadow: -1px 0 3px black, 0 1px black, 1px 0 3px black, 0 -1px black;
+    color: rgb(69, 196, 212);
+    text-shadow: -1px 0 2px black, 0 1px black, 1px 0 3px black, 0 -1px black;
     font-size: 36px;
     font-weight: 600;
     margin: 10px 50px;
@@ -137,4 +137,11 @@
     padding: 10px;
     border: 1px solid antiquewhite;
     min-height: calc(100vh - 120px);
+}
+
+.subcolumn {
+    margin: 5px 15px 5px 0;
+    padding: 10px;
+    border: 1px solid antiquewhite;
+    min-height: calc(50vh - 65px);
 }
