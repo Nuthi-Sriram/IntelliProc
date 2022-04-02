@@ -42,13 +42,13 @@ class ViewExam extends React.Component {
         sessionStorage.setItem("examid", childnode);
         firebase.database().ref(`exam_records/${childnode}`).on("value", snapshot => {
             details = snapshot.val();
+            if(details) {
+                this.setState({ flag: true });
+                sessionStorage.setItem("starttime", details.starttime);
+                sessionStorage.setItem("endtime", details.endtime);
+                sessionStorage.setItem("totalmarks", details.totalmarks);
+            }
         });
-        if(details) {
-            this.setState({ flag: true });
-            sessionStorage.setItem("starttime", details.starttime);
-            sessionStorage.setItem("endtime", details.endtime);
-            sessionStorage.setItem("totalmarks", details.totalmarks);
-        }
         firebase.database().ref("exam_records").child(childnode).child("questions").on("value", snapshot => {
             questionlist = [];
             snapshot.forEach(snap => {
