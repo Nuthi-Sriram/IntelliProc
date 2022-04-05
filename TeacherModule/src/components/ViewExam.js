@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import firebase from "firebase/app";
 import { withRouter } from "react-router-dom";
+import { Button } from '@material-ui/core';
 import './Results.css';
 import logo from './../logo.png';
 import styles from './../styles.module.css';
@@ -8,7 +9,7 @@ import background from './../bg_images/bg1.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import { IoRadioButtonOffOutline, IoRadioButtonOnOutline } from "react-icons/io5";
-import { MdDeleteOutline, MdSend, MdLogout } from 'react-icons/md';
+import { MdDeleteOutline, MdSend, MdLogout, MdOutlineFileUpload } from 'react-icons/md';
 import { FaAngleLeft } from "react-icons/fa";
 import Card from 'react-bootstrap/Card';
 import emailjs from '@emailjs/browser';
@@ -33,7 +34,8 @@ class ViewExam extends React.Component {
             answer: '',
             marks: 0,
             questionlist: [],
-            flag:false
+            flag:false,
+            imagePreviewUrl: ''
         }
     }
 
@@ -87,14 +89,35 @@ class ViewExam extends React.Component {
         this.setState({ marks: e.target.value });
         sessionStorage.setItem("marks", e.target.value);
     };
+    onChangeImage = (e) => {
+        if(e.target && e.target.files && e.target.files[0])
+        {
+            let reader = new FileReader();
+            let file = e.target.files[0];
+            reader.readAsDataURL(file)
+            reader.onloadend = () => {
+                this.setState({ imagePreviewUrl: reader.result });
+                //sessionStorage.setItem("imageQuestion",reader.result);
+                //console.log("this.state.image: ",this.state.imagePreviewUrl);
+                swal("Image uploaded!","You can reupload an image if you wish to change the image","success");
+            }
+        }
+    };
 
     handleClicksub() {
+        //var imagequestion = sessionStorage.getItem("imageQuestion");
+        //sessionStorage.setItem("imageQuestion",'');
         var childnode = sessionStorage.getItem("examid");
         if (this.state.answer != this.state.option1 && this.state.answer != this.state.option2 && this.state.answer != this.state.option3 && this.state.answer != this.state.option4)
             alert("Answer is not matching with any of the options", "error");
         else {
             let temp = parseInt(sessionStorage.getItem("totalmarks")) + parseInt(sessionStorage.getItem("marks"));
             sessionStorage.setItem("totalmarks", temp);
+            const con_d = firebase.database().ref("exam_records");
+            con_d.child(childnode).update({
+                questionscount: questionlist.length,
+                totalmarks: temp
+            })
             const con_db = firebase.database().ref("exam_records").child(childnode).child("questions");
             con_db.on('value', (snapshot) => {
                 var s = snapshot.val()
@@ -106,11 +129,13 @@ class ViewExam extends React.Component {
                     option3: this.state.option3,
                     option4: this.state.option4,
                     answer: this.state.answer,
-                    marks: this.state.marks
+                    marks: this.state.marks,
+                    imagequest: this.state.imagePreviewUrl
                 });
-            });
-            firebase.database().ref(`exam_records/${childnode}/questionscount`).set(questionlist.length);
-            firebase.database().ref(`exam_records/${childnode}/totalmarks`).set(temp);
+            })
+            
+            //firebase.database().ref(`exam_records/${childnode}/questionscount`).set(questionlist.length);
+            //firebase.database().ref(`exam_records/${childnode}/totalmarks`).set(temp);
         }
     }
 
@@ -118,7 +143,11 @@ class ViewExam extends React.Component {
         let temp = parseInt(sessionStorage.getItem("totalmarks")) - parseInt(quest.marks);
         sessionStorage.setItem("totalmarks", temp);
         let childnode = sessionStorage.getItem("examid");
-        firebase.database().ref(`exam_records/${childnode}/totalmarks`).set(temp);
+        const con_d = firebase.database().ref("exam_records");
+        con_d.child(childnode).update({
+            totalmarks: temp
+        })
+        //firebase.database().ref(`exam_records/${childnode}/totalmarks`).set(temp);
         firebase.database().ref("exam_records").child(childnode).child("questions").child(quest.question).remove();
     }
 
@@ -223,10 +252,15 @@ class ViewExam extends React.Component {
                                                     <Card.Header as="h5" style={{ backgroundColor: '#545b62' }}>
                                                         <Row>
                                                             <Col xs={2} style={{ fontSize: '14px' }}>{data.marks} Mark(s)</Col>
-                                                            <Col xs={9}>{data.question}</Col>
+                                                            <Col xs={9}>
+                                                                {data.question}
+                                                            </Col>
                                                             <Col xs={1} style={{ color: '#ff4d4d' }}><a onClick={() => this.delete_question(data)}><MdDeleteOutline /></a></Col>
                                                         </Row>
                                                     </Card.Header>
+                                                    {data.imagequest && <Card.Body style={{ backgroundColor: '#373b40' }}>
+                                                         <img style={{ width:'100%',borderRadius: '5px' }} src={data.imagequest}/>
+                                                    </Card.Body>}
                                                     <Card.Body style={{ backgroundColor: '#d7dcdf' }}>
                                                         <div style={{ textAlign: 'left' }}>
                                                             <Card.Text style={{ color: 'black' }}>
@@ -262,6 +296,19 @@ class ViewExam extends React.Component {
                                                     className="form-control"
                                                     rows="2" ></textarea>
                                                 <br />
+
+                                                <label style={{ color: 'white', fontSize: '20px' }}>Add image: <span style={{ fontSize: '12px' }}>(optional)</span> &ensp;</label>
+                                                <input type="file"
+                                                    name="imgQuest"
+                                                    id="imgQuest"
+                                                    accept="image/*"
+                                                    onChange={this.onChangeImage}
+                                                    className="form-control-sm"
+                                                    style={{ display: 'none' }} />
+                                                <label htmlFor="imgQuest">
+                                                    <Button variant="contained" color="primary" size="small" component="span" style={{ textTransform: 'none' }}><MdOutlineFileUpload />&ensp;Upload</Button>
+                                                </label>
+                                                <br /><br />
 
                                                 <IoRadioButtonOffOutline /><input type="text"
                                                     name="option1"
