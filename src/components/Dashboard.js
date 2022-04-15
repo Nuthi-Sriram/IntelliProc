@@ -18,8 +18,6 @@ import styles from './../styles.module.css';
 
 const Dashboard = (props) => {
 
-  var form_link = sessionStorage.getItem("form_link");
-
   const [countalt, setcountalt] = useState(0);
   const [countctrl, setcountctrl] = useState(0);
   const [countmeta, setcountmeta] = useState(0);
@@ -301,6 +299,7 @@ const Dashboard = (props) => {
                 <p>{minutes === 0 && seconds === 1 ? null : <h1 align="center" style={{ fontSize: '40px' }}>  {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
                 } </p>
               </div>
+              
             </center>
           </div>
 
