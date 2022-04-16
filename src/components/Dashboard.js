@@ -17,7 +17,7 @@ import { MdLogout } from 'react-icons/md';
 import background from './../bg_images/bg18.png';
 import logo from './../logo.png';
 import styles from './../styles.module.css';
-var questionlist, temp=0;
+var questionlist, temp = 0;
 
 const Dashboard = (props) => {
 
@@ -292,11 +292,11 @@ const Dashboard = (props) => {
   }, [temp]);
 
   function previous() {
-    temp = index-1;
+    temp = index - 1;
   }
 
   function next() {
-    temp = index+1;
+    temp = index + 1;
   }
 
   function logout() {
@@ -320,7 +320,7 @@ const Dashboard = (props) => {
       </header>
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className={styles.studentAppHeader}>
-        <div className={styles.firstcolumn} style={{ width: '65%' }}>
+        <div className={styles.firstcolumn} style={{ width: '70%' }}>
           <center>
             <div>
               <h2 class="givecolor">{sessionStorage.getItem("formvalid")}</h2>
@@ -332,11 +332,11 @@ const Dashboard = (props) => {
 
                 <div>
                   <Card style={{ maxHeight: '62vh' }}>
-                    <Card.Header as="h5" style={{ backgroundColor: '#373b40' }}>
+                    <Card.Header as="h5" style={{ backgroundColor: '#373b40', maxHeight: '40vh' }}>
                       {image_question
                         ? <Row>
                           <Col xs={5} style={{ justifyContent: 'center', alignItems: 'center', display: 'flex' }}>{question}</Col>
-                          <Col xs={7}><img style={{ width: '100%', borderRadius: '5px', justifyContent: 'center', alignItems: 'center', display: 'flex' }} src={image_question} /></Col>
+                          <Col xs={7}><img style={{ width: '100%', maxHeight: '35vh', borderRadius: '5px', justifyContent: 'center', alignItems: 'center', display: 'flex' }} src={image_question} /></Col>
                         </Row>
                         : <Row>{question}</Row>
                       }
@@ -345,10 +345,10 @@ const Dashboard = (props) => {
                       <div style={{ textAlign: 'left', fontSize: 'large' }}>
                         <Card.Text style={{ color: 'black' }}>
                           <div class="form-group">
-                            <label><input name="options" value={opt1} type="radio" class="input-radio" />&ensp;{opt1}</label><br/>
-                            <label><input name="options" value={opt2} type="radio" class="input-radio" />&ensp;{opt2}</label><br/>
-                            <label><input name="options" value={opt3} type="radio" class="input-radio" />&ensp;{opt3}</label><br/>
-                            <label><input name="options" value={opt4} type="radio" class="input-radio" />&ensp;{opt4}</label><br/>
+                            <label><input name="options" value={opt1} type="radio" class="input-radio" />&ensp;{opt1}</label><br />
+                            <label><input name="options" value={opt2} type="radio" class="input-radio" />&ensp;{opt2}</label><br />
+                            <label><input name="options" value={opt3} type="radio" class="input-radio" />&ensp;{opt3}</label><br />
+                            <label><input name="options" value={opt4} type="radio" class="input-radio" />&ensp;{opt4}</label>
                           </div>
                         </Card.Text>
                       </div>
@@ -357,12 +357,12 @@ const Dashboard = (props) => {
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', margin: '30px 0' }}>
-                  {index>0
-                  ? <button class="btn btn-primary" onClick={previous}><FaAngleLeft /> Previous</button>
-                  : <button class="btn btn-primary" disabled><FaAngleLeft /> Previous</button>}
-                  {index<questionlist.length-1
-                  ? <button class="btn btn-primary" onClick={() => next()}>Next <FaAngleRight /></button>
-                  : <button class="btn btn-primary" disabled>Next <FaAngleRight /></button>}
+                  {index > 0
+                    ? <button class="btn btn-primary" onClick={previous}><FaAngleLeft /> Previous</button>
+                    : <button class="btn btn-primary" disabled><FaAngleLeft /> Previous</button>}
+                  {index < questionlist.length - 1
+                    ? <button class="btn btn-primary" onClick={() => next()}>Next <FaAngleRight /></button>
+                    : <button class="btn btn-primary" disabled>Next <FaAngleRight /></button>}
                 </div>
               </Col>
               <Col xs={1}></Col>
@@ -371,14 +371,20 @@ const Dashboard = (props) => {
           </center>
         </div>
 
-        <div style={{ width: '35%', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ width: '30%', display: 'flex', flexDirection: 'column' }}>
           <div className={styles.subcolumn}>
             <center>
-              <div style={{ backgroundColor: 'gray' }}>
+              <div style={{ backgroundColor: 'gray', borderRadius: '5px', border: '1px solid darkgrey' }}>
                 {minutes === 0 && seconds === 1 ? null : <h1 align="center" style={{ fontSize: '40px' }}>  {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
                 }
               </div>
-
+              <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', margin: '15px 0' }}>
+                {questionlist.map((_, index) => {
+                  return (
+                    <span style={{ padding: '22px 26px', margin: '5px', backgroundColor: '#b9e0f9', border: '2px solid #0a4c75', borderRadius: '5px', color: 'black', fontSize: '22px', cursor: 'pointer' }}>{index}</span>
+                  );
+                })}
+              </div>
             </center>
           </div>
 
