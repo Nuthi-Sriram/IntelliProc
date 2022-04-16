@@ -11,10 +11,13 @@ import formvalid from './formvalid';
 import firebase from "firebase/app";
 import "./Dashboard2.css";
 import { Container, Row, Col } from 'react-bootstrap';
+import Card from 'react-bootstrap/Card';
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { MdLogout } from 'react-icons/md';
 import background from './../bg_images/bg18.png';
 import logo from './../logo.png';
 import styles from './../styles.module.css';
+var questionlist, temp=0;
 
 const Dashboard = (props) => {
 
@@ -29,6 +32,22 @@ const Dashboard = (props) => {
   sessionStorage.setItem("countmeta", countmeta);
   sessionStorage.setItem("count_tabchange", count_tabchange);
   sessionStorage.setItem("count_fullscreen", count_fullscreen);
+
+  firebase.database().ref("exam_records").child(sessionStorage.getItem("formvalid")).child("questions").on("value", snapshot => {
+    questionlist = [];
+    snapshot.forEach(snap => {
+      // snap.val() is the dictionary with all your keys/values from the 'exam_records' path
+      questionlist.push(snap.val());
+    });
+  });
+
+  const [question, setquestion] = useState(questionlist[0].question);
+  const [image_question, setimage_question] = useState(questionlist[0].imagequest);
+  const [opt1, setopt1] = useState(questionlist[0].option1);
+  const [opt2, setopt2] = useState(questionlist[0].option2);
+  const [opt3, setopt3] = useState(questionlist[0].option3);
+  const [opt4, setopt4] = useState(questionlist[0].option4);
+  const [index, setindex] = useState(0);
 
   // Disable Right click
   if (document.addEventListener) {
@@ -166,7 +185,7 @@ const Dashboard = (props) => {
     con_db.on('value', (snapshot) => {
 
       var s = snapshot.val()
-      var codeexam = sessionStorage.getItem("formvalid", formvalid);
+      var codeexam = sessionStorage.getItem("formvalid");
       con_db.child(codeexam).child(PIDs).set({
         tab: count_tabchange,
         fullscreen: count_fullscreen,
@@ -262,10 +281,28 @@ const Dashboard = (props) => {
     };
   });
 
+  useEffect(() => {
+    setindex(temp);
+    setquestion(questionlist[temp].question);
+    setimage_question(questionlist[temp].imagequest);
+    setopt1(questionlist[temp].option1);
+    setopt2(questionlist[temp].option2);
+    setopt3(questionlist[temp].option3);
+    setopt4(questionlist[temp].option4);
+  }, [temp]);
+
+  function previous() {
+    temp = index-1;
+  }
+
+  function next() {
+    temp = index+1;
+  }
+
   function logout() {
     localStorage.clear();
     window.location.href = '/';
-};
+  };
 
   return (
     <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}></div>
@@ -282,24 +319,66 @@ const Dashboard = (props) => {
         </nav>
       </header>
 
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}  className={styles.studentAppHeader}>
-        <div className={styles.firstcolumn} style={{ width:'65%' }}>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className={styles.studentAppHeader}>
+        <div className={styles.firstcolumn} style={{ width: '65%' }}>
           <center>
             <div>
               <h2 class="givecolor">{sessionStorage.getItem("formvalid")}</h2>
-            </div>
-              jdhsfyukj  uw gfuyjdhh
+            </div><br />
+
+            <Row>
+              <Col xs={1}></Col>
+              <Col xs={10}>
+
+                <div>
+                  <Card style={{ maxHeight: '62vh' }}>
+                    <Card.Header as="h5" style={{ backgroundColor: '#373b40' }}>
+                      {image_question
+                        ? <Row>
+                          <Col xs={5} style={{ justifyContent: 'center', alignItems: 'center', display: 'flex' }}>{question}</Col>
+                          <Col xs={7}><img style={{ width: '100%', borderRadius: '5px', justifyContent: 'center', alignItems: 'center', display: 'flex' }} src={image_question} /></Col>
+                        </Row>
+                        : <Row>{question}</Row>
+                      }
+                    </Card.Header>
+                    <Card.Body style={{ backgroundColor: '#d7dcdf' }}>
+                      <div style={{ textAlign: 'left', fontSize: 'large' }}>
+                        <Card.Text style={{ color: 'black' }}>
+                          <div class="form-group">
+                            <label><input name="options" value={opt1} type="radio" class="input-radio" />&ensp;{opt1}</label><br/>
+                            <label><input name="options" value={opt2} type="radio" class="input-radio" />&ensp;{opt2}</label><br/>
+                            <label><input name="options" value={opt3} type="radio" class="input-radio" />&ensp;{opt3}</label><br/>
+                            <label><input name="options" value={opt4} type="radio" class="input-radio" />&ensp;{opt4}</label><br/>
+                          </div>
+                        </Card.Text>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'space-between', margin: '30px 0' }}>
+                  {index>0
+                  ? <button class="btn btn-primary" onClick={previous}><FaAngleLeft /> Previous</button>
+                  : <button class="btn btn-primary" disabled><FaAngleLeft /> Previous</button>}
+                  {index<questionlist.length-1
+                  ? <button class="btn btn-primary" onClick={() => next()}>Next <FaAngleRight /></button>
+                  : <button class="btn btn-primary" disabled>Next <FaAngleRight /></button>}
+                </div>
+              </Col>
+              <Col xs={1}></Col>
+            </Row>
+
           </center>
         </div>
 
-        <div style={{ width:'35%', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ width: '35%', display: 'flex', flexDirection: 'column' }}>
           <div className={styles.subcolumn}>
             <center>
               <div style={{ backgroundColor: 'gray' }}>
-                <p>{minutes === 0 && seconds === 1 ? null : <h1 align="center" style={{ fontSize: '40px' }}>  {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
-                } </p>
+                {minutes === 0 && seconds === 1 ? null : <h1 align="center" style={{ fontSize: '40px' }}>  {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
+                }
               </div>
-              
+
             </center>
           </div>
 
@@ -307,11 +386,11 @@ const Dashboard = (props) => {
             <center>
               <div className="detect" style={{ margin: '0 auto' }}>
                 <center>
-                {/* Detection Section Starts here*/}
-                <Detection>
+                  {/* Detection Section Starts here*/}
+                  {/*<Detection>
 
-                </Detection>
-                {/*Detection Section ends here */}
+                  </Detection>*/}
+                  {/*Detection Section ends here */}
                 </center>
               </div>
             </center>
