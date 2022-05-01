@@ -147,7 +147,7 @@ const SystemCheck = () => {
 
   /* View in fullscreen */
   function openFullscreen() {
-    /*if (elem.requestFullscreen) {
+    if (elem.requestFullscreen) {
       elem.requestFullscreen();
       history.push("/instructions")
     } else if (elem.webkitRequestFullscreen) { // Safari
@@ -156,7 +156,7 @@ const SystemCheck = () => {
     } else if (elem.msRequestFullscreen) { // IE11
       elem.msRequestFullscreen();
       history.push("/instructions")
-    }*/
+    }
     history.push("/instructions")
   }
   const history = useHistory();

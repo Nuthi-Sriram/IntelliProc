@@ -17,7 +17,7 @@ import { MdLogout } from 'react-icons/md';
 import background from './../bg_images/bg18.png';
 import logo from './../logo.png';
 import styles from './../styles.module.css';
-var questionlist, temp = 0;
+var questionlist, temp = 0, select = '', nulls = [], selected_answers = [];
 
 const Dashboard = (props) => {
 
@@ -41,6 +41,12 @@ const Dashboard = (props) => {
     });
   });
 
+  useEffect(() => {
+    for (let i = 0; i < questionlist.length; i++) {
+      nulls.push('');
+    }
+  });
+
   const [question, setquestion] = useState(questionlist[0].question);
   const [image_question, setimage_question] = useState(questionlist[0].imagequest);
   const [opt1, setopt1] = useState(questionlist[0].option1);
@@ -48,6 +54,7 @@ const Dashboard = (props) => {
   const [opt3, setopt3] = useState(questionlist[0].option3);
   const [opt4, setopt4] = useState(questionlist[0].option4);
   const [index, setindex] = useState(0);
+  const [options, setOptions] = useState(nulls);
 
   // Disable Right click
   if (document.addEventListener) {
@@ -58,13 +65,13 @@ const Dashboard = (props) => {
 
   // Alert on Tab Changed within the Same browser Window
   function handleVisibilityChange() {
-    /*if (document.hidden) {
+    if (document.hidden) {
       //swal("Changed Tab Detected", "Action has been Recorded", "error");
       swal({
         title: 'Changed Tab Detected',
         text: 'Action has been Recorded',
         icon: 'error'
-      }).then(function() {
+      }).then(function () {
         if (elem.requestFullscreen) {
           elem.requestFullscreen();
         } else if (elem.webkitRequestFullscreen) { // Safari //
@@ -78,7 +85,7 @@ const Dashboard = (props) => {
       });
     } else {
       // the page is visible
-    }*/
+    }
   }
   document.addEventListener("visibilitychange", handleVisibilityChange, false);
 
@@ -92,7 +99,7 @@ const Dashboard = (props) => {
 
   var elem = document.documentElement;
 
-  /*// Exit full screen alert
+  // Exit full screen alert
   document.addEventListener('fullscreenchange', (event) => {
     if (document.fullscreenElement) {
       // console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
@@ -101,7 +108,7 @@ const Dashboard = (props) => {
         title: 'Exited full screen',
         text: 'Action has been Recorded',
         icon: 'error'
-      }).then(function() {
+      }).then(function () {
         if (elem.requestFullscreen) {
           elem.requestFullscreen();
         } else if (elem.webkitRequestFullscreen) { // Safari
@@ -117,7 +124,7 @@ const Dashboard = (props) => {
       // history.push("/fullscreenalert");
     }
 
-  });*/
+  });
 
   // Detect usage of keyboard shortcuts
   document.onkeydown = function (event) {
@@ -148,7 +155,6 @@ const Dashboard = (props) => {
   //Displays Score in Thankyou page
   function handleClicksub() {
     var PIDs = sessionStorage.getItem("checkname")
-    //console.log(PIDs)
     var count_multipleFace = sessionStorage.getItem("count_multipleFace")
     var count_fullscreen = sessionStorage.getItem("count_fullscreen")
     var count_tabchange = sessionStorage.getItem("count_tabchange")
@@ -181,12 +187,25 @@ const Dashboard = (props) => {
     // console.log(getImageUrl+"output link");
     // var audiorec=getImageUrl
     //Fetching data from FireBase
-    const con_db = firebase.database().ref("stud_records");
-    con_db.on('value', (snapshot) => {
 
-      var s = snapshot.val()
+    selected_answers = [];
+    var final_result = 0;
+    firebase.database().ref("stud_records").child(sessionStorage.getItem("formvalid")).child(PIDs).child("answers").on("value", snapshot => {
+      snapshot.forEach(snap => {
+        selected_answers.push(snap.val());
+      });
+      console.log("selected answers: ", selected_answers);
+      for (let i = 0; i < questionlist.length; i++) {
+        if (selected_answers[i] && questionlist[i].answer == selected_answers[i].selected) {
+          final_result += parseInt(questionlist[i].marks);
+          console.log("quest, ", questionlist[i].marks);
+          console.log("Hello, ", final_result);
+        }
+      }
+      sessionStorage.setItem("FinalResult", final_result);
+      const con_db = firebase.database().ref("stud_records");
       var codeexam = sessionStorage.getItem("formvalid");
-      con_db.child(codeexam).child(PIDs).set({
+      con_db.child(codeexam).child(PIDs).update({
         tab: count_tabchange,
         fullscreen: count_fullscreen,
         phone: count_phone,
@@ -202,11 +221,12 @@ const Dashboard = (props) => {
         semail: checke,
         sname: checkn,
         photo: photo,
-        audiorec: audiorec
-      })
-    });
+        audiorec: audiorec,
+        result: final_result
+      });
+      history.push('/thankyou');
+    })
 
-    history.push('/thankyou')
   };
 
   // Camera Permission
@@ -291,12 +311,30 @@ const Dashboard = (props) => {
     setopt4(questionlist[temp].option4);
   }, [temp]);
 
+  useEffect(() => {
+    options[index] = select;
+  }, [select]);
+
   function previous() {
     temp = index - 1;
   }
 
   function next() {
     temp = index + 1;
+  }
+
+  function handleOptionChange(changeEvent) {
+    select = changeEvent.target.value;
+    var PIDs = sessionStorage.getItem("checkname");
+    const con_db = firebase.database().ref("stud_records");
+    var codeexam = sessionStorage.getItem("formvalid");
+    con_db.child(codeexam).child(PIDs).child("answers").child(question).update({
+      selected: select,
+    })
+  }
+
+  function onChangeQuestionNav(ind) {
+    temp = ind;
   }
 
   function logout() {
@@ -345,10 +383,30 @@ const Dashboard = (props) => {
                       <div style={{ textAlign: 'left', fontSize: 'large' }}>
                         <Card.Text style={{ color: 'black' }}>
                           <div class="form-group">
-                            <label><input name="options" value={opt1} type="radio" class="input-radio" />&ensp;{opt1}</label><br />
-                            <label><input name="options" value={opt2} type="radio" class="input-radio" />&ensp;{opt2}</label><br />
-                            <label><input name="options" value={opt3} type="radio" class="input-radio" />&ensp;{opt3}</label><br />
-                            <label><input name="options" value={opt4} type="radio" class="input-radio" />&ensp;{opt4}</label>
+                            <label>
+                              {options[index] === opt1
+                                ? <input name="options" value={opt1} type="radio" class="input-radio" checked={true} />
+                                : <input name="options" value={opt1} type="radio" class="input-radio" onChange={handleOptionChange} />
+                              } &ensp;{opt1}
+                            </label><br />
+                            <label>
+                              {options[index] === opt2
+                                ? <input name="options" value={opt2} type="radio" class="input-radio" checked={true} />
+                                : <input name="options" value={opt2} type="radio" class="input-radio" onChange={handleOptionChange} />
+                              } &ensp;{opt2}
+                            </label><br />
+                            <label>
+                              {options[index] === opt3
+                                ? <input name="options" value={opt3} type="radio" class="input-radio" checked={true} />
+                                : <input name="options" value={opt3} type="radio" class="input-radio" onChange={handleOptionChange} />
+                              } &ensp;{opt3}
+                            </label><br />
+                            <label>
+                              {options[index] === opt4
+                                ? <input name="options" value={opt4} type="radio" class="input-radio" checked={true} />
+                                : <input name="options" value={opt4} type="radio" class="input-radio" onChange={handleOptionChange} />
+                              } &ensp;{opt4}
+                            </label><br />
                           </div>
                         </Card.Text>
                       </div>
@@ -362,7 +420,7 @@ const Dashboard = (props) => {
                     : <button class="btn btn-primary" disabled><FaAngleLeft /> Previous</button>}
                   {index < questionlist.length - 1
                     ? <button class="btn btn-primary" onClick={() => next()}>Next <FaAngleRight /></button>
-                    : <button class="btn btn-primary" disabled>Next <FaAngleRight /></button>}
+                    : <button class="btn btn-success" onClick={() => handleClicksub()}>Submit <FaAngleRight /></button>}
                 </div>
               </Col>
               <Col xs={1}></Col>
@@ -378,10 +436,15 @@ const Dashboard = (props) => {
                 {minutes === 0 && seconds === 1 ? null : <h1 align="center" style={{ fontSize: '40px' }}>  {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
                 }
               </div>
-              <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', margin: '15px 0' }}>
+              <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', margin: '35px 0' }}>
                 {questionlist.map((_, index) => {
                   return (
-                    <span style={{ padding: '22px 26px', margin: '5px', backgroundColor: '#b9e0f9', border: '2px solid #0a4c75', borderRadius: '5px', color: 'black', fontSize: '22px', cursor: 'pointer' }}>{index}</span>
+                    <span>
+                      {options[index]
+                        ? <span onClick={() => onChangeQuestionNav(index)} style={{ padding: '22px 26px', margin: '5px', backgroundColor: 'green', border: '2px solid darkgreen', borderRadius: '5px', color: 'white', fontSize: '22px', cursor: 'pointer' }} >{index}</span>
+                        : <span onClick={() => onChangeQuestionNav(index)} style={{ padding: '22px 26px', margin: '5px', backgroundColor: '#b9e0f9', border: '2px solid #0a4c75', borderRadius: '5px', color: 'black', fontSize: '22px', cursor: 'pointer' }} >{index}</span>
+                      }
+                    </span>
                   );
                 })}
               </div>
@@ -393,10 +456,14 @@ const Dashboard = (props) => {
               <div className="detect" style={{ margin: '0 auto' }}>
                 <center>
                   {/* Detection Section Starts here*/}
-                  {/*<Detection>
+                  <Detection>
 
-                  </Detection>*/}
+                  </Detection>
                   {/*Detection Section ends here */}
+
+                  <div style={{ backgroundColor: 'gray', borderRadius: '5px', border: '1px solid darkgrey', marginTop: '300px', width: '100%' }}>
+                    <h1 align="center" style={{ fontSize: '35px' }}>{sessionStorage.getItem("checkname")}</h1>
+                  </div>
                 </center>
               </div>
             </center>
