@@ -150,13 +150,14 @@ const SystemCheck = () => {
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
       history.push("/instructions")
-    } else if (elem.webkitRequestFullscreen) { /* Safari */
+    } else if (elem.webkitRequestFullscreen) { // Safari
       elem.webkitRequestFullscreen();
       history.push("/instructions")
-    } else if (elem.msRequestFullscreen) { /* IE11 */
+    } else if (elem.msRequestFullscreen) { // IE11
       elem.msRequestFullscreen();
       history.push("/instructions")
     }
+    history.push("/instructions")
   }
   const history = useHistory();
 

@@ -67,6 +67,7 @@ class Results extends React.Component {
                 <tr>
                   <th>Name</th>
                   <th>Email</th>
+                  <th>Marks</th>
                   <th>Phone</th>
                   <th>Book</th>
                   <th>Laptop</th>
@@ -90,6 +91,7 @@ class Results extends React.Component {
                     <tr className="pool">
                       <td>{data.sname}</td>
                       <td>{data.semail}</td>
+                      <td>{data.result}</td>
                       <td>{data.phone}</td>
                       <td>{data.book}</td>
                       <td>{data.laptop}</td>

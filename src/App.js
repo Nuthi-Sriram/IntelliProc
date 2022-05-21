@@ -45,7 +45,6 @@ class App extends Component {
           <Route exact path='/dashboard' render={props =>
             <div>
               <Dashboard />
-              <Record />
             </div>
           } />
           <Route exact path="/detections" component={DetectionsPage} />

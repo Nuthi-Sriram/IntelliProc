@@ -26,29 +26,20 @@ const Formvalid = () => {
   }
 
   function handleClickformvalid() {
-    //console.log(formvalid)
-    const con_db = firebase.database().ref("con_dbs");
-
+    const con_db = firebase.database().ref("exam_records");
     //console.log(Object.keys(con_db))
     con_db.on('value', (snapshot) => {
       var s = snapshot.val()
       var d = s[formvalid]
-
       if (d != null) {
-        var form_link = d["formlink"]
-        var exam_timer = d["examtimer"]
-        //console.log(exam_timer);
-        //console.log(form_link);
-        sessionStorage.setItem("form_link", form_link);
+        var exam_timer = d["duration"]
         sessionStorage.setItem("exam_timer", exam_timer);
         sessionStorage.setItem("formvalid", formvalid);
-
         history.push("/Dashboard");
       }
       else {
         swal("Invalid Exam Code", "Please Enter A Valid Examcode", "error");
       }
-
     });
   };
 

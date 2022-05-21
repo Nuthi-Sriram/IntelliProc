@@ -28,13 +28,15 @@ const Thankyou = () => {
                     {/* <h2>Cheat Score</h2> */}
                     <br />
                     <br />
-                    <h3>
+                    <h5>
                         Name: {checkn}
                         <br />
                         <br />
 
                         Email: {checke}
-                    </h3>
+                    </h5>
+
+                    <br/><br/><h3>You have secured {sessionStorage.getItem("FinalResult")} marks!</h3>
 
 
                     {/* <br/> */}
