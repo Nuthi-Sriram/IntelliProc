@@ -2,6 +2,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import Detection from './Detections';
+import { Timer } from "./../views/components";
+import { ReactMic } from "react-mic";
 import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import DetectRTC from 'detectrtc';
@@ -17,6 +19,12 @@ import { MdLogout } from 'react-icons/md';
 import background from './../bg_images/bg18.png';
 import logo from './../logo.png';
 import styles from './../styles.module.css';
+import prettylink from "prettylink";
+
+require('dotenv').config();
+// Init Access Token in constructor 
+const bitly = new prettylink.Bitly(process.env.REACT_APP_BITLY_ACCESS_TOKEN);
+
 var questionlist, temp = 0, select = '', nulls = [], selected_answers = [];
 
 const Dashboard = (props) => {
@@ -26,6 +34,7 @@ const Dashboard = (props) => {
   const [countmeta, setcountmeta] = useState(0);
   const [count_tabchange, setcount_tabchange] = useState(0);
   const [count_fullscreen, setcount_fullscreen] = useState(0);
+  const [record, setrecord] = useState(false);
 
   sessionStorage.setItem("countalt", countalt);
   sessionStorage.setItem("countctrl", countctrl);
@@ -45,7 +54,9 @@ const Dashboard = (props) => {
     for (let i = 0; i < questionlist.length; i++) {
       nulls.push('');
     }
-  });
+    setrecord(true)
+    swal("Welcome to the test!", "Your audio is being recorded!")
+  }, []);
 
   const [question, setquestion] = useState(questionlist[0].question);
   const [image_question, setimage_question] = useState(questionlist[0].imagequest);
@@ -55,6 +66,7 @@ const Dashboard = (props) => {
   const [opt4, setopt4] = useState(questionlist[0].option4);
   const [index, setindex] = useState(0);
   const [options, setOptions] = useState(nulls);
+  const [audio_rec, setAudio_rec] = useState('');
 
   // Disable Right click
   if (document.addEventListener) {
@@ -152,6 +164,10 @@ const Dashboard = (props) => {
     }
   }
 
+  function stopTest() {
+    setrecord(false)
+  }
+
   //Displays Score in Thankyou page
   function handleClicksub() {
     var PIDs = sessionStorage.getItem("checkname")
@@ -187,19 +203,15 @@ const Dashboard = (props) => {
     // console.log(getImageUrl+"output link");
     // var audiorec=getImageUrl
     //Fetching data from FireBase
-
     selected_answers = [];
     var final_result = 0;
     firebase.database().ref("stud_records").child(sessionStorage.getItem("formvalid")).child(PIDs).child("answers").on("value", snapshot => {
       snapshot.forEach(snap => {
         selected_answers.push(snap.val());
       });
-      console.log("selected answers: ", selected_answers);
       for (let i = 0; i < questionlist.length; i++) {
         if (selected_answers[i] && questionlist[i].answer == selected_answers[i].selected) {
           final_result += parseInt(questionlist[i].marks);
-          console.log("quest, ", questionlist[i].marks);
-          console.log("Hello, ", final_result);
         }
       }
       sessionStorage.setItem("FinalResult", final_result);
@@ -337,6 +349,55 @@ const Dashboard = (props) => {
     temp = ind;
   }
 
+  function onData(recordedBlob) { }
+
+  function onStop(recordedBlob) {
+    // Create a root reference
+    var storageRef = firebase.storage().ref();
+    var date = new Date();
+    const blobRef = storageRef.child(
+      `audio/${date.getDate()}/${date.toLocaleTimeString()}.mp3`
+    );
+    try {
+      myfunction();
+      function myfunction() {
+        // put file to firebase 
+        var uploadTask = blobRef.put(recordedBlob.blob);
+        uploadTask.then(function (snapshot) {
+          console.log("Uploaded MP3 to firebase");
+        });
+        uploadTask.on('state_changed', function (snapshot) {
+        }, function (error) {
+          console.log(error);
+        }, function () {
+          uploadTask.snapshot.ref.getDownloadURL().then(
+            function (downloadURL) {
+              bitly.short(downloadURL).then(function (result) {
+                console.log("short_url: " + result.link);
+                var promise = new Promise(function (resolve, reject) {
+                  // call resolve if the method succeeds
+                  sessionStorage.setItem("audiorec", result.link)
+                  resolve(true);
+                })
+                promise.then(bool => handleClicksub())
+              }, function (err) {
+                console.log("URL: " + err.link);
+                var promise = new Promise(function (resolve, reject) {
+                  // call resolve if the method succeeds
+                  sessionStorage.setItem("audiorec", err.link)
+                  resolve(true);
+                })
+                promise.then(bool => handleClicksub())
+              });
+            });
+        });
+      };
+
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   function logout() {
     localStorage.clear();
     window.location.href = '/';
@@ -358,75 +419,95 @@ const Dashboard = (props) => {
       </header>
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className={styles.studentAppHeader}>
-        <div className={styles.firstcolumn} style={{ width: '70%' }}>
-          <center>
-            <div>
-              <h2 class="givecolor">{sessionStorage.getItem("formvalid")}</h2>
-            </div><br />
+        <div style={{ width: '70%', display: 'flex', flexDirection: 'column' }}>
+          <div className={styles.firstcolumn} >
+            <center>
+              <div>
+                <h2 class="givecolor">{sessionStorage.getItem("formvalid")}</h2>
+              </div><br />
 
-            <Row>
-              <Col xs={1}></Col>
-              <Col xs={10}>
+              <Row>
+                <Col xs={1}></Col>
+                <Col xs={10}>
 
-                <div>
-                  <Card style={{ maxHeight: '62vh' }}>
-                    <Card.Header as="h5" style={{ backgroundColor: '#373b40', maxHeight: '40vh' }}>
-                      {image_question
-                        ? <Row>
-                          <Col xs={5} style={{ justifyContent: 'center', alignItems: 'center', display: 'flex' }}>{question}</Col>
-                          <Col xs={7}><img style={{ width: '100%', maxHeight: '35vh', borderRadius: '5px', justifyContent: 'center', alignItems: 'center', display: 'flex' }} src={image_question} /></Col>
-                        </Row>
-                        : <Row>{question}</Row>
-                      }
-                    </Card.Header>
-                    <Card.Body style={{ backgroundColor: '#d7dcdf' }}>
-                      <div style={{ textAlign: 'left', fontSize: 'large' }}>
-                        <Card.Text style={{ color: 'black' }}>
-                          <div class="form-group">
-                            <label>
-                              {options[index] === opt1
-                                ? <input name="options" value={opt1} type="radio" class="input-radio" checked={true} />
-                                : <input name="options" value={opt1} type="radio" class="input-radio" onChange={handleOptionChange} />
-                              } &ensp;{opt1}
-                            </label><br />
-                            <label>
-                              {options[index] === opt2
-                                ? <input name="options" value={opt2} type="radio" class="input-radio" checked={true} />
-                                : <input name="options" value={opt2} type="radio" class="input-radio" onChange={handleOptionChange} />
-                              } &ensp;{opt2}
-                            </label><br />
-                            <label>
-                              {options[index] === opt3
-                                ? <input name="options" value={opt3} type="radio" class="input-radio" checked={true} />
-                                : <input name="options" value={opt3} type="radio" class="input-radio" onChange={handleOptionChange} />
-                              } &ensp;{opt3}
-                            </label><br />
-                            <label>
-                              {options[index] === opt4
-                                ? <input name="options" value={opt4} type="radio" class="input-radio" checked={true} />
-                                : <input name="options" value={opt4} type="radio" class="input-radio" onChange={handleOptionChange} />
-                              } &ensp;{opt4}
-                            </label><br />
-                          </div>
-                        </Card.Text>
-                      </div>
-                    </Card.Body>
-                  </Card>
-                </div>
+                  <div>
+                    <Card style={{ maxHeight: '48vh' }}>
+                      <Card.Header as="h5" style={{ backgroundColor: '#373b40', maxHeight: '40vh' }}>
+                        {image_question
+                          ? <Row>
+                            <Col xs={5} style={{ justifyContent: 'center', alignItems: 'center', display: 'flex' }}>{question}</Col>
+                            <Col xs={7}><img style={{ width: '80%', maxHeight: '26vh', borderRadius: '5px', justifyContent: 'center', alignItems: 'center', display: 'flex' }} src={image_question} /></Col>
+                          </Row>
+                          : <Row>{question}</Row>
+                        }
+                      </Card.Header>
+                      <Card.Body style={{ backgroundColor: '#d7dcdf' }}>
+                        <div style={{ textAlign: 'left', fontSize: 'large' }}>
+                          <Card.Text style={{ color: 'black' }}>
+                            <div class="form-group">
+                              <label>
+                                {options[index] === opt1
+                                  ? <input name="options" value={opt1} type="radio" class="input-radio" checked={true} />
+                                  : <input name="options" value={opt1} type="radio" class="input-radio" onChange={handleOptionChange} />
+                                } &ensp;{opt1}
+                              </label><br />
+                              <label>
+                                {options[index] === opt2
+                                  ? <input name="options" value={opt2} type="radio" class="input-radio" checked={true} />
+                                  : <input name="options" value={opt2} type="radio" class="input-radio" onChange={handleOptionChange} />
+                                } &ensp;{opt2}
+                              </label><br />
+                              <label>
+                                {options[index] === opt3
+                                  ? <input name="options" value={opt3} type="radio" class="input-radio" checked={true} />
+                                  : <input name="options" value={opt3} type="radio" class="input-radio" onChange={handleOptionChange} />
+                                } &ensp;{opt3}
+                              </label><br />
+                              <label>
+                                {options[index] === opt4
+                                  ? <input name="options" value={opt4} type="radio" class="input-radio" checked={true} />
+                                  : <input name="options" value={opt4} type="radio" class="input-radio" onChange={handleOptionChange} />
+                                } &ensp;{opt4}
+                              </label><br />
+                            </div>
+                          </Card.Text>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', margin: '30px 0' }}>
-                  {index > 0
-                    ? <button class="btn btn-primary" onClick={previous}><FaAngleLeft /> Previous</button>
-                    : <button class="btn btn-primary" disabled><FaAngleLeft /> Previous</button>}
-                  {index < questionlist.length - 1
-                    ? <button class="btn btn-primary" onClick={() => next()}>Next <FaAngleRight /></button>
-                    : <button class="btn btn-success" onClick={() => handleClicksub()}>Submit <FaAngleRight /></button>}
-                </div>
-              </Col>
-              <Col xs={1}></Col>
-            </Row>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', margin: '30px 0' }}>
+                    {index > 0
+                      ? <button class="btn btn-primary" onClick={previous}><FaAngleLeft /> Previous</button>
+                      : <button class="btn btn-primary" disabled><FaAngleLeft /> Previous</button>}
+                    {index < questionlist.length - 1
+                      ? <button class="btn btn-primary" onClick={() => next()}>Next <FaAngleRight /></button>
+                      : <button class="btn btn-success" onClick={() => stopTest()}>Submit <FaAngleRight /></button>}
+                  </div>
 
-          </center>
+                </Col>
+                <Col xs={1}></Col>
+              </Row>
+
+            </center>
+          </div>
+
+          <div className={styles.recordingrow}>
+            <center>
+              <h5 class="givecolor">Audio Recording:</h5>
+              {/* recording Section Starts here*/}
+              {/* <Timer begin={record} /> */}
+              <ReactMic
+                record={record}
+                className="sound-wave"
+                onStop={onStop}
+                onData={onData}
+                strokeColor="#000000"
+                backgroundColor="#282c34"
+              />
+              {/* recording Section ends here */}
+            </center>
+          </div>
         </div>
 
         <div style={{ width: '30%', display: 'flex', flexDirection: 'column' }}>
