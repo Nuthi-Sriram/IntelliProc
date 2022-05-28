@@ -16,8 +16,6 @@ import "./Dashboard2.css";
 
 const Dashboard = (props) => {
 
-
-
   var countalt = 0;
   var countctrl = 0;
 
@@ -96,66 +94,30 @@ const Dashboard = (props) => {
   //Displays Score in Thankyou page
   function handleClicksub() {
     var PIDs = sessionStorage.getItem("checkname")
-    //console.log(PIDs)
-    var count_multipleFace = sessionStorage.getItem("count_multipleFace")
     var count_fullscreen = sessionStorage.getItem("count_fullscreen")
     var count_tabchange = sessionStorage.getItem("count_tabchange")
     var count_phone = sessionStorage.getItem("count_phone")
     var count_book = sessionStorage.getItem("count_book")
-    var count_laptop = sessionStorage.getItem("count_laptop")
-    var count_noFace = sessionStorage.getItem("count_noFace")
     var countalt = sessionStorage.getItem("countalt")
     var countctrl = sessionStorage.getItem("countctrl")
     var checkn = sessionStorage.getItem("checkname")
     var checke = sessionStorage.getItem("checkemail")
     var photo = sessionStorage.getItem("imageSrc")
+
     //Fetching data from FireBase
     const con_db = firebase.database().ref("studmobile_records");
-    // const con_db2 = firebase.database().ref("studmobile_records");
-    con_db.on('value', (snapshot) => {
-
-
-      var s = snapshot.val()
-      var codeexam = sessionStorage.getItem("formvalid", formvalid);
-      //var codeexam =  s[d]
-      //console.log(s)
-      con_db.child(codeexam).child(PIDs).set({
-        tab: count_tabchange,
-        fullscreen: count_fullscreen,
-        phone: count_phone,
-        book: count_book,
-        laptop: count_laptop,
-        noFace: count_noFace,
-        face: count_multipleFace,
-        alt: countalt,
-        ctrl: countctrl,
-        semail: checke,
-        sname: checkn,
-        photo: photo
-
-      })
+    var codeexam = sessionStorage.getItem("formvalid", formvalid);
+    con_db.child(codeexam).child(PIDs).update({
+      tab: count_tabchange,
+      fullscreen: count_fullscreen,
+      phone: count_phone,
+      book: count_book,
+      alt: countalt,
+      ctrl: countctrl,
+      semail: checke,
+      sname: checkn,
+      photo: photo
     });
-
-    // con_db2.on('value', (snapshot) => {
-
-
-    //   var s = snapshot.val()
-    //   var codeexam = sessionStorage.getItem("formvalid", formvalid);
-    //   //var codeexam =  s[d]
-    //   //console.log(s)
-    //   con_db2.child(codeexam).child(PIDs).set({
-
-    //     fullscreen: count_fullscreen,
-    //     phone: count_phone,
-    //     book: count_book,
-    //     laptop: count_laptop,
-    //     semail: checke,
-    //     sname: checkn,
-    //     photo: photo
-
-    //   })
-    // });
-
     history.push('/thankyou')
   };
 
@@ -238,7 +200,6 @@ const Dashboard = (props) => {
 
   return (
 
-
     <div className="App-header" id="Dash">
 
       <header>
@@ -276,8 +237,6 @@ const Dashboard = (props) => {
           {/* <br/> */}
 
         </div>
-
-
 
         {/* <iframe src={isAllowed} id='form'>Loading…</iframe > */}
 

@@ -60,32 +60,33 @@ const ValidatePage = () => {
 
     </center><Container fluid style={{ color: 'white', marginTop: '20px' }}>
         <Row>
-          <Col sm={6} style={{ paddingLeft: 0, paddingRight: 0 }}>
+
+          <Col sm={12} lg={6} style={{ paddingLeft: 0, paddingRight: 0 }}>
             <center>
               <label style={{ color: 'white', fontSize: '20px' }}>Mobile Camera: </label><br />
               <Webcam
-                style={{ borderRadius: '10px' }}
+                style={{ borderRadius: '10px', width: '95%', marginBottom: '5px' }}
                 audio={false}
                 ref={webcamRef}
-                screenshotFormat="image/jpeg" /></center>
-
+                screenshotFormat="image/jpeg" /><br/>
+              <button type="reset" class="btn btn-primary" onClick={capture}>Capture Photo</button><br/><br/>
+            </center>
           </Col>
-          <Col sm={6}>
+
+          <Col sm={12} lg={6} style={{ paddingLeft: 0, paddingRight: 0 }}>
             <center>
               <label style={{ color: 'white', fontSize: '20px' }}>Captured Image: </label><br />
               {imgSrc && (
                 <img
-                  style={{ borderRadius: '10px' }}
+                  style={{ borderRadius: '10px',  width: '95%', marginBottom: '5px' }}
                   src={imgSrc} />
-              )}</center>
-
+              )}
+              <button type="submit" class="btn btn-success" onClick={handleClick} disabled={buttonfield}>Confirm and move to the exam</button>
+            </center>
           </Col>
+
         </Row>
-      </Container>
-      <div style={{ display: 'flex', justifyContent: 'space-around', margin: '20px 0' }}>
-        <button type="reset" class="btn btn-primary" onClick={capture}>Capture Photo</button>
-        <button type="submit" class="btn btn-success" onClick={handleClick} disabled={buttonfield}>Confirm and move to the exam</button>
-      </div></>
+      </Container></>
   )
 }
 

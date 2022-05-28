@@ -1,15 +1,13 @@
 import React from "react";
 import swal from 'sweetalert';
-//import count from './Login';
+import firebase from "firebase/app";
+import { useEffect } from 'react';
 import * as cocoSsd from "@tensorflow-models/coco-ssd";
 import "@tensorflow/tfjs";
 import "./Detections.css";
 var count_phone = 0;
 var count_book = 0;
-var count_laptop = 0;
-var count_noFace = 0;
-var count_multipleFace = 0;
-
+var laptop = true;
 
 export default class Detection extends React.Component {
   videoRef = React.createRef();
@@ -23,8 +21,8 @@ export default class Detection extends React.Component {
           audio: false,
           video: {
             facingMode: "user",
-            width: 500,
-            height: 300
+            width: 350,
+            height: 250
           }
         })
         .then(stream => {
@@ -53,8 +51,6 @@ export default class Detection extends React.Component {
         sessionStorage.setItem("count_phone", false);
         sessionStorage.setItem("count_book", false);
         sessionStorage.setItem("count_laptop", false);
-        sessionStorage.setItem("count_noFace", false);
-        sessionStorage.setItem("count_multipleFace", false);
         this.renderPredictions(predictions);
         requestAnimationFrame(() => {
           this.detectFrame(video, model);
@@ -89,14 +85,10 @@ export default class Detection extends React.Component {
       const textHeight = parseInt(font, 10); // base 10
       ctx.fillRect(x, y, textWidth + 8, textHeight + 8);
 
-      let multipleFace = 0;
       for (let i = 0; i < predictions.length; i++) {
 
-        //Face,object detection
-        if (predictions[i].class === "person") {
-          multipleFace = multipleFace + 1;
-        }
-        else if (predictions[i].class === "cell phone") {
+        // Object detection
+        if (predictions[i].class === "cell phone") {
           swal("Cell Phone Detected", "Action has been Recorded", "error");
           count_phone = count_phone + 1;
         }
@@ -104,18 +96,21 @@ export default class Detection extends React.Component {
           swal("Book Detected", "Action has been Recorded", "error");
           count_book = count_book + 1;
         }
-        else if (predictions[i].class === "laptop") {
+        else if (predictions[i].class === "laptop" && laptop === false) {
           // swal("Laptop Detected", "Action has been Recorded", "error");
-          count_laptop = count_laptop + 1;
+          laptop = true
+          const con_db = firebase.database().ref("studmobile_records");
+          con_db.child(sessionStorage.getItem("formvalid")).child(sessionStorage.getItem("checkname")).update({
+            laptop: true
+          });
         }
-        else if (predictions[i].class !== "person") {
-          // swal("Face Not Visible", "Action has been Recorded", "error");
-          count_noFace = count_noFace + 1;
+        else if (predictions[i].class !== "laptop" && laptop === true) {
+          laptop = false
+          const con_db = firebase.database().ref("studmobile_records");
+          con_db.child(sessionStorage.getItem("formvalid")).child(sessionStorage.getItem("checkname")).update({
+            laptop: false
+          });
         }
-      }
-      if (multipleFace > 1) {
-        swal("Multiple Faces Detected", "Action has been Recorded", "error");
-        count_multipleFace = count_multipleFace + 1;
       }
     });
 
@@ -132,18 +127,10 @@ export default class Detection extends React.Component {
       }
     });
     //console.log("final")
-    //console.log(count_facedetect)
     if (count_phone)
       sessionStorage.setItem("count_phone", true);
     if (count_book)
       sessionStorage.setItem("count_book", true);
-    if (count_laptop)
-      sessionStorage.setItem("count_laptop", true);
-    if (count_noFace)
-      sessionStorage.setItem("count_noFace", true);
-    if (count_multipleFace)
-      sessionStorage.setItem("count_multipleFace", true);
-
   };
 
   render() {
@@ -155,14 +142,14 @@ export default class Detection extends React.Component {
           playsInline
           muted
           ref={this.videoRef}
-          width="500"
-          height="300"
+          width="350"
+          height="250"
         />
         <canvas
           className="size"
           ref={this.canvasRef}
-          width="500"
-          height="300"
+          width="350"
+          height="250"
         />
       </div>
     );

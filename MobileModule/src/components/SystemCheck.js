@@ -162,13 +162,14 @@ const SystemCheck = () => {
 
 
   return (
-    <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}> </div><div class="main">
+    <><div style={{ backgroundImage: "url(" + background + ")" }} className={styles.bg}> </div>
+    <div class="main">
       <p class="sign" align="center">Mobile Compatibility Check</p>
       <table align="center">
         <tbody><tr>
           <td class="text-center">
             <div>
-              <img src={icon} alt="System combatibility" id="classIcon" />
+              <img src={icon} alt="System compatibility" id="classIcon" />
             </div>
           </td>
           <td>
