@@ -49,6 +49,7 @@ class ViewExam extends React.Component {
                 sessionStorage.setItem("starttime", details.starttime);
                 sessionStorage.setItem("endtime", details.endtime);
                 sessionStorage.setItem("totalmarks", details.totalmarks);
+                sessionStorage.setItem("proctortype", details.proctortype);
             }
         });
         firebase.database().ref("exam_records").child(childnode).child("questions").on("value", snapshot => {
@@ -177,26 +178,51 @@ class ViewExam extends React.Component {
         });
         console.log("studentList: ",studentList);
         swal("Sending email notifications...","","success");
-        for (let i = 0; i < studentList.length; i++) {
-            console.log("Hello");
-            try {
-            emailjs.send(process.env.REACT_APP_EMAIL_SERVICE_ID, process.env.REACT_APP_EMAIL_TEMPLATE_ID, {
-                to_name: studentList[i].studentname,
-                start_time: sessionStorage.getItem("starttime"),
-                end_time: sessionStorage.getItem("endtime"),
-                exam_code: sessionStorage.getItem("examid"),
-                to_email: studentList[i].studentmail,
-            }, process.env.REACT_APP_EMAIL_USER_ID)
-                .then(function (response) {
-                    console.log('SUCCESS! ', i, ' ', response.status);
-                }, function (error) {
-                    console.log('FAILED...', i, ' ', error);
-                });
-            } catch(e) {
-                console.log("Exception error: ", e);
+        if(sessionStorage.getItem("proctortype") == "Dual camera proctoring") {
+            for (let i = 0; i < studentList.length; i++) {
+                console.log("Hello_dual");
+                try {
+                emailjs.send(process.env.REACT_APP_EMAIL_SERVICE_ID, process.env.REACT_APP_DUAL_CAMERA_EMAIL_TEMPLATE_ID, {
+                    to_name: studentList[i].studentname,
+                    start_time: sessionStorage.getItem("starttime"),
+                    end_time: sessionStorage.getItem("endtime"),
+                    exam_code: sessionStorage.getItem("examid"),
+                    to_email: studentList[i].studentmail,
+                }, process.env.REACT_APP_EMAIL_USER_ID)
+                    .then(function (response) {
+                        console.log('SUCCESS! ', i, ' ', response.status);
+                    }, function (error) {
+                        console.log('FAILED...', i, ' ', error);
+                    });
+                } catch(e) {
+                    console.log("Exception error: ", e);
+                }
+                console.log("Student ",i);
+                setTimeout(() => {  swal("Email Notifications sent!", "Done", "success"); }, 1000);
             }
-            console.log("Student ",i);
-            setTimeout(() => {  swal("Email Notifications sent!", "Done", "success"); }, 1000);
+        }
+        else {
+            for (let i = 0; i < studentList.length; i++) {
+                console.log("Hello_single");
+                try {
+                emailjs.send(process.env.REACT_APP_EMAIL_SERVICE_ID, process.env.REACT_APP_SINGLE_CAMERA_EMAIL_TEMPLATE_ID, {
+                    to_name: studentList[i].studentname,
+                    start_time: sessionStorage.getItem("starttime"),
+                    end_time: sessionStorage.getItem("endtime"),
+                    exam_code: sessionStorage.getItem("examid"),
+                    to_email: studentList[i].studentmail,
+                }, process.env.REACT_APP_EMAIL_USER_ID)
+                    .then(function (response) {
+                        console.log('SUCCESS! ', i, ' ', response.status);
+                    }, function (error) {
+                        console.log('FAILED...', i, ' ', error);
+                    });
+                } catch(e) {
+                    console.log("Exception error: ", e);
+                }
+                console.log("Student ",i);
+                setTimeout(() => {  swal("Email Notifications sent!", "Done", "success"); }, 1000);
+            }
         }
     };
 
