@@ -24,7 +24,7 @@ import prettylink from "prettylink";
 require('dotenv').config();
 // Init Access Token in constructor 
 const bitly = new prettylink.Bitly(process.env.REACT_APP_BITLY_ACCESS_TOKEN);
-
+//const MINUTE_IN_MS = 60000;
 var questionlist, temp = 0, select = '', nulls = [], selected_answers = [];
 
 const Dashboard = (props) => {
@@ -35,6 +35,7 @@ const Dashboard = (props) => {
   const [count_tabchange, setcount_tabchange] = useState(0);
   const [count_fullscreen, setcount_fullscreen] = useState(0);
   const [record, setrecord] = useState(false);
+  const [dualproctor, setdualproctor] = useState(sessionStorage.getItem("proctortype"));
 
   sessionStorage.setItem("countalt", countalt);
   sessionStorage.setItem("countctrl", countctrl);
@@ -48,7 +49,28 @@ const Dashboard = (props) => {
       // snap.val() is the dictionary with all your keys/values from the 'exam_records' path
       questionlist.push(snap.val());
     });
+  }, (errorObject) => {
+    console.log('Questions read failed: ' + errorObject.name);
   });
+
+  if(dualproctor == "Dual camera proctoring") {
+    firebase.database().ref("studmobile_records").child(sessionStorage.getItem("formvalid")).child(sessionStorage.getItem("checkname")).on("value", snapshot => {
+      if (snapshot.val()) {
+        if(!snapshot.val().laptop)
+          swal("Laptop not found!","Please place your phone in a position where your laptop is visible", "error")
+      }
+    }, (errorObject) => {
+      console.log('Laptop value read failed: ' + errorObject.name);
+    });
+  }
+
+  /*useEffect(() => {
+    const interval = setInterval(() => {
+      console.log('Logs every minute');
+    }, MINUTE_IN_MS);
+
+    return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+  }, [])*/
 
   useEffect(() => {
     for (let i = 0; i < questionlist.length; i++) {
@@ -131,8 +153,6 @@ const Dashboard = (props) => {
         setcount_fullscreen(count_fullscreen + 1);
         sessionStorage.setItem("count_fullscreen", count_fullscreen);
       });
-
-      //swal("Exited full screen", "Action has been Recorded", "error");
       // history.push("/fullscreenalert");
     }
 
