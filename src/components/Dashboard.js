@@ -35,6 +35,7 @@ const Dashboard = (props) => {
   const [count_tabchange, setcount_tabchange] = useState(0);
   const [count_fullscreen, setcount_fullscreen] = useState(0);
   const [record, setrecord] = useState(false);
+  const [dualproctor, setdualproctor] = useState(sessionStorage.getItem("proctortype"));
 
   sessionStorage.setItem("countalt", countalt);
   sessionStorage.setItem("countctrl", countctrl);
@@ -52,14 +53,16 @@ const Dashboard = (props) => {
     console.log('Questions read failed: ' + errorObject.name);
   });
 
-  firebase.database().ref("studmobile_records").child(sessionStorage.getItem("formvalid")).child(sessionStorage.getItem("checkname")).on("value", snapshot => {
-    if (snapshot.val()) {
-      if(!snapshot.val().laptop)
-        swal("Laptop not found!","Please place your phone in a position where your laptop is visible", "error")
-    }
-  }, (errorObject) => {
-    console.log('Laptop value read failed: ' + errorObject.name);
-  });
+  if(dualproctor == "Dual camera proctoring") {
+    firebase.database().ref("studmobile_records").child(sessionStorage.getItem("formvalid")).child(sessionStorage.getItem("checkname")).on("value", snapshot => {
+      if (snapshot.val()) {
+        if(!snapshot.val().laptop)
+          swal("Laptop not found!","Please place your phone in a position where your laptop is visible", "error")
+      }
+    }, (errorObject) => {
+      console.log('Laptop value read failed: ' + errorObject.name);
+    });
+  }
 
   /*useEffect(() => {
     const interval = setInterval(() => {

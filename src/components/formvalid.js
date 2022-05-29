@@ -35,6 +35,7 @@ const Formvalid = () => {
         var exam_timer = d["duration"]
         sessionStorage.setItem("exam_timer", exam_timer);
         sessionStorage.setItem("formvalid", formvalid);
+        sessionStorage.setItem("proctortype", d["proctortype"])
         history.push("/Dashboard");
       }
       else {

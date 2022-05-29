@@ -16,6 +16,8 @@ const CreateExam = () => {
     const [startTime, setStartTime] = useState('')
     const [endtime, setEndtime] = useState('')
     const [endTime, setEndTime] = useState('')
+    const [proctorType, setProctorType] = useState('')
+
     var classlist = [];
     firebase.database().ref("class_records").on("value", snapshot => {
         snapshot.forEach(snap => {
@@ -44,6 +46,10 @@ const CreateExam = () => {
         date = date.toLocaleDateString() + ", " + date.toLocaleTimeString();
         setEndTime(date);
     };
+
+    const onChangeProctorType = (e) => {
+        setProctorType(e.target.value);
+    }
 
     const onChangecheckbox = (val) => {
         classarray[classlist.indexOf(val)] = !classarray[classlist.indexOf(val)];
@@ -86,7 +92,8 @@ const CreateExam = () => {
             starttime: startTime,
             endtime: endTime,
             totalmarks: 0,
-            duration: time_duration
+            duration: time_duration,
+            proctortype: proctorType
         });
         for(let i=0,j=0;i<classlist.length;i++){
             if(classarray[i]) {
@@ -148,6 +155,18 @@ const CreateExam = () => {
                             onChange={onChangeEndtime}
                             className="form-control"
                             required />
+                        <br />
+
+                        <label for="proctor" style={{ color: 'white', fontSize: '20px' }}>Type of proctoring: </label>
+                        <select name="proctor"
+                            id="proctor"
+                            className="form-control"
+                            onChange={onChangeProctorType}
+                            required >
+                            <option disabled selected>Select proctoring type</option>
+                            <option value="Single camera proctoring">Single camera proctoring</option>
+                            <option value="Dual camera proctoring">Dual camera proctoring</option>
+                        </select>
                         <br />
 
                         <label style={{ color: 'white', fontSize: '20px' }}>Select classes: </label>
