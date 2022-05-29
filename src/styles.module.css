@@ -150,3 +150,7 @@
     border: 1px solid antiquewhite;
     min-height: calc(50vh - 55px);
 }
+
+.whiteboard {
+    margin: 5px 10px 5px 10px;
+}

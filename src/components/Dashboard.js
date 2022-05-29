@@ -20,6 +20,7 @@ import background from './../bg_images/bg18.png';
 import logo from './../logo.png';
 import styles from './../styles.module.css';
 import prettylink from "prettylink";
+import { BigWhiteboard } from 'react-component-whiteboard'
 
 require('dotenv').config();
 // Init Access Token in constructor 
@@ -53,11 +54,11 @@ const Dashboard = (props) => {
     console.log('Questions read failed: ' + errorObject.name);
   });
 
-  if(dualproctor == "Dual camera proctoring") {
+  if (dualproctor == "Dual camera proctoring") {
     firebase.database().ref("studmobile_records").child(sessionStorage.getItem("formvalid")).child(sessionStorage.getItem("checkname")).on("value", snapshot => {
       if (snapshot.val()) {
-        if(!snapshot.val().laptop)
-          swal("Laptop not found!","Please place your phone in a position where your laptop is visible", "error")
+        if (!snapshot.val().laptop)
+          swal("Laptop not found!", "Please place your phone in a position where your laptop is visible", "error")
       }
     }, (errorObject) => {
       console.log('Laptop value read failed: ' + errorObject.name);
@@ -570,6 +571,12 @@ const Dashboard = (props) => {
             </center>
           </div>
         </div>
+      </div>
+
+      <div className={styles.whiteboard}>
+        <center>
+          <BigWhiteboard height="300" width="1600" />
+        </center>
       </div></>
   )
 }
