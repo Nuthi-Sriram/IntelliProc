@@ -27,6 +27,7 @@
     "prettylink": "^1.0.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.6.0",
+    "react-component-whiteboard": "^1.1.1",
     "react-countdown-circle-timer": "^2.5.1",
     "react-dom": "^16.13.1",
     "react-google-login": "^5.2.2",
