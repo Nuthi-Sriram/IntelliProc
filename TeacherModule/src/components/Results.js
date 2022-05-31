@@ -127,7 +127,6 @@ class Results extends React.Component {
                   <th>ExitFullScreen</th>
                   <th>Phone</th>
                   <th>Book</th>
-                  <th>Laptop</th>
                   <th>Device Photo</th>
                 </tr>
               </thead>
@@ -142,9 +141,6 @@ class Results extends React.Component {
                       <td>{data.fullscreen}</td>
                       <td>{data.phone}</td>
                       <td>{data.book}</td>
-                      <td>{data.laptop}</td>
-
-
                       <td> {<img src={data.photo} alt="presence of laptop" width="150px" height="100px" style={{ borderRadius: '5px' }} />}
                       </td>
                     </tr>
