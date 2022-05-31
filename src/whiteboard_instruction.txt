@@ -1,0 +1,2716 @@
+/*
+
+In order to make the whiteboard work properly, after doing "npm install", follow the next steps:
+1) Go to nodemodules -> react_component_whiteboard -> dist -> index.js
+2) Remove all the contents from the index.js file
+3) Copy paste the contents of this txt file to inde.js file
+
+*/
+
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("react"), require("prop-types"), require("us-common-utils"));
+	else if(typeof define === 'function' && define.amd)
+		define(["react", "prop-types", "us-common-utils"], factory);
+	else if(typeof exports === 'object')
+		exports["component-whiteboard"] = factory(require("react"), require("prop-types"), require("us-common-utils"));
+	else
+		root["component-whiteboard"] = factory(root[undefined], root[undefined], root[undefined]);
+})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_0__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/dist/";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_0__;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function (useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if (item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function (modules, mediaQuery) {
+		if (typeof modules === "string") modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for (var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if (typeof id === "number") alreadyImportedModules[id] = true;
+		}
+		for (i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if (typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if (mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if (mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */';
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+var stylesInDom = {};
+
+var	memoize = function (fn) {
+	var memo;
+
+	return function () {
+		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+		return memo;
+	};
+};
+
+var isOldIE = memoize(function () {
+	// Test for IE <= 9 as proposed by Browserhacks
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// Tests for existence of standard globals is to allow style-loader
+	// to operate correctly into non-standard environments
+	// @see https://github.com/webpack-contrib/style-loader/issues/177
+	return window && document && document.all && !window.atob;
+});
+
+var getElement = (function (fn) {
+	var memo = {};
+
+	return function(selector) {
+		if (typeof memo[selector] === "undefined") {
+			memo[selector] = fn.call(this, selector);
+		}
+
+		return memo[selector]
+	};
+})(function (target) {
+	return document.querySelector(target)
+});
+
+var singleton = null;
+var	singletonCounter = 0;
+var	stylesInsertedAtTop = [];
+
+var	fixUrls = __webpack_require__(17);
+
+module.exports = function(list, options) {
+	if (typeof DEBUG !== "undefined" && DEBUG) {
+		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+
+	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (!options.singleton) options.singleton = isOldIE();
+
+	// By default, add <style> tags to the <head> element
+	if (!options.insertInto) options.insertInto = "head";
+
+	// By default, add <style> tags to the bottom of the target
+	if (!options.insertAt) options.insertAt = "bottom";
+
+	var styles = listToStyles(list, options);
+
+	addStylesToDom(styles, options);
+
+	return function update (newList) {
+		var mayRemove = [];
+
+		for (var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+
+		if(newList) {
+			var newStyles = listToStyles(newList, options);
+			addStylesToDom(newStyles, options);
+		}
+
+		for (var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+
+			if(domStyle.refs === 0) {
+				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+};
+
+function addStylesToDom (styles, options) {
+	for (var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+
+		if(domStyle) {
+			domStyle.refs++;
+
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles (list, options) {
+	var styles = [];
+	var newStyles = {};
+
+	for (var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = options.base ? item[0] + options.base : item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+
+		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+		else newStyles[id].parts.push(part);
+	}
+
+	return styles;
+}
+
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto)
+
+	if (!target) {
+		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+	}
+
+	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+	if (options.insertAt === "top") {
+		if (!lastStyleElementInsertedAtTop) {
+			target.insertBefore(style, target.firstChild);
+		} else if (lastStyleElementInsertedAtTop.nextSibling) {
+			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			target.appendChild(style);
+		}
+		stylesInsertedAtTop.push(style);
+	} else if (options.insertAt === "bottom") {
+		target.appendChild(style);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+	if(idx >= 0) {
+		stylesInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement (options) {
+	var style = document.createElement("style");
+
+	options.attrs.type = "text/css";
+
+	addAttrs(style, options.attrs);
+	insertStyleElement(options, style);
+
+	return style;
+}
+
+function createLinkElement (options) {
+	var link = document.createElement("link");
+
+	options.attrs.type = "text/css";
+	options.attrs.rel = "stylesheet";
+
+	addAttrs(link, options.attrs);
+	insertStyleElement(options, link);
+
+	return link;
+}
+
+function addAttrs (el, attrs) {
+	Object.keys(attrs).forEach(function (key) {
+		el.setAttribute(key, attrs[key]);
+	});
+}
+
+function addStyle (obj, options) {
+	var style, update, remove, result;
+
+	// If a transform function was defined, run it on the css
+	if (options.transform && obj.css) {
+	    result = options.transform(obj.css);
+
+	    if (result) {
+	    	// If transform returns a value, use that instead of the original css.
+	    	// This allows running runtime transformations on the css.
+	    	obj.css = result;
+	    } else {
+	    	// If the transform function returns a falsy value, don't add this css.
+	    	// This allows conditional loading of css
+	    	return function() {
+	    		// noop
+	    	};
+	    }
+	}
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+
+		style = singleton || (singleton = createStyleElement(options));
+
+		update = applyToSingletonTag.bind(null, style, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+	} else if (
+		obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function"
+	) {
+		style = createLinkElement(options);
+		update = updateLink.bind(null, style, options);
+		remove = function () {
+			removeStyleElement(style);
+
+			if(style.href) URL.revokeObjectURL(style.href);
+		};
+	} else {
+		style = createStyleElement(options);
+		update = applyToTag.bind(null, style);
+		remove = function () {
+			removeStyleElement(style);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle (newObj) {
+		if (newObj) {
+			if (
+				newObj.css === obj.css &&
+				newObj.media === obj.media &&
+				newObj.sourceMap === obj.sourceMap
+			) {
+				return;
+			}
+
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag (style, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = style.childNodes;
+
+		if (childNodes[index]) style.removeChild(childNodes[index]);
+
+		if (childNodes.length) {
+			style.insertBefore(cssNode, childNodes[index]);
+		} else {
+			style.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag (style, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		style.setAttribute("media", media)
+	}
+
+	if(style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		while(style.firstChild) {
+			style.removeChild(style.firstChild);
+		}
+
+		style.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink (link, options, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	/*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+	if (options.convertToAbsoluteUrls || autoFixUrls) {
+		css = fixUrls(css);
+	}
+
+	if (sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = link.href;
+
+	link.href = URL.createObjectURL(blob);
+
+	if(oldSrc) URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _usCommonUtils = __webpack_require__(4);
+
+var _draw = __webpack_require__(10);
+
+var _draw2 = _interopRequireDefault(_draw);
+
+var _mousefollow = __webpack_require__(11);
+
+var _mousefollow2 = _interopRequireDefault(_mousefollow);
+
+var _screenshots = __webpack_require__(12);
+
+var _screenshots2 = _interopRequireDefault(_screenshots);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var toolType = ['pen', 'line', 'rect', 'circle', 'poly', 'eraser'];
+
+var Whiteboard = function Whiteboard(options) {
+  var _this = this;
+
+  _classCallCheck(this, Whiteboard);
+
+  Object.defineProperty(this, 'addScrollEvent', {
+    enumerable: true,
+    writable: true,
+    value: function value() {
+      (0, _usCommonUtils.addEvent)(window, 'scroll', function () {
+        var scrollTop = document.documentElement.scrollTop;
+        _this.updateScrollTop(scrollTop);
+      });
+    }
+  });
+  Object.defineProperty(this, 'fillColor', {
+    enumerable: true,
+    writable: true,
+    value: function value(color) {
+      _this.draw = new _draw2.default(_this.context, {
+        styleType: 'fill',
+        color: color || '#000000',
+        rainbow: false,
+        screenWidth: _this.whiteboard.width,
+        screenHeight: _this.whiteboard.height,
+
+        lineWidth: _this.whiteboard.lineWidth
+      });
+      _this.draw.rect(0, 0, _this.whiteboard.width, _this.whiteboard.height);
+    }
+  });
+  Object.defineProperty(this, 'init', {
+    enumerable: true,
+    writable: true,
+    value: function value() {
+      // 初始化鼠标跟随类
+      if (_this.allowMousefollow && _this.followEle) {
+        _this.mousefollow = new _mousefollow2.default({
+          id: _this.options.id + 'Follow',
+          width: _this.canvas.width,
+          height: _this.canvas.height
+        });
+      }
+
+      var canvas = _this.allowMousefollow && _this.followEle ? _this.mousefollow.canvas : _this.canvas;
+      if (_this.options.allowDraw) {
+        (0, _usCommonUtils.addEvent)(canvas, 'mousedown', _this.canvasMouseDown, false);
+        (0, _usCommonUtils.addEvent)(canvas, 'mousemove', _this.canvasMouseMove, false);
+        (0, _usCommonUtils.addEvent)(canvas, 'mouseup', _this.canvasMouseUp, false);
+        (0, _usCommonUtils.addEvent)(canvas, 'mouseleave', _this.canvasMouseUp, false);
+
+        (0, _usCommonUtils.addEvent)(canvas, 'touchstart', _this.canvasMouseDown, false);
+        (0, _usCommonUtils.addEvent)(canvas, 'touchmove', _this.canvasMouseMove, false);
+        (0, _usCommonUtils.addEvent)(canvas, 'touchend', _this.canvasMouseUp, false);
+      }
+    }
+  });
+  Object.defineProperty(this, 'initData', {
+    enumerable: true,
+    writable: true,
+    value: function value() {
+      _this.whiteboard.arr = [];
+      _this.quadraticCurveBeginPoint = null;
+      _this.currentDrawRole = ''; // 用来区分是自己画的，还是同步的其他角色画的
+    }
+  });
+  Object.defineProperty(this, 'updateData', {
+    enumerable: true,
+    writable: true,
+    value: function value(data) {
+      _this.whiteboard = Object.assign({}, _this.whiteboard, data, {
+        // 这两个参数是自己端的还是自己端的
+        color: _this.whiteboard.color,
+        width: _this.canvas.width,
+        height: _this.canvas.height
+      });
+    }
+  });
+  Object.defineProperty(this, 'updateScreenSize', {
+    enumerable: true,
+    writable: true,
+    value: function value(data) {
+      _this.canvas.width = data.width;
+      _this.canvas.height = data.height;
+      _this.whiteboard = Object.assign({}, _this.whiteboard, {
+        width: data.width,
+        height: data.height
+      });
+
+      setTimeout(function () {
+        _this.offset = (0, _usCommonUtils.getOffSet)(_this.canvas);
+      }, 0);
+    }
+  });
+  Object.defineProperty(this, 'reDraw', {
+    enumerable: true,
+    writable: true,
+    value: function value(data) {
+      var widthRadio = _this.whiteboard.width / data.width;
+      var heightRadio = _this.whiteboard.height / data.height;
+      _this.updateData(Object.assign({}, data, {
+        arr: [],
+        startX: data.startX * widthRadio,
+        startY: data.startY * heightRadio,
+        endX: data.endX * widthRadio,
+        endY: data.endY * heightRadio
+      }));
+
+      if (!_this.isDraw && _this.currentDrawRole !== 'myself') {
+        _this.isDraw = true;
+        _this.currentDrawRole = 'other';
+        _this.quadraticCurveBeginPoint = [_this.whiteboard.startX, _this.whiteboard.startY];
+        _this.whiteboard.arr.push(_this.quadraticCurveBeginPoint);
+        _this.drawDown(data.color);
+      }
+      for (var i = 1; i < data.arr.length - 1; i++) {
+        if (data.arr[i][0] && data.arr[i][1]) {
+          _this.whiteboard.endX = data.arr[i][0] * widthRadio;
+          _this.whiteboard.endY = data.arr[i][1] * heightRadio;
+          if (_this.whiteboard.endX && _this.whiteboard.endY) {
+            _this.whiteboard.arr.push([_this.whiteboard.endX, _this.whiteboard.endY]);
+          }
+          if (_this.whiteboard.type === 'pen') {
+            _this.drawPenMove();
+          } else if (_this.whiteboard.type === 'eraser') {
+            _this.drawEraserMove();
+          } else {
+            _this.drawMove();
+          }
+        }
+      }
+      _this.drawUp();
+      _this.initData();
+    }
+  });
+  Object.defineProperty(this, 'canvasMouseUp', {
+    enumerable: true,
+    writable: true,
+    value: function value(e) {
+      // console.log('up=====', e)
+      if (_this.isDraw && _this.currentDrawRole !== 'other') {
+        if (_this.screenshots) {
+          var formData = _this.screenshots.download();
+          _this.options.postUpload(formData);
+        }
+
+        if (_this.allowMousefollow && _this.followEle) {
+          _usCommonUtils.timer.clear('mouseflowTimer');
+          _this.mousefollow.initCanvas();
+          _this.mousefollow.context.clearRect(0, 0, _this.canvas.width, _this.canvas.height);
+        }
+        // console.log('up---', this.isDraw, this.whiteboard)
+        _this.drawUp();
+        var getTouchPointPosition = _this.getTouchPointPosition(e);
+
+        _this.whiteboard.endX = getTouchPointPosition.clientX;
+        _this.whiteboard.endY = getTouchPointPosition.clientY;
+        if (_this.whiteboard.endX && _this.whiteboard.endY) {
+          _this.whiteboard.arr.push([_this.whiteboard.endX, _this.whiteboard.endY]);
+        }
+
+        if (_this.options.onDrawUp) {
+          _this.options.onDrawUp(Object.assign({}, _this.whiteboard, {
+            arr: _this.whiteboard.arr // ??? 为什么，arr的数据丢了，必须重新赋值才可以
+          }));
+        }
+        _this.initData();
+      }
+    }
+  });
+  Object.defineProperty(this, 'drawUp', {
+    enumerable: true,
+    writable: true,
+    value: function value() {
+      _this.isDraw = false;
+      _this.arr.push(_this.context.getImageData(0, 0, _this.whiteboard.width, _this.whiteboard.height));
+    }
+  });
+  Object.defineProperty(this, 'canvasMouseMove', {
+    enumerable: true,
+    writable: true,
+    value: function value(e) {
+      e.preventDefault();
+      if (_this.isDraw && _this.currentDrawRole !== 'other') {
+        // console.log('move-------', this.isDraw, this.whiteboard)
+        var getTouchPointPosition = _this.getTouchPointPosition(e);
+        _this.whiteboard.endX = getTouchPointPosition.clientX;
+        _this.whiteboard.endY = getTouchPointPosition.clientY;
+        if (_this.whiteboard.endX && _this.whiteboard.endY) {
+          _this.whiteboard.arr.push([_this.whiteboard.endX, _this.whiteboard.endY]);
+        }
+
+        if (_this.allowMousefollow && _this.followEle) {
+          _this.mousefollow.drawCircles(_this.whiteboard.endX, _this.whiteboard.endY, _this.frame);
+        }
+
+        if (_this.whiteboard.type === 'pen') {
+          _this.drawPenMove();
+        } else if (_this.whiteboard.type === 'eraser') {
+          _this.drawEraserMove();
+        } else {
+          _this.drawMove();
+        }
+        if (_this.options.onDrawMove) {
+          _this.options.onDrawMove(_this.whiteboard);
+        }
+      }
+    }
+  });
+  Object.defineProperty(this, 'drawPenMove', {
+    enumerable: true,
+    writable: true,
+    value: function value() {
+      if (_this.whiteboard.arr.length > 3) {
+        var lastTwoPoints = _this.whiteboard.arr.slice(-2);
+        var controlPoint = lastTwoPoints[0];
+        var endPoint = [(lastTwoPoints[0][0] + lastTwoPoints[1][0]) / 2, (lastTwoPoints[0][1] + lastTwoPoints[1][1]) / 2];
+
+        _this.drawLine(_this.quadraticCurveBeginPoint, controlPoint, endPoint);
+        _this.quadraticCurveBeginPoint = endPoint;
+      }
+    }
+  });
+  Object.defineProperty(this, 'drawLine', {
+    enumerable: true,
+    writable: true,
+    value: function value(beginPoint, controlPoint, endPoint) {
+      _this.context.beginPath();
+      _this.context.moveTo(beginPoint[0], beginPoint[1]);
+      _this.draw.pen(controlPoint[0], controlPoint[1], endPoint[0], endPoint[1]);
+    }
+  });
+  Object.defineProperty(this, 'drawEraserMove', {
+    enumerable: true,
+    writable: true,
+    value: function value() {
+      if (_this.whiteboard.arr.length > 2) {
+        var lastTwoPoints = _this.whiteboard.arr.slice(-2);
+        var beginPoint = _this.quadraticCurveBeginPoint;
+        var controlPoint = lastTwoPoints[1];
+        if (JSON.stringify(beginPoint) !== JSON.stringify(controlPoint)) {
+          // 获取两个点的裁剪区域四个端点
+          // const sinA = (y2 - y1) / Math.sqrt(Math.pow((x2 - x1), 2) + Map.pow(y2 - y1, 2)) = a / r
+          // const cosA = (x2 - x1) / Math.sqrt(Math.pow((x2 - x1), 2) + Map.pow(y2 - y1, 2)) = b / r
+          var c = Math.sqrt(Math.pow(controlPoint[1] - beginPoint[1], 2) + Math.pow(controlPoint[0] - beginPoint[0], 2));
+          var sinA = _this.whiteboard.lineWidth / 2 * (controlPoint[1] - beginPoint[1]) / c;
+          var cosA = _this.whiteboard.lineWidth / 2 * (controlPoint[0] - beginPoint[0]) / c;
+          var point1 = [beginPoint[0] + sinA, beginPoint[1] - cosA];
+          var point2 = [beginPoint[0] - sinA, beginPoint[1] + cosA];
+          var point3 = [controlPoint[0] - sinA, controlPoint[1] + cosA];
+          var point4 = [controlPoint[0] + sinA, controlPoint[1] - cosA];
+
+          // 保证线条的连贯，所以在矩形一端画圈
+          _this.context.save();
+          _this.context.beginPath();
+          _this.context.arc(controlPoint[0], controlPoint[1], _this.whiteboard.lineWidth / 2, 0, 2 * Math.PI);
+          _this.context.clip();
+          _this.context.clearRect(0, 0, _this.whiteboard.width, _this.whiteboard.height);
+          _this.context.restore();
+
+          // 清除矩形裁剪区域的像素
+          _this.context.save();
+          _this.context.beginPath();
+          _this.context.moveTo(point1[0], point1[1]);
+          _this.context.lineTo(point2[0], point2[1]);
+          _this.context.lineTo(point3[0], point3[1]);
+          _this.context.lineTo(point4[0], point4[1]);
+          _this.context.closePath();
+          _this.context.clip();
+          _this.context.clearRect(0, 0, _this.whiteboard.width, _this.whiteboard.height);
+          _this.context.restore();
+
+          // 记录最后坐标
+          _this.quadraticCurveBeginPoint = controlPoint;
+        }
+      }
+    }
+  });
+  Object.defineProperty(this, 'drawMove', {
+    enumerable: true,
+    writable: true,
+    value: function value() {
+      if (_this.whiteboard.type !== 'eraser') {
+        _this.context.clearRect(0, 0, _this.whiteboard.width, _this.whiteboard.height);
+        if (_this.arr.length !== 0) {
+          _this.context.putImageData(_this.arr[_this.arr.length - 1], 0, 0, 0, 0, _this.whiteboard.width, _this.whiteboard.height);
+        }
+      }
+      if (_this.whiteboard.type === 'poly') {
+        _this.draw[_this.whiteboard.type](_this.whiteboard.startX, _this.whiteboard.startY, _this.whiteboard.endX, _this.whiteboard.endY, _this.whiteboard.n);
+      } else {
+        _this.draw[_this.whiteboard.type](_this.whiteboard.startX, _this.whiteboard.startY, _this.whiteboard.endX, _this.whiteboard.endY);
+      }
+    }
+  });
+  Object.defineProperty(this, 'canvasMouseDown', {
+    enumerable: true,
+    writable: true,
+    value: function value(e) {
+      // console.log('down', e)
+      if (!_this.isDraw && _this.currentDrawRole !== 'other') {
+        // console.log('down----', this.isDraw, this.whiteboard)
+        _this.isDraw = true;
+        _this.currentDrawRole = 'myself';
+
+        if (_this.screenshots) {
+          _this.screenshots.snap();
+        }
+
+        if (_this.allowMousefollow && _this.followEle) {
+          // 创建mouseflow
+          _usCommonUtils.timer.add({
+            name: 'mouseflowTimer',
+            fn: function fn(num) {
+              _this.frame = num;
+              _this.mousefollow.context.clearRect(0, 0, _this.canvas.width, _this.canvas.height);
+              for (var i = _this.mousefollow.circleArray.length - 1; i > 0; i--) {
+                _this.mousefollow.circleArray[i].update(_this.canvas.width, _this.canvas.height, _this.mousefollow.circleArray, num);
+              }
+            },
+            _this: _this
+          });
+        }
+
+        var getTouchPointPosition = _this.getTouchPointPosition(e);
+        _this.whiteboard.startX = getTouchPointPosition.clientX;
+        _this.whiteboard.startY = getTouchPointPosition.clientY;
+        _this.whiteboard.arr.push([_this.whiteboard.startX, _this.whiteboard.startY]);
+        _this.quadraticCurveBeginPoint = [_this.whiteboard.startX, _this.whiteboard.startY];
+        // this.test(getTouchPointPosition.clientX, getTouchPointPosition.clientY, offset.left, offset.top)
+
+        _this.drawDown();
+
+        if (_this.options.onDrawDown) {
+          _this.options.onDrawDown(_this.whiteboard);
+        }
+      }
+    }
+  });
+  Object.defineProperty(this, 'drawDown', {
+    enumerable: true,
+    writable: true,
+    value: function value(color) {
+      if (_this.whiteboard.type === 'pen') {
+        _this.context.beginPath();
+        _this.context.moveTo(_this.whiteboard.startX, _this.whiteboard.startY);
+      } else if (_this.whiteboard.type === 'eraser') {
+        _this.context.lineCap = 'round';
+        _this.context.lineJoin = 'round';
+        _this.context.lineWidth = _this.whiteboard.lineWidth / 2 * 2;
+        // this.context.save()
+        // this.context.beginPath()
+        // this.context.arc(this.whiteboard.startX - (this.whiteboard.lineWidth / 2), this.whiteboard.startY + (this.whiteboard.lineWidth / 2), (this.whiteboard.lineWidth / 2), 0, 2 * Math.PI);
+        // this.context.clip()
+        // this.context.clearRect(0, 0, this.screenWidth, this.screenHeight);
+        // this.context.restore();
+      }
+
+      var currentColor = null;
+      var currentRainbow = true;
+      if (color) {
+        // 接收其他画板颜色
+        currentColor = color;
+        currentRainbow = false;
+      } else if (color === false) {
+        // 接收其他画板彩虹笔
+        currentRainbow = true;
+      } else if (_this.whiteboard.color) {
+        // 接收自己画板颜色
+        currentColor = _this.whiteboard.color;
+        currentRainbow = false;
+      } else if (_this.whiteboard.color === false) {
+        currentRainbow = true;
+      }
+
+      _this.draw = new _draw2.default(_this.context, {
+        styleType: _this.whiteboard.style,
+        color: currentColor,
+        rainbow: currentRainbow,
+        screenWidth: _this.whiteboard.width,
+        screenHeight: _this.whiteboard.height,
+        lineWidth: _this.whiteboard.lineWidth
+      });
+    }
+  });
+  Object.defineProperty(this, 'getTouchPointPosition', {
+    enumerable: true,
+    writable: true,
+    value: function value(e) {
+      if (!_this.offset.left && !_this.offset.top) {
+        _this.offset = (0, _usCommonUtils.getOffSet)(_this.canvas);
+      }
+      var touch = e.touches && e.targetTouches && e.targetTouches[0];
+      var clientX = touch ? touch.clientX : e.clientX;
+      var clientY = touch ? touch.clientY : e.clientY;
+      return {
+        clientX: clientX - _this.offset.left,
+        clientY: clientY - _this.offset.top + _this.scrollTop
+      };
+    }
+  });
+  Object.defineProperty(this, 'undo', {
+    enumerable: true,
+    writable: true,
+    value: function value() {
+      _this.arr.pop();
+      _this.context.clearRect(0, 0, _this.whiteboard.width, _this.whiteboard.height);
+      if (_this.arr.length > 0) {
+        _this.context.putImageData(_this.arr[_this.arr.length - 1], 0, 0, 0, 0, _this.whiteboard.width, _this.whiteboard.height);
+      }
+    }
+  });
+  Object.defineProperty(this, 'clear', {
+    enumerable: true,
+    writable: true,
+    value: function value() {
+      _this.arr = [];
+      _this.context.clearRect(0, 0, _this.whiteboard.width, _this.whiteboard.height);
+    }
+  });
+  Object.defineProperty(this, 'typeChoose', {
+    enumerable: true,
+    writable: true,
+    value: function value(type) {
+      _this.whiteboard.type = type || 'pen';
+    }
+  });
+  Object.defineProperty(this, 'colorChoose', {
+    enumerable: true,
+    writable: true,
+    value: function value(_value) {
+      _this.whiteboard.color = _value;
+    }
+  });
+  Object.defineProperty(this, 'widthChoose', {
+    enumerable: true,
+    writable: true,
+    value: function value(_value2) {
+      _this.whiteboard.lineWidth = _value2;
+    }
+  });
+  Object.defineProperty(this, 'polyChoose', {
+    enumerable: true,
+    writable: true,
+    value: function value(_value3) {
+      _this.whiteboard.n = _value3;
+    }
+  });
+  Object.defineProperty(this, 'typeChoose', {
+    enumerable: true,
+    writable: true,
+    value: function value(type) {
+      if (toolType.indexOf(type) > -1) {
+        _this.whiteboard.type = type;
+      }
+    }
+  });
+  Object.defineProperty(this, 'styleChoose', {
+    enumerable: true,
+    writable: true,
+    value: function value(type) {
+      if (type === 'stroke' || type === 'fill') {
+        _this.whiteboard.style = type;
+      }
+    }
+  });
+  Object.defineProperty(this, 'updateScrollTop', {
+    enumerable: true,
+    writable: true,
+    value: function value(_value4) {
+      if (_this.scrollTop !== _value4) {
+        _this.scrollTop = _value4;
+      }
+    }
+  });
+  Object.defineProperty(this, 'test', {
+    enumerable: true,
+    writable: true,
+    value: function value(x, y, left, top) {
+      console.log(x, y, left, top);
+      // const test = document.getElementById('test')
+      // test.style.left = `${left}px`
+      // test.style.top = `${top}px`
+      // test.style.width = `${x - left}px`
+      // test.style.height = `${y - top}px`
+    }
+  });
+
+  this.options = options;
+  this.canvasId = this.options.id;
+  this.canvas = document.getElementById(this.options.id);
+  this.canvas.width = options.width;
+  this.canvas.height = options.height;
+  this.context = this.canvas.getContext('2d');
+  this.isDraw = false;
+  this.disabled = options.disabled;
+  this.arr = [];
+  this.scrollTop = 0;
+  this.allowMousefollow = this.options.allowMousefollow;
+  this.followEle = document.getElementById(this.options.id + 'Follow');
+  this.allowScreenshot = false;
+  this.offset = (0, _usCommonUtils.getOffSet)(this.canvas);
+  this.isSupportTouch = document.hasOwnProperty('ontouchstart');
+  if (this.allowMousefollow && this.followEle) {
+    this.canvas.style.zIndex = 0;
+  } else {
+    this.canvas.style.zIndex = 2;
+  }
+
+  if (this.allowScreenshot) {
+    this.screenshots = new _screenshots2.default({
+      videoClassName: 'agora-smart',
+      id: this.options.id,
+      width: options.width,
+      height: options.height
+    });
+  }
+
+  this.mousefollow = null;
+  this.frame = 0;
+
+  this.quadraticCurveBeginPoint = null;
+  // this.quadraticCurve = {
+  //   points: [],
+  //   beginPoint: null,
+  //   radius: 25,
+  // }
+
+  this.whiteboard = {
+    type: 'pen',
+    color: options.color,
+    lineWidth: this.options.lineWidth || 8,
+    width: this.canvas.width,
+    height: this.canvas.height,
+    n: 3,
+    style: 'stroke', // stroke fill
+    startX: 0,
+    startY: 0,
+    endX: 0,
+    endY: 0,
+    arr: []
+  };
+
+  if (!this.disabled) {
+    this.init();
+    this.addScrollEvent();
+  }
+};
+
+exports.default = Whiteboard;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(14);
+
+__webpack_require__(15);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    'svg',
+    {
+      style: props.style,
+      className: 'whiteboard-item-icon ' + props.className,
+      'aria-hidden': 'true'
+    },
+    _react2.default.createElement('use', { xlinkHref: '#whiteboard-' + props.type })
+  );
+};
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
+module.exports = __webpack_amd_options__;
+
+/* WEBPACK VAR INJECTION */}.call(exports, {}))
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.BigWhiteboard = undefined;
+
+var _Whiteboard = __webpack_require__(9);
+
+var _Whiteboard2 = _interopRequireDefault(_Whiteboard);
+
+var _BigWhiteboard = __webpack_require__(20);
+
+var _BigWhiteboard2 = _interopRequireDefault(_BigWhiteboard);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var BigWhiteboard = exports.BigWhiteboard = _BigWhiteboard2.default;
+
+exports.default = _Whiteboard2.default;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(3);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _usCommonUtils = __webpack_require__(4);
+
+var _whiteboard = __webpack_require__(5);
+
+var _whiteboard2 = _interopRequireDefault(_whiteboard);
+
+var _Icon = __webpack_require__(6);
+
+var _Icon2 = _interopRequireDefault(_Icon);
+
+__webpack_require__(18);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Whiteboard = function (_React$Component) {
+  _inherits(Whiteboard, _React$Component);
+
+  function Whiteboard(props) {
+    _classCallCheck(this, Whiteboard);
+
+    var _this = _possibleConstructorReturn(this, (Whiteboard.__proto__ || Object.getPrototypeOf(Whiteboard)).call(this, props));
+
+    Object.defineProperty(_this, 'dragEvent', {
+      enumerable: true,
+      writable: true,
+      value: function value() {
+        _this.dragTarget = document.querySelector('.whiteboard-component-tool');
+        if (_this.dragTarget) {
+          (0, _usCommonUtils.addEvent)(_this.dragTarget, 'mousedown', _this.dragDown, false);
+          (0, _usCommonUtils.addEvent)(_this.dragTarget, 'touchstart', _this.dragDown, false);
+
+          (0, _usCommonUtils.addEvent)(document, 'mousemove', _this.dragMove, false);
+          (0, _usCommonUtils.addEvent)(document, 'mouseup', _this.dragUp, false);
+          (0, _usCommonUtils.addEvent)(document, 'mouseleave', _this.dragUp, false);
+
+          (0, _usCommonUtils.addEvent)(document, 'touchmove', _this.dragMove, false);
+          (0, _usCommonUtils.addEvent)(document, 'touchend', _this.dragUp, false);
+        }
+      }
+    });
+    Object.defineProperty(_this, 'getTouchPointPosition', {
+      enumerable: true,
+      writable: true,
+      value: function value(e) {
+        var touch = e.touches && e.targetTouches && e.targetTouches[0];
+        var clientX = touch ? touch.clientX : e.clientX;
+        var clientY = touch ? touch.clientY : e.clientY;
+        return {
+          clientX: clientX,
+          clientY: clientY
+        };
+      }
+    });
+    Object.defineProperty(_this, 'dragDown', {
+      enumerable: true,
+      writable: true,
+      value: function value() {
+        _this.getEleOffSet = (0, _usCommonUtils.getOffSet)(_this.dragTarget);
+        _this.drag = true;
+      }
+    });
+    Object.defineProperty(_this, 'dragMove', {
+      enumerable: true,
+      writable: true,
+      value: function value(e) {
+        if (_this.drag) {
+          var canvas = document.getElementById('whiteboardBox');
+          var getCanvasOffSet = (0, _usCommonUtils.getOffSet)(canvas);
+          var getTouchPointPosition = _this.getTouchPointPosition(e);
+          var disX = getTouchPointPosition.clientX - _this.getEleOffSet.left;
+          var disY = getTouchPointPosition.clientY - _this.getEleOffSet.top;
+
+          var left = _this.getEleOffSet.left + disX - getCanvasOffSet.left - _this.dragTarget.clientWidth / 2;
+          var top = _this.getEleOffSet.top + disY - getCanvasOffSet.top - _this.dragTarget.clientHeight / 2;
+          if (left >= 0 && left < canvas.clientWidth - 70 && top >= 0 && top < canvas.clientHeight - 60) {
+            _this.dragTarget.style.right = 'initial';
+            _this.dragTarget.style.left = left + 'px';
+            _this.dragTarget.style.top = top + 'px';
+          }
+        }
+      }
+    });
+    Object.defineProperty(_this, 'dragUp', {
+      enumerable: true,
+      writable: true,
+      value: function value() {
+        _this.drag = false;
+      }
+    });
+    Object.defineProperty(_this, 'addListenerEvent', {
+      enumerable: true,
+      writable: true,
+      value: function value() {
+        _this.subscribe('canvas-draw', _this.listenerRedraw);
+        _this.subscribe('canvas-clear', function () {
+          _this.whiteboard.clear();
+        });
+        _this.subscribe('canvas-undo', function () {
+          _this.whiteboard.undo();
+        });
+        _this.subscribe('canvas-type', function (msg, type) {
+          _this.setState({ type: type });
+          _this.whiteboard.typeChoose(type);
+          if (type === 'pen') {
+            _this.canvasWidthChoose(10);
+          } else {
+            _this.canvasWidthChoose(50);
+          }
+        });
+      }
+    });
+    Object.defineProperty(_this, 'canvasSize', {
+      enumerable: true,
+      writable: true,
+      value: function value(style) {
+        _this.whiteboard.updateScreenSize(style);
+      }
+    });
+    Object.defineProperty(_this, 'listenerRedraw', {
+      enumerable: true,
+      writable: true,
+      value: function value(msg, data) {
+        if (data) {
+          _this.whiteboard.reDraw(data);
+        }
+      }
+    });
+    Object.defineProperty(_this, 'canvasUndo', {
+      enumerable: true,
+      writable: true,
+      value: function value() {
+        _this.whiteboard.undo();
+        _this.props.onCanvasUndoChange();
+      }
+    });
+    Object.defineProperty(_this, 'canvasClear', {
+      enumerable: true,
+      writable: true,
+      value: function value() {
+        _this.whiteboard.clear();
+        _this.props.onCanvasClearChange();
+      }
+    });
+    Object.defineProperty(_this, 'canvasTypeChoose', {
+      enumerable: true,
+      writable: true,
+      value: function value(type) {
+        _this.setState({ type: type });
+        _this.whiteboard.typeChoose(type);
+        if (type === 'pen') {
+          _this.canvasWidthChoose(10);
+        } else {
+          _this.canvasWidthChoose(50);
+        }
+        _this.props.onCanvasTypeChooseChange(type);
+      }
+    });
+    Object.defineProperty(_this, 'canvasWidthChoose', {
+      enumerable: true,
+      writable: true,
+      value: function value(width) {
+        _this.whiteboard.widthChoose(width);
+      }
+    });
+    Object.defineProperty(_this, 'canvasColorChoose', {
+      enumerable: true,
+      writable: true,
+      value: function value(color) {
+        _this.setState({ canvasColor: color, type: 'pen' });
+        _this.whiteboard.typeChoose('pen');
+        _this.whiteboard.colorChoose(color);
+      }
+    });
+
+    _this.state = {
+      type: 'pen'
+    };
+    _this.whiteboard = null;
+    _this.subscribe = props.subscribe || _usCommonUtils.subscribe;
+    return _this;
+  }
+
+  _createClass(Whiteboard, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.whiteboard = new _whiteboard2.default({
+        allowMousefollow: this.props.allowMousefollow,
+        allowDraw: this.props.allowDraw,
+        id: 'whiteboard',
+        color: this.props.color && '#ff0000',
+        width: this.props.style.width,
+        height: this.props.style.height,
+        disabled: this.props.disabled,
+        onDrawDown: this.props.onDrawDown,
+        onDrawUp: this.props.onDrawUp,
+        postUpload: function postUpload() {
+          return {};
+        }
+      });
+
+      if (this.props.allowPubSub && this.subscribe) {
+        this.addListenerEvent();
+      }
+
+      this.dragEvent();
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (this.props.style.width !== nextProps.style.width || this.props.style.height !== nextProps.style.height) {
+        this.canvasSize({
+          width: this.props.style.width,
+          height: this.props.style.height
+        });
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var props = this.props;
+      return _react2.default.createElement(
+        'div',
+        {
+          className: 'whiteboard-component-container',
+          id: 'whiteboardBox',
+          style: Object.assign({}, props.style, {
+            display: props.visible ? 'block' : 'none'
+          })
+        },
+        _react2.default.createElement('canvas', {
+          className: 'whiteborad-follow',
+          id: 'whiteboardFollow',
+          width: props.style.width,
+          height: props.style.height
+        }),
+        _react2.default.createElement('canvas', {
+          className: 'whiteborad',
+          id: 'whiteboard',
+          width: props.style.width,
+          height: props.style.height
+        }),
+        !props.hideTool && _react2.default.createElement(
+          'div',
+          { className: 'whiteboard-component-tool' },
+          _react2.default.createElement(
+            'a',
+            { className: 'tool-clear', onClick: this.canvasClear },
+            _react2.default.createElement(_Icon2.default, { type: 'quanbuqingchu' })
+          ),
+          _react2.default.createElement(
+            'a',
+            { className: 'tool-undo', onClick: this.canvasUndo },
+            _react2.default.createElement(_Icon2.default, { type: 'chexiaoshangyibu' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'tool-pen-box' },
+            _react2.default.createElement(
+              'a',
+              { className: 'tool-pen', onClick: function onClick() {
+                  _this2.canvasTypeChoose('pen');
+                  _this2.setState({ showBrush: !_this2.state.showBrush });
+                } },
+              _react2.default.createElement(_Icon2.default, { type: 'maobi', className: this.state.type === 'pen' ? 'tool-focus' : '' })
+            ),
+            this.props.allowChossBrush && this.state.showBrush && _react2.default.createElement(
+              'div',
+              { className: 'pen-brush' },
+              _react2.default.createElement('a', {
+                className: 'pen-brush-color',
+                style: {
+                  borderColor: !this.state.canvasColor ? '#F79A43' : '#ffffff' },
+                onClick: function onClick() {
+                  return _this2.canvasColorChoose(false);
+                }
+              }),
+              _react2.default.createElement('a', {
+                className: 'pen-brush-color',
+                style: {
+                  background: '#fd434d',
+                  borderColor: this.state.canvasColor === '#fd434d' ? '#F79A43' : '#ffffff' },
+                onClick: function onClick() {
+                  return _this2.canvasColorChoose('#fd434d');
+                }
+              })
+            )
+          ),
+          _react2.default.createElement(
+            'a',
+            { className: 'tool-rubber', onClick: function onClick() {
+                return _this2.canvasTypeChoose('eraser');
+              } },
+            _react2.default.createElement(_Icon2.default, { type: 'xiangpi1', className: this.state.type === 'eraser' ? 'tool-focus' : '' })
+          )
+        )
+      );
+    }
+  }]);
+
+  return Whiteboard;
+}(_react2.default.Component);
+
+Whiteboard.propType = {
+  /**
+   * 白板的基础样式，主要有宽度和高度
+   */
+  style: _propTypes2.default.object,
+  /**
+   * 是否显示白板
+   */
+  visible: _propTypes2.default.bool,
+  /**
+   * 是否显示工具条
+   */
+  hideTool: _propTypes2.default.bool,
+  /**
+   * 是否允许选择笔刷
+   */
+  allowChossBrush: _propTypes2.default.bool,
+  /**
+   * 是否禁止画板初始化
+   */
+  disabled: _propTypes2.default.bool,
+  /**
+   * 是否允许通过PubSub来，触发
+   * whiteboard-redraw: 手动绘制
+   * canvas-clear: 手动清屏
+   * canvas-undo: 手动撤销
+   * canvas-type: 手动切换画笔类型
+   */
+  allowPubSub: _propTypes2.default.bool,
+  /**
+   * 是否显示鼠标跟随特效
+   */
+  allowMousefollow: _propTypes2.default.bool,
+  /**
+   * 是否允许画画
+   */
+  allowDraw: _propTypes2.default.bool,
+  /**
+   * 设置画笔的颜色
+   */
+  color: _propTypes2.default.string,
+  /**
+   * 开始画画时候的回调函数
+   */
+  onDrawDown: _propTypes2.default.func,
+  /**
+   * 结束画画时的回调函数
+   */
+  onDrawUp: _propTypes2.default.func,
+
+  /**
+   * 触发撤销按钮的回调函数
+   */
+  onCanvasUndoChange: _propTypes2.default.func,
+  /**
+   * 触发清屏按钮的回调函数
+   */
+  onCanvasClearChange: _propTypes2.default.func,
+  /**
+   * 触发选择画笔类型的回调函数
+   */
+  onCanvasTypeChooseChange: _propTypes2.default.func
+};
+
+Whiteboard.defaultProps = {
+  style: {},
+  visible: true,
+  hideTool: false,
+  allowChossBrush: false,
+
+  disabled: false,
+  allowPubSub: false,
+  allowMousefollow: false,
+  allowDraw: false,
+  color: '',
+  onDrawDown: function onDrawDown(e) {
+    console.log(e);
+  },
+  onDrawUp: function onDrawUp(e) {
+    console.log(e);
+  },
+
+  onCanvasUndoChange: function onCanvasUndoChange(e) {
+    console.log(e);
+  },
+  onCanvasClearChange: function onCanvasClearChange(e) {
+    console.log(e);
+  },
+  onCanvasTypeChooseChange: function onCanvasTypeChooseChange(e) {
+    console.log(e);
+  }
+};
+
+exports.default = Whiteboard;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var colors = ['', '#FB1808', '#FEEF0B', '#30FF07', '#1DE5FE', '#0031FF', '#FB00E3', '#FB001F', '#FB1808', '#FEEF0B', '#30FF07', '#1DE5FE', '#0031FF', '#FB00E3'];
+
+var Draw = function Draw(obj, setting) {
+  _classCallCheck(this, Draw);
+
+  _initialiseProps.call(this);
+
+  this.obj = obj;
+
+  this.updateInit(setting);
+  this.updateLineWidth(setting.lineWidth);
+};
+
+var _initialiseProps = function _initialiseProps() {
+  var _this = this;
+
+  Object.defineProperty(this, 'updateInit', {
+    enumerable: true,
+    writable: true,
+    value: function value(setting) {
+      _this.obj.lineCap = 'round';
+      _this.obj.lineJoin = 'round';
+
+      _this.styleType = setting.styleType || 'stroke';
+      _this.color = setting.color || '#000';
+      _this.screenWidth = setting.screenWidth || 300;
+      _this.screenHeight = setting.screenHeight || 150;
+      _this.rainbow = setting.rainbow;
+      _this.obj.strokeStyle = _this.color;
+      _this.obj.fillStyle = _this.color;
+    }
+  });
+  Object.defineProperty(this, 'updateLineWidth', {
+    enumerable: true,
+    writable: true,
+    value: function value(lineWidth) {
+      _this.lineWidth = lineWidth;
+      _this.obj.lineWidth = lineWidth || 1;
+    }
+  });
+  Object.defineProperty(this, 'rect', {
+    enumerable: true,
+    writable: true,
+    value: function value(x, y, x1, y1) {
+      _this.obj.beginPath();
+      _this.obj.rect(x, y, x1 - x, y1 - y);
+      if (_this.styleType === 'stroke') {
+        _this.obj.stroke();
+      } else if (_this.styleType === 'fill') {
+        _this.obj.fill();
+      }
+    }
+  });
+  Object.defineProperty(this, 'line', {
+    enumerable: true,
+    writable: true,
+    value: function value(x, y, x1, y1) {
+      _this.obj.beginPath();
+      _this.obj.moveTo(x, y);
+      _this.obj.lineTo(x1, y1);
+      _this.obj.stroke();
+    }
+  });
+  Object.defineProperty(this, 'circle', {
+    enumerable: true,
+    writable: true,
+    value: function value(x, y, x1, y1) {
+      var r = Math.sqrt(Math.pow(x - x1, 2) + Math.pow(y - y1, 2));
+      _this.obj.beginPath();
+      _this.obj.arc(x, y, r, 0, 2 * Math.PI);
+      if (_this.styleType === 'stroke') {
+        _this.obj.stroke();
+      } else if (_this.styleType === 'fill') {
+        _this.obj.fill();
+      }
+    }
+  });
+  Object.defineProperty(this, 'poly', {
+    enumerable: true,
+    writable: true,
+    value: function value(x, y, x1, y1, n) {
+      var r = Math.sqrt(Math.pow(x - x1, 2) + Math.pow(y - y1, 2));
+      _this.obj.save();
+      _this.obj.translate(x, y);
+      _this.obj.rotate(Math.PI / 2);
+      var nx = r * Math.cos(Math.PI / n);
+      var ny = r * Math.sin(Math.PI / n);
+      _this.obj.beginPath();
+      _this.obj.lineCap = 'round';
+      _this.obj.moveTo(nx, ny);
+      for (var i = 0; i <= n; i++) {
+        _this.obj.rotate(Math.PI * 2 / n);
+        _this.obj.lineTo(nx, -ny);
+      }
+      if (_this.styleType === 'stroke') {
+        _this.obj.stroke();
+      } else if (_this.styleType === 'fill') {
+        _this.obj.fill();
+      }
+      _this.obj.restore();
+    }
+  });
+  Object.defineProperty(this, 'linearGradient', {
+    enumerable: true,
+    writable: true,
+    value: function value() {
+      _this.canvasGradient = _this.obj.createLinearGradient(0, 0, _this.screenWidth, _this.screenHeight);
+      colors.forEach(function (item, index) {
+        if (item) {
+          _this.canvasGradient.addColorStop(index / colors.length, item);
+        }
+      });
+      // 将strokeStyle的属性设置为该CanvasGradient对象
+      _this.obj.strokeStyle = _this.canvasGradient;
+    }
+  });
+  Object.defineProperty(this, 'pen', {
+    enumerable: true,
+    writable: true,
+    value: function value(x, y, x1, y1) {
+      if (_this.rainbow) {
+        _this.linearGradient();
+      }
+      _this.obj.save();
+      _this.obj.quadraticCurveTo(x, y, x1, y1);
+      _this.obj.stroke();
+      _this.obj.closePath();
+    }
+  });
+  Object.defineProperty(this, 'eraser', {
+    enumerable: true,
+    writable: true,
+    value: function value(x, y, x1, y1) {
+      _this.obj.clearRect(x1 - 5, y1 - 5, 10, 10);
+    }
+  });
+  Object.defineProperty(this, 'cut', {
+    enumerable: true,
+    writable: true,
+    value: function value(x, y, x1, y1) {
+      _this.init();
+      _this.obj.save();
+      _this.obj.setLineDash([4, 2]);
+      _this.obj.beginPath();
+      _this.obj.lineWidth = 1;
+      _this.obj.rect(x, y, x1 - x, y1 - y);
+      _this.obj.stroke();
+      _this.obj.restore();
+    }
+  });
+};
+
+exports.default = Draw;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function Circle(ctx, x, y, radius, vx, vy, rgb, opacity, birth, life, R, rot) {
+  var _this = this;
+
+  this.x = x;
+  this.y = y;
+  this.radius = radius;
+  this.minRadius = radius;
+  this.vx = vx;
+  this.vy = vy;
+  this.birth = birth;
+  this.life = life;
+  this.opacity = opacity;
+  this.R = R;
+  this.rot = rot;
+
+  this.drawStar = function () {
+    // 小圆半径为大圆的一半
+    ctx.beginPath();
+    for (var i = 0; i < 5; i++) {
+      // 循环5次，每次取2个点，总共取10个点
+      ctx.lineTo(Math.cos((18 + i * 72 - _this.rot) / 180 * Math.PI) * _this.R + _this.x, -Math.sin((18 + i * 72 - _this.rot) / 180 * Math.PI) * _this.R + _this.y);
+      ctx.lineTo(Math.cos((54 + i * 72 - _this.rot) / 180 * Math.PI) * _this.R * 0.5 + _this.x, -Math.sin((54 + i * 72 - _this.rot) / 180 * Math.PI) * _this.R * 0.5 + _this.y);
+    }
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(' + rgb + ',' + _this.opacity;
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(' + rgb + ',' + _this.opacity;
+
+    ctx.fill();
+    ctx.stroke();
+  };
+
+  this.draw = function () {
+    ctx.beginPath();
+    ctx.arc(_this.x, _this.y, _this.radius, Math.PI * 2, false);
+    // ✨
+    ctx.fillStyle = 'rgba(' + rgb + ',' + _this.opacity;
+    ctx.fill();
+  };
+
+  this.update = function (innerWidth, innerHeight, circleArray, frame) {
+    if (_this.x + _this.radius > innerWidth || _this.x - _this.radius < 0) {
+      _this.vx = -_this.vx;
+    }
+
+    if (_this.y + _this.radius > innerHeight || _this.y - _this.radius < 0) {
+      _this.vy = -_this.vy;
+    }
+
+    _this.x += _this.vx;
+    _this.y += _this.vy;
+
+    _this.opacity = 1 - (frame - _this.birth) * 1 / _this.life;
+
+    if (frame > _this.birth + _this.life) {
+      for (var i = 0; i < circleArray.length; i++) {
+        if (_this.birth === circleArray[i].birth && _this.life === circleArray[i].life) {
+          circleArray.splice(i, 1);
+          break;
+        }
+      }
+    } else {
+      // this.draw()
+      _this.drawStar();
+    }
+  };
+}
+
+var Mousefollow = function Mousefollow(options) {
+  var _this2 = this;
+
+  _classCallCheck(this, Mousefollow);
+
+  Object.defineProperty(this, 'initCanvas', {
+    enumerable: true,
+    writable: true,
+    value: function value() {
+      _this2.circleArray = [];
+    }
+  });
+  Object.defineProperty(this, 'drawCircles', {
+    enumerable: true,
+    writable: true,
+    value: function value(x, y, frame) {
+      for (var i = 0; i < 6; i++) {
+        var radius = Math.floor(Math.random() * 4) + 2;
+        var vx = Math.random() * 2 - 1;
+        var vy = Math.random() * 2 - 1;
+        var rgb = _this2.colorArray[Math.floor(Math.random() * _this2.colorArray.length)];
+        var life = 10;
+        var R = Math.random() * 5 + 1;
+        var rot = Math.random() * 360;
+        _this2.circleArray.push(new Circle(_this2.context, x, y, radius, vx, vy, rgb, 1, frame, life, R, rot));
+      }
+    }
+  });
+
+  this.options = options;
+  this.canvas = document.getElementById(this.options.id);
+  this.canvas.width = options.width;
+  this.canvas.height = options.height;
+  this.context = this.canvas.getContext('2d');
+  this.circleArray = [];
+  this.colorArray = ['251, 24, 8', '254, 239, 11', '48, 255, 7', '29, 229, 254', '0, 49, 255', '251, 0, 227'];
+  // '#FB1808', '#FEEF0B', '#30FF07', '#1DE5FE', '#0031FF', '#FB00E3
+};
+
+exports.default = Mousefollow;
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _canvas2image = __webpack_require__(13);
+
+var _canvas2image2 = _interopRequireDefault(_canvas2image);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } // 实现一个js截去视频流中图片的功能
+
+
+var getVideo = function getVideo(className) {
+  var ele = document.querySelector('.' + className);
+  var video = ele.getElementsByTagName('video');
+  if (video.length) {
+    return video[0];
+  }
+  return null;
+};
+
+var Screenshots = function Screenshots(options) {
+  var _this = this;
+
+  _classCallCheck(this, Screenshots);
+
+  Object.defineProperty(this, 'snap', {
+    enumerable: true,
+    writable: true,
+    value: function value() {
+      _this.video = getVideo(_this.options.videoClassName);
+      _this.context.drawImage(_this.video, 0, 0, _this.options.width, _this.options.height);
+    }
+  });
+  Object.defineProperty(this, 'download', {
+    enumerable: true,
+    writable: true,
+    value: function value() {
+      var img = _this.canvas2image.saveAsPNG(_this.canvas, new Date());
+      var blob = _this.canvas2image.dataURLtoFile(img);
+      var formdata = new FormData();
+      formdata.append('name', 'aaa');
+      formdata.append('file', blob);
+      return formdata;
+    }
+  });
+
+  this.options = options;
+  this.videoClass = this.options.videoClassName;
+  this.canvas = document.getElementById(this.options.id);
+  this.context = this.canvas.getContext('2d');
+
+  this.canvas2image = new _canvas2image2.default();
+};
+
+exports.default = Screenshots;
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Canvas2image = function Canvas2image() {
+  var _this = this;
+
+  _classCallCheck(this, Canvas2image);
+
+  Object.defineProperty(this, 'saveFile', {
+    enumerable: true,
+    writable: true,
+    value: function value(data, filename) {
+      var saveLink = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+      saveLink.href = data;
+      saveLink.download = filename;
+
+      var event = document.createEvent('MouseEvents');
+      event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+      saveLink.dispatchEvent(event);
+    }
+  });
+  Object.defineProperty(this, 'fixType', {
+    enumerable: true,
+    writable: true,
+    value: function value(type) {
+      type = type.toLowerCase().replace(/jpg/i, 'jpeg');
+      var r = type.match(/png|jpeg|bmp|gif/)[0];
+      return 'image/' + r;
+    }
+  });
+  Object.defineProperty(this, 'dataURLtoFile', {
+    enumerable: true,
+    writable: true,
+    value: function value(dataurl) {
+      var filename = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'file';
+
+      var arr = dataurl.split(',');
+      var mime = arr[0].match(/:(.*?);/)[1];
+      var suffix = mime.split('/')[1];
+      var bstr = atob(arr[1]);
+      var n = bstr.length;
+      var u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], filename + '.' + suffix, { type: mime });
+    }
+  });
+  Object.defineProperty(this, 'dataURItoBlob', {
+    enumerable: true,
+    writable: true,
+    value: function value(dataURI) {
+      var byteString = dataURI.split(',')[1];
+      var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+      var ab = new ArrayBuffer(byteString.length);
+      var ia = new Uint8Array(ab);
+      for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      return new Blob([ab], { type: mimeString });
+    }
+  });
+  Object.defineProperty(this, 'saveAsImg', {
+    enumerable: true,
+    writable: true,
+    value: function value(oCanvas, filename) {
+      var type = 'png';
+      var imgData = oCanvas.toDataURL(type);
+      imgData = imgData.replace(_this.fixType(type), 'image/octet-stream');
+      // 二进制流
+      _this.saveFile(imgData, filename + '.png');
+      return imgData;
+    }
+  });
+  Object.defineProperty(this, 'saveAsPNG', {
+    enumerable: true,
+    writable: true,
+    value: function value(oCanvas, filename) {
+      var strData = oCanvas.toDataURL('image/png');
+      _this.saveFile(strData.replace('image/png', _this.strDownloadMime), filename + '.png');
+      return strData;
+    }
+  });
+  Object.defineProperty(this, 'saveAsJPEG', {
+    enumerable: true,
+    writable: true,
+    value: function value(oCanvas, filename) {
+      var strMime = 'image/jpeg';
+      var strData = oCanvas.toDataURL(strMime);
+
+      if (strData.indexOf(strMime) !== 5) {
+        return false;
+      }
+      _this.saveFile(strData.replace(strMime, _this.strDownloadMime), filename + '.png');
+      return strData;
+    }
+  });
+
+  this.strDownloadMime = 'image/octet-stream';
+};
+
+exports.default = Canvas2image;
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+!function (e) {
+  var t,
+      h = '<svg><symbol id="whiteboard-maobi" viewBox="0 0 1190 1024"><path d="M1150.46385 36.66806a134.274286 134.274286 0 0 0-184.419587 0L430.330821 570.112234c-92.209794 0-219.565578 31.133259-276.629382 213.3666C109.782789 881.334125 0 876.87861 0 876.87861c232.738405 257.83873 500.595126 111.138815 566.459265 48.899971 52.691311-57.783328 61.463971-124.477687 57.063804-177.805499L1150.46385 223.384591c52.691311-53.355487 52.691311-133.388717 0-186.716531zM509.367787 863.512064c-43.91865 40.016615-237.110898 128.905528-351.293855 44.444456 0 0 39.518483-31.105585 70.264306-93.344428 70.264306-191.144372 250.283726-164.466628 250.283726-164.466628l61.491645 62.21117c0-4.427841 43.890976 80.03323-30.745822 151.15543z m92.209794-217.822115l-61.463972-62.238843 92.209794-93.344429 61.463971 62.238844-92.209793 93.344428zM1088.999879 161.145747L750.878852 494.534519l-61.491645-62.21117L1027.535908 98.906904c17.572995-17.766713 43.91865-17.766713 61.491645 0a43.337496 43.337496 0 0 1 0 62.238843z"  ></path></symbol><symbol id="whiteboard-juxingcopy1" viewBox="0 0 1408 1024"><path d="M-76.788171 691.201763m199.532253-115.2l931.150514-537.6q199.532253-115.2 314.732253 84.332253l0 0q115.2 199.532253-84.332253 314.732253l-931.150514 537.6q-199.532253 115.2-314.732253-84.332253l0 0q-115.2-199.532253 84.332253-314.732253Z"  ></path></symbol><symbol id="whiteboard-juxingcopy" viewBox="0 0 1564 1024"><path d="M-28.43359 824.885199m123.168058-71.111111l1231.680574-711.111111q123.168057-71.111111 194.279168 52.056946l0 0q71.111111 123.168057-52.056946 194.279168l-1231.680574 711.111111q-123.168057 71.111111-194.279169-52.056946l0 0q-71.111111-123.168057 52.056947-194.279168Z"  ></path></symbol><symbol id="whiteboard-juxing" viewBox="0 0 1596 1024"><path d="M-30.107477 873.402921m78.247943-45.17647l1408.462962-813.176471q78.247942-45.176471 123.424413 33.071472l0 0q45.176471 78.247942-33.071472 123.424413l-1408.462962 813.17647q-78.247942 45.176471-123.424413-33.071471l0 0q-45.176471-78.247942 33.071472-123.424413Z"  ></path></symbol><symbol id="whiteboard-chexiaoshangyibu" viewBox="0 0 1262 1024"><path d="M400.452267 31.4368a80.725333 80.725333 0 0 1 0 114.688L319.488 226.474667H859.477333c216.029867 0 385.774933 168.209067 385.774934 382.293333 0 214.084267-169.745067 382.293333-385.774934 382.293333H241.595733a76.458667 76.458667 0 1 1 0-152.917333h617.915734c131.1744 0 231.458133-99.396267 231.458133-229.376s-100.283733-229.376-231.424-229.376H318.122667l75.298133 55.432533a77.653333 77.653333 0 0 1 14.7456 110.865067 88.507733 88.507733 0 0 1-117.623467 19.0464l-237.192533-154.794667a102.4 102.4 0 0 1-12.868267-161.5872L282.282667 28.842667c33.792-30.685867 85.742933-29.525333 118.1696 2.594133z"  ></path></symbol><symbol id="whiteboard-quanbuqingchu" viewBox="0 0 1024 1024"><path d="M745.585778 932.408889h69.290666a68.266667 68.266667 0 0 0 59.460267-101.808356L790.892089 682.666667l-573.212445 0.568889-74.1376 150.823822A68.266667 68.266667 0 0 0 204.8 932.431644h68.266667v-52.337777a38.138311 38.138311 0 1 1 76.299377 0v52.337777h121.810489v-52.337777a38.138311 38.138311 0 1 1 76.299378 0v52.337777h121.810489v-52.337777a38.138311 38.138311 0 0 1 76.299378 0v52.337777zM456.453689 295.822222h113.777778l23.301689-104.834844a82.147556 82.147556 0 1 0-160.381156 0L456.476444 295.822222z m-91.022222 0l-19.6608-85.174044a171.963733 171.963733 0 1 1 335.143822 0L661.253689 295.822222h46.739911a136.533333 136.533333 0 0 1 136.533333 136.533334v159.288888h-90.817422v-113.777777a91.022222 91.022222 0 0 0-91.022222-91.022223h-318.577778a91.022222 91.022222 0 0 0-91.022222 91.022223v113.777777H159.288889v-159.288888a136.533333 136.533333 0 0 1 136.533333-136.533334h69.609245zM157.195378 592.213333L844.686222 591.644444l109.932089 188.893867a159.288889 159.288889 0 0 1-137.671111 239.4112H204.8A159.288889 159.288889 0 0 1 61.257956 791.643022l95.937422-199.406933z"  ></path></symbol><symbol id="whiteboard-xiangpi1" viewBox="0 0 1024 1024"><path d="M612.352 790.25981l4.803048 4.778666c3.998476 3.998476 9.264762 6.070857 14.506666 6.070857a20.528762 20.528762 0 0 0 14.506667-6.070857l338.407619-338.407619a89.039238 89.039238 0 0 0 0-125.70819L694.51581 40.764952A88.259048 88.259048 0 0 0 631.661714 14.701714c-23.771429 0-46.08 9.264762-62.854095 26.063238L230.4 379.270095a20.406857 20.406857 0 0 0 0 29.013334l4.803048 4.827428-111.201524 111.177143a88.259048 88.259048 0 0 0-26.063238 62.878476c0 23.771429 9.264762 46.055619 26.063238 62.854095l251.416381 251.416381c12.117333 12.117333 27.087238 20.23619 43.324952 23.771429h38.960762a89.307429 89.307429 0 0 0 43.324952-23.771429l111.323429-111.177142z m-550.985143 150.918095h853.333333a36.571429 36.571429 0 0 1 0 73.142857h-853.333333a36.571429 36.571429 0 0 1 0-73.142857z m541.500953-801.182476a37.863619 37.863619 0 0 1 53.418666 0l229.059048 229.059047c7.143619 7.143619 11.117714 16.603429 11.117714 26.721524 0 10.118095-3.974095 19.577905-11.117714 26.721524L631.466667 676.473905a2.681905 2.681905 0 0 1-3.779048 0L348.988952 397.750857a2.681905 2.681905 0 0 1 0-3.779047L602.86781 139.995429z m-193.901715 675.888761l-196.242285-196.242285a37.10781 37.10781 0 0 1-10.971429-26.404572c0-9.99619 3.925333-19.358476 10.971429-26.404571l69.558857-69.558857a24.380952 24.380952 0 0 1 34.474666 0l214.552381 214.576762a24.380952 24.380952 0 0 1 0 34.474666l-69.534476 69.558857c-7.046095 7.143619-16.408381 10.971429-26.404571 10.971429-9.99619 0-19.358476-3.900952-26.404572-10.971429z"  ></path></symbol><symbol id="whiteboard-icon-test" viewBox="0 0 1024 1024"><path d="M301.981538 337.945688h102.737159V1024H301.981538z" fill="#AD2C2D" ></path><path d="M541.696224 337.945688h102.737159V1024H541.696224z" fill="#E65F60" ></path><path d="M401.29359 337.945688h143.827742V1024H401.29359z" fill="#C74142" ></path><path d="M404.718697 106.338873h136.977527L644.438735 337.945688H301.981538z" fill="#FFD7AF" ></path><path d="M449.041725 0h48.331472c5.993937 0 11.29215 3.896059 13.079628 9.62241l31.243399 100.146922H404.718697l31.2434-100.146922A13.700429 13.700429 0 0 1 449.041725 0z" fill="#C74142" ></path></symbol><symbol id="whiteboard-icon-test1" viewBox="0 0 1024 1024"><path d="M302.259345 338.662044H404.889229V1024H302.259345z" fill="#F1C613" ></path><path d="M541.723728 338.662044h102.629884V1024H541.723728z" fill="#FFEB88" ></path><path d="M401.467698 338.662044h143.677561V1024H401.467698z" fill="#FFD640" ></path><path d="M404.889229 107.297066h136.834499l102.629884 231.364978H302.259345z" fill="#FFD7AF" ></path><path d="M449.165975 1.069228h48.281007c5.987679 0 11.280359 3.891991 13.06597 9.612363l31.210776 100.042352H404.889229l31.210775-100.042352A13.686123 13.686123 0 0 1 449.165975 1.069228z" fill="#FFD640" ></path></symbol><symbol id="whiteboard-icon-test2" viewBox="0 0 1024 1024"><path d="M302.533869 338.662044h102.629884V1024H302.533869z" fill="#F17913" ></path><path d="M541.998252 338.662044h102.629884V1024H541.998252z" fill="#FFAA72" ></path><path d="M401.742222 338.662044h143.677561V1024H401.742222z" fill="#FF9840" ></path><path d="M405.163753 107.297066h136.834499l102.629884 231.364978H302.533869z" fill="#FFD7AF" ></path><path d="M449.440499 1.069228h48.281007c5.987679 0 11.280359 3.891991 13.06597 9.612363l31.210776 100.042352H405.163753L436.369182 10.681591A13.686123 13.686123 0 0 1 449.440499 1.069228z" fill="#FF7540" ></path></symbol><symbol id="whiteboard-icon-test3" viewBox="0 0 1024 1024"><path d="M302.807175 338.662044h102.624538V1024H302.807175z" fill="#F1136E" ></path><path d="M542.266212 338.662044h102.629884V1024H542.266212z" fill="#FF72A4" ></path><path d="M402.010182 338.662044h143.677561V1024H402.010182z" fill="#FF4099" ></path><path d="M405.431713 107.297066H542.260866l102.629884 231.364978H302.807175z" fill="#FFD7AF" ></path><path d="M449.708459 1.069228h48.286353c5.987679 0 11.280359 3.891991 13.060624 9.612363l31.210776 100.042352H405.431713l31.210775-100.042352A13.686123 13.686123 0 0 1 449.708459 1.069228z" fill="#FF40AE" ></path></symbol><symbol id="whiteboard-icon-test4" viewBox="0 0 1024 1024"><path d="M302.123115 338.662044h102.629884V1024H302.123115z" fill="#AF731D" ></path><path d="M541.587498 338.662044h102.629884V1024H541.587498z" fill="#D39544" ></path><path d="M401.331468 338.662044h143.677561V1024H401.331468z" fill="#C9892D" ></path><path d="M404.747653 107.297066H541.592844l102.624538 231.364978H302.123115z" fill="#FFD7AF" ></path><path d="M449.024399 1.069228h48.286353c5.987679 0 11.280359 3.891991 13.06597 9.612363l31.210776 100.042352H404.747653l31.210775-100.042352A13.686123 13.686123 0 0 1 449.024399 1.069228z" fill="#C9892D" ></path></symbol><symbol id="whiteboard-icon-test5" viewBox="0 0 1024 1024"><path d="M302.394357 338.662044h102.629884V1024H302.394357z" fill="#F19813" ></path><path d="M541.85874 338.662044h102.629884V1024H541.85874z" fill="#FFC472" ></path><path d="M401.60271 338.662044h143.677561V1024H401.60271z" fill="#FFB640" ></path><path d="M405.018895 107.297066h136.839845l102.629884 231.364978H302.38901z" fill="#FFD7AF" ></path><path d="M449.295641 1.069228h48.286353c5.987679 0 11.280359 3.891991 13.06597 9.612363l31.210776 100.042352H405.018895l31.210775-100.042352A13.686123 13.686123 0 0 1 449.295641 1.069228z" fill="#FFAA40" ></path></symbol><symbol id="whiteboard-icon-test6" viewBox="0 0 1024 1024"><path d="M303.086199 338.662044H405.721429V1024H303.086199z" fill="#B213F1" ></path><path d="M542.550582 338.662044h102.629884V1024H542.550582z" fill="#D272FF" ></path><path d="M402.299898 338.662044h143.672215V1024H402.299898z" fill="#C840FF" ></path><path d="M405.716083 107.297066h136.834499l102.629884 231.364978H303.086199z" fill="#FFD7AF" ></path><path d="M449.987483 1.069228h48.291699c5.987679 0 11.280359 3.891991 13.060624 9.612363l31.210776 100.042352H405.721429l31.210776-100.042352A13.686123 13.686123 0 0 1 449.992829 1.069228z" fill="#9E40FF" ></path></symbol><symbol id="whiteboard-icon-test7" viewBox="0 0 1024 1024"><path d="M303.499017 338.662044h102.629884V1024H303.499017z" fill="#13C8F1" ></path><path d="M542.9634 338.662044H645.587938V1024H542.9634z" fill="#72EAFF" ></path><path d="M402.70737 338.662044h143.677561V1024H402.70737z" fill="#40E0FF" ></path><path d="M406.128901 107.297066h136.834499l102.629884 231.364978H303.488325z" fill="#FFD7AF" ></path><path d="M450.400301 1.069228h48.286353c5.987679 0 11.280359 3.891991 13.06597 9.612363l31.210776 100.042352H406.134247l31.210776-100.042352A13.686123 13.686123 0 0 1 450.400301 1.069228z" fill="#40DAFF" ></path></symbol><symbol id="whiteboard-icon-test8" viewBox="0 0 1024 1024"><path d="M303.214647 338.662044h102.629884V1024H303.214647z" fill="#5F13F1" ></path><path d="M542.673684 338.662044h102.63523V1024H542.673684z" fill="#9372FF" ></path><path d="M402.423 338.662044H546.095215V1024H402.423z" fill="#7040FF" ></path><path d="M405.839185 107.297066h136.839845l102.629884 231.364978H303.2093z" fill="#FFD7AF" ></path><path d="M450.115931 1.069228h48.286353c5.987679 0 11.280359 3.891991 13.06597 9.612363L542.673684 110.718597H405.839185l31.216122-100.042352A13.686123 13.686123 0 0 1 450.115931 1.069228z" fill="#5840FF" ></path></symbol><symbol id="whiteboard-icon-test9" viewBox="0 0 1024 1024"><path d="M303.770259 338.662044h102.629884V1024H303.770259z" fill="#06B502" ></path><path d="M543.234642 338.662044h102.629884V1024H543.234642z" fill="#71EA70" ></path><path d="M402.978612 338.662044h143.677561V1024H402.978612z" fill="#06DB06" ></path><path d="M406.400143 107.297066h136.834499l102.629884 231.364978H303.764913z" fill="#FFD7AF" ></path><path d="M450.671543 1.069228h48.286353c5.987679 0 11.280359 3.891991 13.06597 9.612363l31.210776 100.042352H406.400143L437.610919 10.681591A13.686123 13.686123 0 0 1 450.671543 1.069228z" fill="#06DB06" ></path></symbol><symbol id="whiteboard-icon-test10" viewBox="0 0 1024 1024"><path d="M303.906489 338.662044h102.629884V1024H303.906489z" fill="#353535" ></path><path d="M543.370872 338.662044H646.000756V1024H543.370872z" fill="#5D5D5D" ></path><path d="M403.114842 338.662044h143.677561V1024H403.114842z" fill="#484848" ></path><path d="M406.536373 107.297066h136.839845L646.000756 338.662044H303.906489z" fill="#FFD7AF" ></path><path d="M450.813119 1.069228h48.286353c5.987679 0 11.280359 3.891991 13.065971 9.612363l31.210775 100.042352H406.536373l31.210776-100.042352A13.686123 13.686123 0 0 1 450.813119 1.069228z" fill="#484848" ></path></symbol><symbol id="whiteboard-icon-test11" viewBox="0 0 1024 1024"><path d="M302.672163 338.662044H405.302047V1024H302.672163z" fill="#F14C13" ></path><path d="M542.136546 338.662044h102.629884V1024H542.136546z" fill="#FF9372" ></path><path d="M401.880516 338.662044h143.677561V1024H401.880516z" fill="#FF6840" ></path><path d="M405.302047 107.297066h136.834499l102.629884 231.364978H302.666817z" fill="#FFD7AF" ></path><path d="M449.573447 1.069228h48.286353c5.987679 0 11.280359 3.891991 13.06597 9.612363l31.210776 100.042352H405.296701l31.210775-100.042352A13.686123 13.686123 0 0 1 449.573447 1.069228z" fill="#FF4040" ></path></symbol><symbol id="whiteboard-icon-test12" viewBox="0 0 1024 1024"><path d="M303.631965 338.662044h102.629884V1024H303.631965z" fill="#36BC9D" ></path><path d="M543.096348 338.662044h102.629884V1024H543.096348z" fill="#79E1C8" ></path><path d="M402.840318 338.662044H546.517879V1024H402.840318z" fill="#3DDBB6" ></path><path d="M406.261849 107.297066h136.839845l102.624538 231.364978H303.631965z" fill="#FFD7AF" ></path><path d="M450.538595 1.069228h48.286353c5.987679 0 11.280359 3.891991 13.06597 9.612363L543.096348 110.718597H406.261849l31.210776-100.042352A13.686123 13.686123 0 0 1 450.538595 1.069228z" fill="#36BC9D" ></path></symbol><symbol id="whiteboard-icon-test13" viewBox="0 0 1024 1024"><path d="M302.946687 338.662044h102.629884V1024H302.946687z" fill="#F113EF" ></path><path d="M542.41107 338.662044h102.629884V1024H542.41107z" fill="#FF72EC" ></path><path d="M402.15504 338.662044h143.677561V1024H402.15504z" fill="#FF40F8" ></path><path d="M405.571225 107.297066h136.839845l102.629884 231.364978H302.941341z" fill="#FFD7AF" ></path><path d="M449.847971 1.069228h48.286353c5.987679 0 11.280359 3.891991 13.06597 9.612363l31.210776 100.042352H405.571225L436.782 10.681591A13.686123 13.686123 0 0 1 449.847971 1.069228z" fill="#ED40FF" ></path></symbol><symbol id="whiteboard-icon-test14" viewBox="0 0 1024 1024"><path d="M303.357441 338.662044h102.629884V1024H303.357441z" fill="#1375F1" ></path><path d="M542.821824 338.662044h102.629884V1024H542.821824z" fill="#72A4FF" ></path><path d="M402.565794 338.662044h143.677561V1024H402.565794z" fill="#408BFF" ></path><path d="M405.987325 107.297066h136.839845l102.624538 231.364978H303.357441z" fill="#FFD7AF" ></path><path d="M450.264071 1.069228h48.286353c5.987679 0 11.280359 3.891991 13.060624 9.612363l31.216122 100.042352H405.987325L437.198101 10.681591A13.686123 13.686123 0 0 1 450.264071 1.069228z" fill="#408BFF" ></path></symbol><symbol id="whiteboard-eraser" viewBox="0 0 1024 1024"><path d="M190.358974 183.794872h643.282052v840.205128H190.358974z" fill="#58B5BA" ></path><path d="M190.358974 183.794872h577.641026v840.205128H190.358974z" fill="#77D4DA" ></path><path d="M433.230769 183.794872h91.897436v840.205128H433.230769z" fill="#FEF480" ></path><path d="M334.769231 0h354.461538c79.753846 0 144.410256 64.65641 144.410257 144.410256v39.384616H190.358974v-39.384616C190.358974 64.65641 255.015385 0 334.769231 0z" fill="#C3CCD6" ></path><path d="M321.641026 0h315.076923c72.507077 0 131.282051 58.774974 131.282051 131.282051v52.512821H190.358974v-52.512821C190.358974 58.774974 249.133949 0 321.641026 0z" fill="#DDE4EC" ></path></symbol></svg>',
+      l = (t = document.getElementsByTagName("script"))[t.length - 1].getAttribute("data-injectcss");if (l && !e.__iconfont__svg__cssinject__) {
+    e.__iconfont__svg__cssinject__ = !0;try {
+      document.write("<style>.svgfont {display: inline-block;width: 1em;height: 1em;fill: currentColor;vertical-align: -0.1em;font-size:16px;}</style>");
+    } catch (t) {
+      console && console.log(t);
+    }
+  }!function (t) {
+    if (document.addEventListener) {
+      if (~["complete", "loaded", "interactive"].indexOf(document.readyState)) setTimeout(t, 0);else {
+        var l = function l() {
+          document.removeEventListener("DOMContentLoaded", l, !1), t();
+        };document.addEventListener("DOMContentLoaded", l, !1);
+      }
+    } else document.attachEvent && (h = t, a = e.document, i = !1, p = function p() {
+      i || (i = !0, h());
+    }, (_d = function d() {
+      try {
+        a.documentElement.doScroll("left");
+      } catch (t) {
+        return void setTimeout(_d, 50);
+      }p();
+    })(), a.onreadystatechange = function () {
+      "complete" == a.readyState && (a.onreadystatechange = null, p());
+    });var h, a, i, p, _d;
+  }(function () {
+    var t, l;(t = document.createElement("div")).innerHTML = h, h = null, (l = t.getElementsByTagName("svg")[0]) && (l.setAttribute("aria-hidden", "true"), l.style.position = "absolute", l.style.width = 0, l.style.height = 0, l.style.overflow = "hidden", function (t, l) {
+      l.firstChild ? function (t, l) {
+        l.parentNode.insertBefore(t, l);
+      }(t, l.firstChild) : l.appendChild(t);
+    }(l, document.body));
+  });
+}(window);
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(16);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(2)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js??postcss!../../../node_modules/less-loader/dist/cjs.js!./index.less", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js??postcss!../../../node_modules/less-loader/dist/cjs.js!./index.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, ".whiteboard-item-icon {\n  display: inline-block;\n  overflow: hidden;\n  width: 24px;\n  height: 24px;\n  fill: #000000;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+	// get current location
+	var location = typeof window !== "undefined" && window.location;
+
+	if (!location) {
+		throw new Error("fixUrls requires window.location");
+	}
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+		return css;
+	}
+
+	var baseUrl = location.protocol + "//" + location.host;
+	var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+ This regular expression is just a way to recursively match brackets within
+ a string.
+ 	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+    (  = Start a capturing group
+      (?:  = Start a non-capturing group
+          [^)(]  = Match anything that isn't a parentheses
+          |  = OR
+          \(  = Match a start parentheses
+              (?:  = Start another non-capturing groups
+                  [^)(]+  = Match anything that isn't a parentheses
+                  |  = OR
+                  \(  = Match a start parentheses
+                      [^)(]*  = Match anything that isn't a parentheses
+                  \)  = Match a end parentheses
+              )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+  \)  = Match a close parens
+ 	 /gi  = Get all matches, not the first.  Be case insensitive.
+  */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function (fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl.trim().replace(/^"(.*)"$/, function (o, $1) {
+			return $1;
+		}).replace(/^'(.*)'$/, function (o, $1) {
+			return $1;
+		});
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
+			return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+			//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(19);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(2)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js??postcss!../../../node_modules/less-loader/dist/cjs.js!./index.less", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js??postcss!../../../node_modules/less-loader/dist/cjs.js!./index.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, ".whiteboard-component-container {\n  overflow: hidden;\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 5;\n  width: 100%;\n}\n.whiteboard-component-container:hover {\n  cursor: pointer;\n}\n.whiteboard-component-container .whiteborad,\n.whiteboard-component-container .whiteborad-follow {\n  position: absolute;\n  top: 0;\n  left: 0;\n}\n.whiteboard-component-container .whiteborad {\n  z-index: 0;\n}\n.whiteboard-component-container .whiteborad-follow {\n  z-index: 1;\n}\n.whiteboard-component-container .whiteboard-component-tool {\n  width: 70px;\n  position: absolute;\n  top: 20px;\n  right: 17px;\n  z-index: 2;\n}\n.whiteboard-component-container .whiteboard-component-tool a {\n  display: inline-block;\n  margin: 2px 0;\n  width: 70px;\n  height: 60px;\n  line-height: 60px;\n  text-align: center;\n  background: rgba(0, 0, 0, 0.6);\n  border-radius: 3px;\n}\n.whiteboard-component-container .whiteboard-component-tool a svg {\n  margin-top: 10px;\n  width: 20px;\n  height: 34px;\n  fill: #ffffff;\n}\n.whiteboard-component-container .whiteboard-component-tool a .tool-focus {\n  fill: #F79A43;\n}\n.whiteboard-component-container .whiteboard-component-tool .tool-pen-box {\n  position: relative;\n}\n.whiteboard-component-container .whiteboard-component-tool .tool-pen-box .pen-brush {\n  position: absolute;\n  top: 0;\n  left: -57px;\n  width: 55px;\n  background: rgba(0, 0, 0, 0.6);\n  border-radius: 12px;\n  padding-top: 12px;\n  text-align: center;\n}\n.whiteboard-component-container .whiteboard-component-tool .tool-pen-box .pen-brush .pen-brush-color {\n  width: 35px;\n  height: 35px;\n  border: 3px solid #ffffff;\n  border-radius: 50%;\n  margin: 0 auto;\n  margin-bottom: 12px;\n  background: -webkit-gradient(linear, left top, right top, from(#FEEF0B), color-stop(40%, #1dcafe), color-stop(80%, #9a00fb), to(#fb7708));\n  background: -webkit-linear-gradient(left, #FEEF0B 0%, #1dcafe 40%, #9a00fb 80%, #fb7708 100%);\n  background: -o-linear-gradient(left, #FEEF0B 0%, #1dcafe 40%, #9a00fb 80%, #fb7708 100%);\n  background: linear-gradient(90deg, #FEEF0B 0%, #1dcafe 40%, #9a00fb 80%, #fb7708 100%);\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(3);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _classnames = __webpack_require__(21);
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _whiteboard = __webpack_require__(5);
+
+var _whiteboard2 = _interopRequireDefault(_whiteboard);
+
+var _Icon = __webpack_require__(6);
+
+var _Icon2 = _interopRequireDefault(_Icon);
+
+__webpack_require__(22);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var defaultColor = ['#C74142', '#C9892D', '#FFD640', '#FFAA40', '#FF7540', '#FF4040', '#FF40AE', '#ED40FF', '#9E40FF', '#5840FF', '#408BFF', '#40DAFF', '#36BC9D', '#06DB06', '#484848'];
+var defaultBrush = ['icon-test', 'icon-test4', 'icon-test1', 'icon-test5', 'icon-test2', 'icon-test11', 'icon-test3', 'icon-test13', 'icon-test6', 'icon-test8', 'icon-test14', 'icon-test7', 'icon-test12', 'icon-test9', 'icon-test10'];
+
+var BigWhiteboard = function (_React$Component) {
+  _inherits(BigWhiteboard, _React$Component);
+
+  function BigWhiteboard(props) {
+    _classCallCheck(this, BigWhiteboard);
+
+    var _this = _possibleConstructorReturn(this, (BigWhiteboard.__proto__ || Object.getPrototypeOf(BigWhiteboard)).call(this, props));
+
+    Object.defineProperty(_this, 'canvasSize', {
+      enumerable: true,
+      writable: true,
+      value: function value(style) {
+        _this.whiteboard.updateScreenSize(style);
+      }
+    });
+    Object.defineProperty(_this, 'canvasUndo', {
+      enumerable: true,
+      writable: true,
+      value: function value() {
+        _this.whiteboard.undo();
+      }
+    });
+    Object.defineProperty(_this, 'canvasClear', {
+      enumerable: true,
+      writable: true,
+      value: function value() {
+        _this.whiteboard.clear();
+      }
+    });
+    Object.defineProperty(_this, 'canvasColorChoose', {
+      enumerable: true,
+      writable: true,
+      value: function value(color) {
+        _this.setState({ canvasColor: color, type: 'pen' });
+        _this.whiteboard.typeChoose('pen');
+        _this.whiteboard.widthChoose(_this.state.canvasWidth);
+        _this.whiteboard.colorChoose(color);
+      }
+    });
+    Object.defineProperty(_this, 'canvasTypeChoose', {
+      enumerable: true,
+      writable: true,
+      value: function value(type) {
+        _this.setState({ type: type });
+        _this.whiteboard.typeChoose(type);
+        _this.whiteboard.widthChoose(type === 'pen' ? _this.state.canvasWidth : _this.state.canvasEraserWidth);
+      }
+    });
+    Object.defineProperty(_this, 'canvasWidthChoose', {
+      enumerable: true,
+      writable: true,
+      value: function value(width) {
+        _this.setState({
+          canvasWidth: _this.state.type === 'pen' ? width : _this.state.canvasWidth,
+          canvasEraserWidth: _this.state.type === 'eraser' ? width : _this.state.canvasEraserWidth
+        });
+        _this.whiteboard.widthChoose(width);
+      }
+    });
+
+    _this.state = {
+      canvasColor: defaultColor[0],
+      canvasWidth: 10,
+      canvasEraserWidth: 50,
+      type: 'pen'
+    };
+    return _this;
+  }
+
+  _createClass(BigWhiteboard, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.whiteboard = new _whiteboard2.default({
+        id: 'bigWhiteboard',
+        disabled: this.props.disabled,
+        allowDraw: this.props.allowDraw,
+        color: this.state.canvasColor,
+        width: this.props.style.width,
+        height: this.props.style.height
+      });
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (this.props.style.width !== nextProps.style.width || this.props.style.height !== nextProps.style.height) {
+        this.canvasSize({
+          width: nextProps.style.width,
+          height: nextProps.style.height
+        });
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var brushStyle = { width: Math.floor(this.props.style.width * (1157 / 1920)), height: Math.floor(this.props.style.width * (1157 / 1920) * (157 / 1157)) };
+      var canvasWidth = this.state.type === 'pen' ? this.state.canvasWidth : this.state.canvasEraserWidth;
+      return _react2.default.createElement(
+        'div',
+        {
+          className: 'big-whiteboard-component-container',
+          id: 'bigWhiteboardBg',
+          style: Object.assign({}, this.props.style, {
+            display: this.props.visible ? 'block' : 'none'
+          })
+        },
+        _react2.default.createElement(
+          'div',
+          {
+            className: 'whitebord-box',
+            style: { width: this.props.style.width, height: this.props.style.height }
+          },
+          _react2.default.createElement('canvas', {
+            className: 'whiteborad',
+            id: 'bigWhiteboard',
+            style: {
+              width: this.props.style.width,
+              height: this.props.style.height
+            }
+          })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'whiteboard-tool' },
+          _react2.default.createElement(
+            'a',
+            { className: 'tool-clear', onClick: this.canvasClear },
+            _react2.default.createElement(_Icon2.default, { type: 'quanbuqingchu' })
+          ),
+          _react2.default.createElement(
+            'a',
+            { className: 'tool-undo', onClick: this.canvasUndo },
+            _react2.default.createElement(_Icon2.default, { type: 'chexiaoshangyibu' })
+          ),
+          _react2.default.createElement(
+            'a',
+            { className: (0, _classnames2.default)({
+                'tool-width': true,
+                'canvas-tool': true,
+                'canvas-tool-select': canvasWidth === 10
+              }), onClick: function onClick() {
+                return _this2.canvasWidthChoose(10);
+              } },
+            _react2.default.createElement(_Icon2.default, { type: 'juxing' })
+          ),
+          _react2.default.createElement(
+            'a',
+            { className: (0, _classnames2.default)({
+                'tool-width': true,
+                'canvas-tool': true,
+                'canvas-tool-select': canvasWidth === 20
+              }), onClick: function onClick() {
+                return _this2.canvasWidthChoose(20);
+              } },
+            _react2.default.createElement(_Icon2.default, { type: 'juxingcopy' })
+          ),
+          _react2.default.createElement(
+            'a',
+            { className: (0, _classnames2.default)({
+                'tool-width': true,
+                'canvas-tool': true,
+                'canvas-tool-select': canvasWidth === 50
+              }), onClick: function onClick() {
+                return _this2.canvasWidthChoose(50);
+              } },
+            _react2.default.createElement(_Icon2.default, { type: 'juxingcopy1' })
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'whiteboard-bursh', style: {
+              width: brushStyle.width,
+              height: brushStyle.height,
+              marginLeft: '-' + brushStyle.width / 2 + 'px'
+            } },
+          Array(15).fill(0).map(function (item, index) {
+            return _react2.default.createElement(
+              'div',
+              {
+                className: 'whiteboard-bursh-item',
+                key: index,
+                style: { bottom: _this2.state.type === 'pen' && _this2.state.canvasColor === defaultColor[index] ? '-' + brushStyle.height / 10 + 'px' : '-' + brushStyle.height / 3 + 'px' },
+                onClick: function onClick() {
+                  return _this2.canvasColorChoose(defaultColor[index]);
+                }
+              },
+              _react2.default.createElement(_Icon2.default, {
+                style: { width: Math.floor(brushStyle.width / 15), height: brushStyle.height },
+                type: defaultBrush[index]
+              })
+            );
+          }),
+          _react2.default.createElement(
+            'div',
+            {
+              className: 'whiteboard-bursh-item whiteboard-eraser-item',
+              key: 16,
+              style: { bottom: this.state.type === 'eraser' ? '-' + brushStyle.height / 10 + 'px' : '-' + brushStyle.height / 3 + 'px' },
+              onClick: function onClick() {
+                return _this2.canvasTypeChoose('eraser');
+              }
+            },
+            _react2.default.createElement(_Icon2.default, { style: { width: Math.floor(brushStyle.width / 15), height: brushStyle.height }, type: 'eraser' })
+          )
+        )
+      );
+    }
+  }]);
+
+  return BigWhiteboard;
+}(_react2.default.Component);
+
+BigWhiteboard.propTypes = {
+  /**
+   * 是否显示大白板
+   */
+  visible: _propTypes2.default.bool,
+  /**
+   * 大白板的样式，主要是宽度和高度
+   */
+  style: _propTypes2.default.object,
+  /**
+   * 是否禁止画板初始化
+   */
+  disabled: _propTypes2.default.bool,
+  /**
+   * 是否允许画画
+   */
+  allowDraw: _propTypes2.default.bool
+};
+
+BigWhiteboard.defaultProps = {
+  visible: true,
+  style: {
+    width: 1500,
+    height: 500
+  },
+  disabled: false,
+  allowDraw: true
+};
+
+exports.default = BigWhiteboard;
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/*!
+  Copyright (c) 2017 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames() {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg === 'undefined' ? 'undefined' : _typeof(arg);
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg) && arg.length) {
+				var inner = classNames.apply(null, arg);
+				if (inner) {
+					classes.push(inner);
+				}
+			} else if (argType === 'object') {
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if (typeof module !== 'undefined' && module.exports) {
+		classNames.default = classNames;
+		module.exports = classNames;
+	} else if ("function" === 'function' && _typeof(__webpack_require__(7)) === 'object' && __webpack_require__(7)) {
+		// register as 'classnames', consistent with npm package name
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+			return classNames;
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+		window.classNames = classNames;
+	}
+})();
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(23);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(2)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js??postcss!../../../node_modules/less-loader/dist/cjs.js!./index.less", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js??postcss!../../../node_modules/less-loader/dist/cjs.js!./index.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, ".big-whiteboard-component-container {\n  position: relative;\n  top: 0;\n  left: 0;\n  z-index: 10;\n  width: 100%;\n  overflow: hidden;\n  background: #FEEDCF;\n}\n.big-whiteboard-component-container:hover {\n  cursor: pointer;\n}\n.big-whiteboard-component-container .whitebord-box {\n  position: relative;\n  width: 100%;\n  background: #FFC765;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n}\n.big-whiteboard-component-container .whiteborad,\n.big-whiteboard-component-container .whiteborad-follow {\n  background: #ffffff;\n  position: relative;\n  top: 0px;\n  left: 0px;\n  border: 4px solid #CE8157;\n}\n.big-whiteboard-component-container .whiteborad {\n  z-index: 0!important;\n}\n.big-whiteboard-component-container .whiteborad-follow {\n  z-index: 1;\n}\n.big-whiteboard-component-container .whiteboard-tool {\n  position: absolute;\n  top: 60px;\n  right: 60px;\n  z-index: 1;\n  width: 34px;\n}\n.big-whiteboard-component-container .whiteboard-tool a {\n  display: inline-block;\n  margin-bottom: 21px;\n  width: 34px;\n  height: 34px;\n  padding-top: 5px;\n  line-height: 34px;\n  border-radius: 50%;\n  text-align: center;\n}\n.big-whiteboard-component-container .whiteboard-tool a svg {\n  fill: #77D4DA;\n}\n.big-whiteboard-component-container .whiteboard-tool a:active {\n  background: #E5F6F7;\n}\n@media (min-width: 1540px) {\n  .big-whiteboard-component-container .whiteboard-tool a {\n    margin-bottom: 40px;\n  }\n}\n.big-whiteboard-component-container .whiteboard-tool .tool-undo {\n  margin-bottom: 21px;\n}\n@media (min-width: 1540px) {\n  .big-whiteboard-component-container .whiteboard-tool .tool-undo {\n    margin-bottom: 40px;\n  }\n}\n.big-whiteboard-component-container .whiteboard-tool .canvas-tool {\n  margin-bottom: 21px;\n}\n@media (min-width: 1540px) {\n  .big-whiteboard-component-container .whiteboard-tool .canvas-tool {\n    margin-bottom: 40px;\n  }\n}\n.big-whiteboard-component-container .whiteboard-tool .canvas-tool svg {\n  fill: #D8D8D8;\n}\n.big-whiteboard-component-container .whiteboard-tool .canvas-tool-select {\n  margin-bottom: 21px;\n}\n.big-whiteboard-component-container .whiteboard-tool .canvas-tool-select svg {\n  fill: #77D4DA;\n}\n@media (min-width: 1540px) {\n  .big-whiteboard-component-container .whiteboard-tool .canvas-tool-select {\n    margin-bottom: 40px;\n  }\n}\n@media (min-width: 1540px) {\n  .big-whiteboard-component-container .whiteboard-tool .iconfont {\n    font-size: 25px;\n  }\n}\n.big-whiteboard-component-container .whiteboard-bursh {\n  position: absolute;\n  bottom: 0;\n  left: 50%;\n  z-index: 1;\n}\n.big-whiteboard-component-container .whiteboard-bursh .whiteboard-bursh-item {\n  overflow: hidden;\n  float: left;\n  position: relative;\n  bottom: -34px;\n  text-align: center;\n  width: 6.666666666%;\n  -webkit-transition: all .3s;\n  -o-transition: all .3s;\n  transition: all .3s;\n}\n.big-whiteboard-component-container .whiteboard-bursh .whiteboard-bursh-item .whiteboard-item-icon {\n  -webkit-transform: scale(2);\n      -ms-transform: scale(2);\n          transform: scale(2);\n}\n.big-whiteboard-component-container .whiteboard-bursh .whiteboard-eraser-item {\n  right: -13.5%;\n  position: absolute;\n  width: 10.422222222%;\n}\n.big-whiteboard-component-container .whiteboard-bursh .whiteboard-eraser-item .whiteboard-item-icon {\n  -webkit-transform: scale(2);\n      -ms-transform: scale(2);\n          transform: scale(2);\n}\n", ""]);
+
+// exports
+
+
+/***/ })
+/******/ ]);
+});
+//# sourceMappingURL=index.js.map
